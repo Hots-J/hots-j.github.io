@@ -2613,6 +2613,13 @@ mark.search-keyword {
   color: #ff2a2a;
   font-weight: bold;
 }
+mjx-container[jax="CHTML"][display="true"],
+.has-jax {
+  overflow: auto hidden;
+}
+mjx-container[display="true"] + br {
+  display: none;
+}
 .use-motion .animated {
   animation-fill-mode: none;
   visibility: inherit;
@@ -2780,7 +2787,6 @@ mark.search-keyword {
   position: sticky;
   top: 12px;
   width: 240px;
-  visibility: hidden;
 }
 @media (max-width: 991px) {
   .sidebar {

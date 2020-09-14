@@ -15,21 +15,20 @@
 
 
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1.0.2/themes/blue/pace-theme-minimal.css">
   <script src="//cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"cjerome.top","root":"/","scheme":"Gemini","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+    var CONFIG = {"hostname":"cjerome.top","root":"/","scheme":"Gemini","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 
-  <meta name="description" content="1. 逻辑回归的应用生活中的很多分类问题  贷款违约情况（会违约&#x2F;不会违约） 广告点击问题（会点击&#x2F;不会点击） 商品推荐（会购买&#x2F;不会购买） 情感分析（正面&#x2F;负面） 疾病诊断（阳性&#x2F;阴性）  等等…..">
+  <meta name="description" content="1. 逻辑回归的应用 生活中的很多分类问题  贷款违约情况（会违约&#x2F;不会违约） 广告点击问题（会点击&#x2F;不会点击） 商品推荐（会购买&#x2F;不会购买） 情感分析（正面&#x2F;负面） 疾病诊断（阳性&#x2F;阴性）  等等.....">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逻辑回归">
 <meta property="og:url" content="http://cjerome.top/posts/f9b01ad8.html">
 <meta property="og:site_name" content="Jerome&#39;s Blog">
-<meta property="og:description" content="1. 逻辑回归的应用生活中的很多分类问题  贷款违约情况（会违约&#x2F;不会违约） 广告点击问题（会点击&#x2F;不会点击） 商品推荐（会购买&#x2F;不会购买） 情感分析（正面&#x2F;负面） 疾病诊断（阳性&#x2F;阴性）  等等…..">
+<meta property="og:description" content="1. 逻辑回归的应用 生活中的很多分类问题  贷款违约情况（会违约&#x2F;不会违约） 广告点击问题（会点击&#x2F;不会点击） 商品推荐（会购买&#x2F;不会购买） 情感分析（正面&#x2F;负面） 疾病诊断（阳性&#x2F;阴性）  等等.....">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2020/01/10/F8azDLyptJNPiHh.png">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7691426-17d142c9dab67649.png">
@@ -101,7 +100,7 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+<body itemscope itemtype="http://schema.org/WebPage">
   <div class="headband"></div>
 
   <main class="main">
@@ -212,7 +211,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">1. 逻辑回归的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">2. 逻辑回归的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1%E9%80%BB%E8%BE%91%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">2.1逻辑函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 目标函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%9C%80%E5%A4%A7%E5%8C%96%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 最大化目标函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 优化算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">3. 梯度下降法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 梯度下降法的流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E8%BF%AD%E4%BB%A3%E7%9A%84%E7%BB%88%E6%AD%A2%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 迭代的终止条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%A2%98%E5%A4%96%E8%AF%9D"><span class="nav-number">4.</span> <span class="nav-text">4.题外话</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">1. 逻辑回归的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">2. 逻辑回归的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">2.1逻辑函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 目标函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E5%8C%96%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 最大化目标函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 优化算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">3. 梯度下降法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 梯度下降法的流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E7%9A%84%E7%BB%88%E6%AD%A2%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 迭代的终止条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E5%A4%96%E8%AF%9D"><span class="nav-number">4.</span> <span class="nav-text">4.题外话</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -356,7 +355,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h3 id="1-逻辑回归的应用"><a href="#1-逻辑回归的应用" class="headerlink" title="1. 逻辑回归的应用"></a>1. 逻辑回归的应用</h3><p>生活中的很多分类问题</p>
+        <h3 id="逻辑回归的应用">1. 逻辑回归的应用</h3>
+<p>生活中的很多分类问题</p>
 <ul>
 <li>贷款违约情况（会违约/不会违约）</li>
 <li>广告点击问题（会点击/不会点击）</li>
@@ -364,49 +364,110 @@
 <li>情感分析（正面/负面）</li>
 <li>疾病诊断（阳性/阴性）</li>
 </ul>
-<p>等等…..</p>
+<p>等等.....</p>
 <a id="more"></a>
-
 <p>对于这些分类问题，我们可以采用逻辑回归的模型来进行比较好的分类。那么原理是什么呢？</p>
-<h3 id="2-逻辑回归的原理"><a href="#2-逻辑回归的原理" class="headerlink" title="2. 逻辑回归的原理"></a>2. 逻辑回归的原理</h3><p>下面给出一个具体的例子：</p>
-<p><img src="https://i.loli.net/2020/01/10/F8azDLyptJNPiHh.png"></p>
+<h3 id="逻辑回归的原理">2. 逻辑回归的原理</h3>
+<p>下面给出一个具体的例子：</p>
+<p><img src="https://i.loli.net/2020/01/10/F8azDLyptJNPiHh.png" /></p>
 <p>对于这个分类任务，我通过学习已知的年龄、工资、学历情况和对应的是否逾期情况，来判断当年龄为27，工资为7000，学历为本科时，他逾期的概率是多少。本质上就是计算一个条件概率。而对于已知数据的学习，就是想使得对应的条件概率<code>P(Y|X)</code>越大越好。</p>
-<p>重点是如何定义这个条件概率，如果直接用线性回归表示<br>$$<br>P(Y|X;\omega)=\omega^Tx+b<br>$$</p>
-<h4 id="2-1逻辑函数"><a href="#2-1逻辑函数" class="headerlink" title="2.1逻辑函数"></a>2.1逻辑函数</h4><p>那么计算出来的是一个实值，还是无法直接通过实值进行分类。因此考虑引入逻辑函数<br>$$<br>y =\sigma(x)=\frac{1}{1+e^{-x}}<br>$$<br>逻辑函数的图像如下</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/7691426-17d142c9dab67649.png"></p>
-<p>此时将计算出来的值 $z=\omega^Tx+b$ 带入逻辑函数中就可以得到<br>$$<br>y=<br>\begin{cases}<br>0&amp; \text{z&lt;0}\<br>0.5&amp; \text{z=0}\<br>1&amp; \text{z&gt;0}<br>\end{cases}<br>$$<br>即z大于0就判为正例，小于0就判为反例，为临界值0则可以任意判断。</p>
-<h4 id="2-2-目标函数"><a href="#2-2-目标函数" class="headerlink" title="2.2 目标函数"></a>2.2 目标函数</h4><p>因此新的条件概率就定义为<br>$$<br>P(Y|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}<br>$$<br>其中 $\omega^T = (\omega_1, \omega_1,…,\omega_n)$ ，n=特征数量。</p>
-<p>对于上面那个具体的例子，可以列出<br>$$<br>P(Y=Yes|X=(20,4000,本科))=\frac{1}{1+e^{-[{\begin{pmatrix}<br>\omega_1 \omega_2 \omega_3\<br>\end{pmatrix}}{\begin{pmatrix}20\4000\本科\<br>\end{pmatrix}}+b]}}<br>\\ldots<br>$$<br>通过已知数据计算出，令所有似然函数都最大的参数$\omega^T$和$b$，最后代入要预测的特征x，就能得到最终的分类y。</p>
-<p>对于二分类的问题：<br>$$<br>P(Y=1|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}\<br>P(Y=0|X;\omega)=1-P(Y=1|X;\omega)=\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}<br>$$<br>两个式子可以合并成<br>$$<br>P(Y|X;\omega)=P(Y=1|X;\omega)^y[1-P(Y=1|X;\omega)]^{1-y}<br>$$<br>那么接下来的问题就是，该如何计算出参数 $\omega^T$和$b$ 呢？</p>
-<h4 id="2-3-最大化目标函数"><a href="#2-3-最大化目标函数" class="headerlink" title="2.3 最大化目标函数"></a>2.3 最大化目标函数</h4><p>我们要最大化目标函数，从而求出 $\omega^T$和$b$ ，即<br>$$<br>\hat{\omega},\hat{b}=argmax_{\omega,b}\prod_{i=1}^n p(y_i|x_i,w,b)<br>$$<br>两边取对数<br>$$<br>=argmax_{\omega,b}log(\prod_{i=1}^n p(y_i|x_i,w,b))\<br>=argmax_{\omega,b}\sum_{i=1}^nlog( p(y_i|x_i,w,b))<br>$$<br>取负号，即最小化目标函数<br>$$<br>=argmin_{\omega,b}-\sum_{i=1}^nlog( p(y_i|x_i,w,b))\<br>=argmin_{\omega,b}-\sum_{i=1}^nlog[p(y_i=1|x_i;\omega,b)^{y_i}[1-p(y_i=1|x_i;\omega,b]^{1-{y_i}}]\<br>=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]<br>$$<br>接下来就是通过优化算法把目标函数的最优解计算出来。</p>
+<p>重点是如何定义这个条件概率，如果直接用线性回归表示 <span class="math display">\[
+P(Y|X;\omega)=\omega^Tx+b
+\]</span></p>
+<h4 id="逻辑函数">2.1逻辑函数</h4>
+<p>那么计算出来的是一个实值，还是无法直接通过实值进行分类。因此考虑引入逻辑函数 <span class="math display">\[
+y =\sigma(x)=\frac{1}{1+e^{-x}}
+\]</span> 逻辑函数的图像如下</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7691426-17d142c9dab67649.png" /></p>
+<p>此时将计算出来的值 <span class="math inline">\(z=\omega^Tx+b\)</span> 带入逻辑函数中就可以得到 <span class="math display">\[
+y=
+\begin{cases}
+0&amp; \text{z&lt;0}\\
+0.5&amp; \text{z=0}\\
+1&amp; \text{z&gt;0}
+\end{cases}
+\]</span> 即z大于0就判为正例，小于0就判为反例，为临界值0则可以任意判断。</p>
+<h4 id="目标函数">2.2 目标函数</h4>
+<p>因此新的条件概率就定义为 <span class="math display">\[
+P(Y|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}
+\]</span> 其中 <span class="math inline">\(\omega^T = (\omega_1, \omega_1,...,\omega_n)\)</span> ，n=特征数量。</p>
+<p>对于上面那个具体的例子，可以列出 <span class="math display">\[
+P(Y=Yes|X=(20,4000,本科))=\frac{1}{1+e^{-[{\begin{pmatrix}
+\omega_1 \omega_2 \omega_3\\
+\end{pmatrix}}{\begin{pmatrix}20\\4000\\本科\\
+\end{pmatrix}}+b]}}
+\\\ldots
+\]</span> 通过已知数据计算出，令所有似然函数都最大的参数<span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span>，最后代入要预测的特征x，就能得到最终的分类y。</p>
+<p>对于二分类的问题： <span class="math display">\[
+P(Y=1|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}\\
+P(Y=0|X;\omega)=1-P(Y=1|X;\omega)=\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}
+\]</span> 两个式子可以合并成 <span class="math display">\[
+P(Y|X;\omega)=P(Y=1|X;\omega)^y[1-P(Y=1|X;\omega)]^{1-y}
+\]</span> 那么接下来的问题就是，该如何计算出参数 <span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span> 呢？</p>
+<h4 id="最大化目标函数">2.3 最大化目标函数</h4>
+<p>我们要最大化目标函数，从而求出 <span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span> ，即 <span class="math display">\[
+\hat{\omega},\hat{b}=argmax_{\omega,b}\prod_{i=1}^n p(y_i|x_i,w,b)
+\]</span> 两边取对数 <span class="math display">\[
+=argmax_{\omega,b}log(\prod_{i=1}^n p(y_i|x_i,w,b))\\
+=argmax_{\omega,b}\sum_{i=1}^nlog( p(y_i|x_i,w,b))
+\]</span> 取负号，即最小化目标函数 <span class="math display">\[
+=argmin_{\omega,b}-\sum_{i=1}^nlog( p(y_i|x_i,w,b))\\
+=argmin_{\omega,b}-\sum_{i=1}^nlog[p(y_i=1|x_i;\omega,b)^{y_i}[1-p(y_i=1|x_i;\omega,b]^{1-{y_i}}]\\
+=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]
+\]</span> 接下来就是通过优化算法把目标函数的最优解计算出来。</p>
 <p>如何寻找一个函数最大化或者最小化的最优解？</p>
-<h4 id="2-4-优化算法"><a href="#2-4-优化算法" class="headerlink" title="2.4 优化算法"></a>2.4 优化算法</h4><p>对于凸函数来说，对函数求出的最优解一般就算全局最优解。</p>
+<h4 id="优化算法">2.4 优化算法</h4>
+<p>对于凸函数来说，对函数求出的最优解一般就算全局最优解。</p>
 <p>对于非凸函数来说，求出的最优解一般是局部最优解，不一定是全局最优解。</p>
 <p>该如何选择优化算法呢？</p>
 <p>对于简单的函数，直接求导，令导数为0，就能把参数解出来。但是对于复杂的函数，无法直接求出参数，因此我们要采用数值优化的思路，通过循环迭代的方式找到最优的参数。</p>
 <p>最常用的优化算法就是梯度下降法（ Gradient Descent ）</p>
-<h3 id="3-梯度下降法"><a href="#3-梯度下降法" class="headerlink" title="3. 梯度下降法"></a>3. 梯度下降法</h3><p>求使得$f(w)$值最小的参数$w$</p>
-<p><img src="https://i.loli.net/2020/01/10/4pocyFSPRbMlBVN.png"></p>
-<p>$\eta$为学习率，也就是梯度下降的步长。</p>
-<p>对于上面具体的例子，我们知道<br>$$<br>P(y=1|x;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}<br>$$<br>以及目标函数<br>$$<br>=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]\<br>=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]<br>$$<br>令<br>$$<br>L(w,b)=-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]<br>$$<br>又<br>$$<br>\frac{\partial \sigma(x)}{\partial x}=\sigma(x)\cdot[1-\sigma(x)]<br>$$<br>则<br>$$<br>\frac{\partial L(w,b)}{\partial w}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]\cdot{x_i}<br>$$</p>
-<p>$$<br>\frac{\partial L(w,b)}{\partial b}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]<br>$$</p>
-<p>观察求导后的式子，可以发现$\sigma(\omega^Tx_i+b)$是当前的参数计算出的预测值，$y_i$是真实值，所以就是通过当前的预测值与真实值的差来调整新的参数。</p>
-<h4 id="3-1-梯度下降法的流程"><a href="#3-1-梯度下降法的流程" class="headerlink" title="3.1 梯度下降法的流程"></a>3.1 梯度下降法的流程</h4><p>因此最终的梯度下降法的流程为</p>
-<p><img src="https://i.loli.net/2020/01/10/ZcDiI8KamQG3S2P.png"></p>
-<h4 id="3-2-迭代的终止条件"><a href="#3-2-迭代的终止条件" class="headerlink" title="3.2 迭代的终止条件"></a>3.2 迭代的终止条件</h4><p>有一个问题，这个循环的终止条件是什么？</p>
-<ol>
-<li>计算目标函数$L(w,b)$的值，如果变化幅度很小很小，就可以停止迭代了</li>
-<li>计算$|w^{t+1}-w^{t}|$，如果基本不变了，就可以停止</li>
+<h3 id="梯度下降法">3. 梯度下降法</h3>
+<p>求使得<span class="math inline">\(f(w)\)</span>值最小的参数<span class="math inline">\(w\)</span></p>
+<p><img src="https://i.loli.net/2020/01/10/4pocyFSPRbMlBVN.png" /></p>
+<p><span class="math inline">\(\eta\)</span>为学习率，也就是梯度下降的步长。</p>
+<p>对于上面具体的例子，我们知道 <span class="math display">\[
+P(y=1|x;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}
+\]</span> 以及目标函数 <span class="math display">\[
+=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]\\
+=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]
+\]</span> 令 <span class="math display">\[
+L(w,b)=-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]
+\]</span> 又 <span class="math display">\[
+\frac{\partial \sigma(x)}{\partial x}=\sigma(x)\cdot[1-\sigma(x)]
+\]</span> 则 <span class="math display">\[
+\frac{\partial L(w,b)}{\partial w}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]\cdot{x_i}
+\]</span></p>
+<p><span class="math display">\[
+\frac{\partial L(w,b)}{\partial b}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]
+\]</span></p>
+<p>观察求导后的式子，可以发现<span class="math inline">\(\sigma(\omega^Tx_i+b)\)</span>是当前的参数计算出的预测值，<span class="math inline">\(y_i\)</span>是真实值，所以就是通过当前的预测值与真实值的差来调整新的参数。</p>
+<h4 id="梯度下降法的流程">3.1 梯度下降法的流程</h4>
+<p>因此最终的梯度下降法的流程为</p>
+<p><img src="https://i.loli.net/2020/01/10/ZcDiI8KamQG3S2P.png" /></p>
+<h4 id="迭代的终止条件">3.2 迭代的终止条件</h4>
+<p>有一个问题，这个循环的终止条件是什么？</p>
+<ol type="1">
+<li>计算目标函数<span class="math inline">\(L(w,b)\)</span>的值，如果变化幅度很小很小，就可以停止迭代了</li>
+<li>计算<span class="math inline">\(|w^{t+1}-w^{t}|\)</span>，如果基本不变了，就可以停止</li>
 <li>通过计算验证集的正确率</li>
 <li>直接迭代1w次或者更多次，如果学习率设置合理，那么最终一定会收敛</li>
 </ol>
-<h3 id="4-题外话"><a href="#4-题外话" class="headerlink" title="4.题外话"></a>4.题外话</h3><p>逻辑回归是线性分类器吗？如何判断一个分类器是不是线性分类器呢？</p>
+<h3 id="题外话">4.题外话</h3>
+<p>逻辑回归是线性分类器吗？如何判断一个分类器是不是线性分类器呢？</p>
 <p>判断是不是线性分类器根本是判断模型的决策边界是不是线性的。</p>
 <p>对于二分类的问题，我们知道决策边界有个性质，就是落在决策边界上的点被分成1或者0的概率是相等的。</p>
-<p>因此可以得到决策边界的方程<br>$$<br>\frac {P(Y=1|X;\omega)}{P(Y=0|X;\omega)}=1<br>$$<br>化简为</p>
-<p>$$<br>\frac{\frac{1}{1+e^{-(\omega^Tx+b)}}}{\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}}=1\<br>e^{-(\omega^Tx+b)}=1<br>$$</p>
+<p>因此可以得到决策边界的方程 <span class="math display">\[
+\frac {P(Y=1|X;\omega)}{P(Y=0|X;\omega)}=1
+\]</span> 化简为</p>
+<p><span class="math display">\[
+\frac{\frac{1}{1+e^{-(\omega^Tx+b)}}}{\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}}=1\\
+e^{-(\omega^Tx+b)}=1
+\]</span></p>
 <p>即</p>
-<p>$$<br>\omega^Tx+b=0<br>$$</p>
+<p><span class="math display">\[
+\omega^Tx+b=0
+\]</span></p>
 <p>因为决策边界是线性的，所以逻辑回归也是线性的分类器。</p>
 
     </div>
@@ -513,7 +574,7 @@
 
   
   <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
 
   
 
@@ -543,6 +604,52 @@
 
 
   
+
+  
+      <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.0/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

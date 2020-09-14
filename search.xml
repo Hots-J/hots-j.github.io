@@ -3,69 +3,70 @@
   <entry>
     <title>Hexo+Github搭建自己的博客(一)</title>
     <url>/posts/3e596dd.html</url>
-    <content><![CDATA[<blockquote class="blockquote-center">如果一件事情你不能讲清楚，十有八九你还没有完全理解</blockquote>
+    <content><![CDATA[<blockquote class="blockquote-center">
+如果一件事情你不能讲清楚，十有八九你还没有完全理解
+</blockquote>
 <a id="more"></a>
-
 <p>很早之前就想自己动手搭建一个博客，搭建一个属于自己的小天地，在这里可以写写心情，写写总结，也能写写自己在学习过程中碰见的坑与收获。在实验室折腾了两天，最终用Hexo+Github搭建完了博客，虽然过程十分简单，但是由于对于很多知识的不了解，还是碰见很多坑，折腾了好久。</p>
-<h3 id="0-背景介绍"><a href="#0-背景介绍" class="headerlink" title="0. 背景介绍"></a>0. 背景介绍</h3><h4 id="0-1-什么是Hexo"><a href="#0-1-什么是Hexo" class="headerlink" title="0.1 什么是Hexo"></a>0.1 什么是Hexo</h4><p> Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。 </p>
-<h4 id="0-2-什么是Github"><a href="#0-2-什么是Github" class="headerlink" title="0.2 什么是Github"></a>0.2 什么是Github</h4><p>Github是什么，是的，没错，世界最大的同性交友平台。2333……而我们写好的文章就可以部署在这个平台上。</p>
-<p><img src="https://pic2.zhimg.com/80/7c9d3403bf922b1663f56975869c829b_hd.jpg"></p>
+<h3 id="背景介绍">0. 背景介绍</h3>
+<h4 id="什么是hexo">0.1 什么是Hexo</h4>
+<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+<h4 id="什么是github">0.2 什么是Github</h4>
+<p>Github是什么，是的，没错，世界最大的同性交友平台。2333......而我们写好的文章就可以部署在这个平台上。</p>
+<p><img src="https://pic2.zhimg.com/80/7c9d3403bf922b1663f56975869c829b_hd.jpg" /></p>
 <p>接下来便是安装、配置、美化、进阶的过程。</p>
-<h3 id="1-环境的安装"><a href="#1-环境的安装" class="headerlink" title="1. 环境的安装"></a>1. 环境的安装</h3><h4 id="1-1-安装Git"><a href="#1-1-安装Git" class="headerlink" title="1.1 安装Git"></a>1.1 安装Git</h4><p>可以直接去官网下载，也可以直接点击这 <a href="https://gitforwindows.org/">Git</a> 一路next就可安装完毕，安装完成后，可以通过<code>git --version</code>来查看是否安装成功。</p>
-<img src="https://i.loli.net/2019/10/19/hBsy2GLgRuVNc9r.png"  />
-
-<h4 id="1-2-安装Node-js"><a href="#1-2-安装Node-js" class="headerlink" title="1.2 安装Node.js"></a>1.2 安装Node.js</h4><p>可以直接去官网下载，也可以直接点击这 <a href="https://nodejs.org/en/download/">Node.js</a> 一路next就可安装完毕，安装完成后，可以通过</p>
+<h3 id="环境的安装">1. 环境的安装</h3>
+<h4 id="安装git">1.1 安装Git</h4>
+<p>可以直接去官网下载，也可以直接点击这 <a href="https://gitforwindows.org/">Git</a> 一路next就可安装完毕，安装完成后，可以通过<code>git --version</code>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/hBsy2GLgRuVNc9r.png"  /></p>
+<h4 id="安装node.js">1.2 安装Node.js</h4>
+<p>可以直接去官网下载，也可以直接点击这 <a href="https://nodejs.org/en/download/">Node.js</a> 一路next就可安装完毕，安装完成后，可以通过</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
-
 <p>来查看是否安装成功。</p>
-<img src="https://i.loli.net/2019/10/19/W3miTkNjJv6GAIl.png"  />
-
-<h4 id="1-3-安装Hexo"><a href="#1-3-安装Hexo" class="headerlink" title="1.3 安装Hexo"></a>1.3 安装Hexo</h4><p>先在任意路径创建一个空文件夹，在文件夹内，右击，选择<code>git bash here</code>，然后输入</p>
+<p><img src="https://i.loli.net/2019/10/19/W3miTkNjJv6GAIl.png"  /></p>
+<h4 id="安装hexo">1.3 安装Hexo</h4>
+<p>先在任意路径创建一个空文件夹，在文件夹内，右击，选择<code>git bash here</code>，然后输入</p>
 <p><code>npm install -g hexo-cil</code>安装完成后，可以通过<code>hexo -v</code>来查看是否安装成功。</p>
-<img src="https://i.loli.net/2019/10/19/phdUTLr86l5W94N.png"  />
-
-<p>然后在bash里输入<code>hexo init myblog(任意名字) </code> 进入生成的这个文件夹，输入<code>npm install</code></p>
+<p><img src="https://i.loli.net/2019/10/19/phdUTLr86l5W94N.png"  /></p>
+<p>然后在bash里输入<code>hexo init myblog(任意名字)</code> 进入生成的这个文件夹，输入<code>npm install</code></p>
 <p>就完成了环境的配置。此时本地的文件夹应该像这样（可能没有public文件夹）</p>
-<img src="https://i.loli.net/2019/10/19/QfE6qb3d912PDCL.png" style="zoom:;" />
-
-<h3 id="2-部署到Github"><a href="#2-部署到Github" class="headerlink" title="2. 部署到Github"></a>2. 部署到Github</h3><h5 id="2-1-创建github账号，这个自己创一下就好。"><a href="#2-1-创建github账号，这个自己创一下就好。" class="headerlink" title="2.1 创建github账号，这个自己创一下就好。"></a>2.1 创建github账号，这个自己创一下就好。</h5><h5 id="2-2-创建一个-repository，-仓库名称必须为-你的GitHub的用户名-github-io"><a href="#2-2-创建一个-repository，-仓库名称必须为-你的GitHub的用户名-github-io" class="headerlink" title="2.2 创建一个 repository， 仓库名称必须为 你的GitHub的用户名.github.io"></a>2.2 创建一个 repository， 仓库名称必须为 <strong>你的GitHub的用户名.github.io</strong></h5><h5 id="2-3-生成SSH"><a href="#2-3-生成SSH" class="headerlink" title="2.3 生成SSH"></a>2.3 生成SSH</h5><p>任意位置右键打开git bash，输入</p>
+<p><img src="https://i.loli.net/2019/10/19/QfE6qb3d912PDCL.png" style="zoom:;" /></p>
+<h3 id="部署到github">2. 部署到Github</h3>
+<h5 id="创建github账号这个自己创一下就好">2.1 创建github账号，这个自己创一下就好。</h5>
+<h5 id="创建一个-repository-仓库名称必须为-你的github的用户名.github.io">2.2 创建一个 repository， 仓库名称必须为 <strong>你的GitHub的用户名.github.io</strong></h5>
+<h5 id="生成ssh">2.3 生成SSH</h5>
+<p>任意位置右键打开git bash，输入</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;GitHub用户名&quot;</span><br><span class="line">git config --global user.email &quot;GitHub的邮箱&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;GitHub用户名&quot;</span><br></pre></td></tr></table></figure>
-
 <p>然后一路回车，就创建好了SSH，此时终端上会显示存放SSH的路径，打开此路径，<strong>注意需要设置显示隐藏的文件才能看见.ssh文件夹</strong>。打开 id_rsa.pub ，复制其中的公共密钥。然后打开自己的github主页，点击自己头像下的setting，然后点击<code>new SSH key</code>，粘贴复制的密钥。</p>
-<img src="https://i.loli.net/2019/10/19/DLYgURZdonw4Fm6.png"  />
-
+<p><img src="https://i.loli.net/2019/10/19/DLYgURZdonw4Fm6.png"  /></p>
 <p>完成后，在git bash中，输入<code>ssh -T git@github.com</code>，查看是否配置成功。成功后应该像这样。</p>
-<img src="https://i.loli.net/2019/10/19/5LWYutIsUGbme9T.png"  />
-
-<p>但是我注意到终端反馈了一个问题，就是那个<code>The authenticity of ... can&#39;t be established</code>，随便百度了一波，发现没太大问题</p>
-<img src="https://i.loli.net/2019/10/19/T7iEIdp3b9rCqxk.png"  />
-
-<h5 id="2-4-将Hexo部署到Github上"><a href="#2-4-将Hexo部署到Github上" class="headerlink" title="2.4 将Hexo部署到Github上"></a>2.4 将Hexo部署到Github上</h5><p>打开初始化hexo后生成的那个文件夹，打开<code>_config.yml</code>配置文件，在这个文件中，找到，并设置为</p>
+<p><img src="https://i.loli.net/2019/10/19/5LWYutIsUGbme9T.png"  /></p>
+<p>但是我注意到终端反馈了一个问题，就是那个<code>The authenticity of ... can't be established</code>，随便百度了一波，发现没太大问题</p>
+<p><img src="https://i.loli.net/2019/10/19/T7iEIdp3b9rCqxk.png"  /></p>
+<h5 id="将hexo部署到github上">2.4 将Hexo部署到Github上</h5>
+<p>打开初始化hexo后生成的那个文件夹，打开<code>_config.yml</code>配置文件，在这个文件中，找到，并设置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;GitHub的用户名&#x2F;GitHub的用户名.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
 <p>然后右键 git bash输入 <code>npm install hexo-deployer-git --save</code>来安装部署的指令，安装完毕后，在当前文件夹内依次输入</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
-
-<p> 其中</p>
+<p>其中</p>
 <ul>
 <li><code>hexo clean</code>清除了你之前生成的东西。</li>
 <li><code>hexo generate</code> 生成静态文章。</li>
 <li><code>hexo deploy</code> 部署文章。</li>
 </ul>
-<p>在第一次执行<code>hexo deploy</code>时，会输入一次github的 username和password。 </p>
-<p>稍等片刻（大概1-2分钟），就能通过网址 <code>http://GitHub的用户名.github.io </code>访问你的博客啦。不出问题就像这样。</p>
-<img src="https://i.loli.net/2019/10/19/TS8xLfcrqayJGp6.png"  />
-
-<p><strong>此时Hexo博客的搭建就基本完成了</strong>，这时可以有两种选择，一种是一直用那个github默认的网址去访问自己的博客，还有一种就是绑定自己的域名。 </p>
-<h4 id="3-绑定自己的域名"><a href="#3-绑定自己的域名" class="headerlink" title="3. 绑定自己的域名"></a>3. 绑定自己的域名</h4><h5 id="3-1-购买域名"><a href="#3-1-购买域名" class="headerlink" title="3.1 购买域名"></a>3.1 购买域名</h5><p>我自己呢，就在阿里云上买了一个.top的域名（别问，问就是因为便宜…买了3年60多RMB）。在实名认证等一系列操作都弄完后，进入自己的域名控制台，然后点击操作下面的<strong>解析</strong>，然后点击<strong>添加记录</strong>，添加记录的配置如下</p>
-<img src="https://i.loli.net/2019/10/19/EukCUvpty2TM6GW.png"  />
-
+<p>在第一次执行<code>hexo deploy</code>时，会输入一次github的 username和password。</p>
+<p>稍等片刻（大概1-2分钟），就能通过网址 <code>http://GitHub的用户名.github.io</code>访问你的博客啦。不出问题就像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/TS8xLfcrqayJGp6.png"  /></p>
+<p><strong>此时Hexo博客的搭建就基本完成了</strong>，这时可以有两种选择，一种是一直用那个github默认的网址去访问自己的博客，还有一种就是绑定自己的域名。</p>
+<h4 id="绑定自己的域名">3. 绑定自己的域名</h4>
+<h5 id="购买域名">3.1 购买域名</h5>
+<p>我自己呢，就在阿里云上买了一个.top的域名（别问，问就是因为便宜...买了3年60多RMB）。在实名认证等一系列操作都弄完后，进入自己的域名控制台，然后点击操作下面的<strong>解析</strong>，然后点击<strong>添加记录</strong>，添加记录的配置如下</p>
+<p><img src="https://i.loli.net/2019/10/19/EukCUvpty2TM6GW.png"  /></p>
 <p><strong>注意：其中的记录值设置为自己github提供的访问博客的域名。</strong></p>
 <p>然后在添加一条同样的记录，其中主机记录不填。最后的结果应该像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/huHGNRX5439sKPO.png"></p>
+<p><img src="https://i.loli.net/2019/10/19/huHGNRX5439sKPO.png" /></p>
 <p>然后进入github之前创建的那个存放博客的仓库，点击settings，设置Custom domain，输入自己的域名，点击<code>save</code>. 然后在你的博客文件夹的source中创建一个名为CNAME文件，不要后缀。写上你的域名。 最后在git bash中输入</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
-
 <p>稍等片刻，就能通过自己的域名访问自己的博客了。奈斯！！！</p>
 <p><strong>参考教程</strong></p>
 <blockquote>
@@ -83,160 +84,145 @@
   <entry>
     <title>Hexo+Github搭建自己的博客(二)</title>
     <url>/posts/acd40dbf.html</url>
-    <content><![CDATA[<h3 id="1-Hexo主题的配置"><a href="#1-Hexo主题的配置" class="headerlink" title="1.Hexo主题的配置"></a>1.Hexo主题的配置</h3><p>现在部署好自己的博客之后，接下来要做的就是通过配置文件来DIY自己的博客了。</p>
+    <content><![CDATA[<h3 id="hexo主题的配置">1.Hexo主题的配置</h3>
+<p>现在部署好自己的博客之后，接下来要做的就是通过配置文件来DIY自己的博客了。</p>
 <p>以下配置均基于</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NexT v7.4.2</span><br><span class="line">Hexo v4.0</span><br></pre></td></tr></table></figure>
-
 <a id="more"></a>
-
-<h4 id="1-1-更换主题"><a href="#1-1-更换主题" class="headerlink" title="1.1 更换主题"></a>1.1 更换主题</h4><p>首先要做的就是更换自己喜欢的主题，默认的主题太难看了…Hexo配套的有大量的主题，点击这儿就能看到       <a href="https://hexo.io/themes/">主题</a>。我个人喜欢的是<a href="https://github.com/theme-next/hexo-theme-next">NexT主题</a>，去对应的github下载源文件，然后解压后，改一个简洁点的名字，把整个s文件夹放到博客主文件夹的<code>themes</code>文件夹内（然后我就把原来的默认主题的文件夹顺手删了..）。然后打开主文件夹的<code>_config.yml</code>，找到</p>
+<h4 id="更换主题">1.1 更换主题</h4>
+<p>首先要做的就是更换自己喜欢的主题，默认的主题太难看了...Hexo配套的有大量的主题，点击这儿就能看到 <a href="https://hexo.io/themes/">主题</a>。我个人喜欢的是<a href="https://github.com/theme-next/hexo-theme-next">NexT主题</a>，去对应的github下载源文件，然后解压后，改一个简洁点的名字，把整个s文件夹放到博客主文件夹的<code>themes</code>文件夹内（然后我就把原来的默认主题的文件夹顺手删了..）。然后打开主文件夹的<code>_config.yml</code>，找到</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Extensions</span><br><span class="line">## Plugins: https:&#x2F;&#x2F;hexo.io&#x2F;plugins&#x2F;</span><br><span class="line">## Themes: https:&#x2F;&#x2F;hexo.io&#x2F;themes&#x2F;</span><br><span class="line">theme: next</span><br></pre></td></tr></table></figure>
-
 <p>在<code>theme</code>后输如自己改之后的文件夹的名字，接着打开<code>themes\next\_config.yml</code>这个主题下的配置文件，找到</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Schemes</span><br><span class="line">#scheme: Muse</span><br><span class="line">#scheme: Mist</span><br><span class="line">#scheme: Pisces</span><br><span class="line">scheme: Gemini</span><br></pre></td></tr></table></figure>
-
 <p>选择自己喜欢的主题的样式，各种不同的样式可以去hexo在github的主页上查看。</p>
 <p>最后hexo三连一波</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
 <p>稍等片刻，就能看见自己修改之后的主题的样式了。我的就像这样。</p>
-<img src="https://i.loli.net/2019/10/19/LebnPZjKqzNBk4E.png" style="zoom:80%;" />
-
-<h3 id="2-博客的进阶美化"><a href="#2-博客的进阶美化" class="headerlink" title="2 博客的进阶美化"></a>2 博客的进阶美化</h3><h4 id="2-1-前置准备"><a href="#2-1-前置准备" class="headerlink" title="2.1 前置准备"></a>2.1 前置准备</h4><p>由于博客内部的配置太多，每次配置完都要hexo三连上传到github上太麻烦了，所以可以使用<code>hexo serve</code></p>
-<img src="https://i.loli.net/2019/10/20/XN5JQ3w9BsHtyVd.png" style="zoom:80%;" />
-
+<p><img src="https://i.loli.net/2019/10/19/LebnPZjKqzNBk4E.png" style="zoom:80%;" /></p>
+<h3 id="博客的进阶美化">2 博客的进阶美化</h3>
+<h4 id="前置准备">2.1 前置准备</h4>
+<p>由于博客内部的配置太多，每次配置完都要hexo三连上传到github上太麻烦了，所以可以使用<code>hexo serve</code></p>
+<p><img src="https://i.loli.net/2019/10/20/XN5JQ3w9BsHtyVd.png" style="zoom:80%;" /></p>
 <p>然后这时就可以通过网址<code>http://localhost:4000/</code>临时访问自己的博客了，而且此时在本地的所有修改与配置都能在这个网页上显现，因此只要在本地全部调试好后，在一次部署到github上。</p>
-<h4 id="2-2-配置标题"><a href="#2-2-配置标题" class="headerlink" title="2.2 配置标题"></a>2.2 配置标题</h4><p>打开根目录下的<code>_config.yml</code>，找到</p>
+<h4 id="配置标题">2.2 配置标题</h4>
+<p>打开根目录下的<code>_config.yml</code>，找到</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Site</span><br><span class="line">title: Jerome&#39;s Blog</span><br><span class="line">subtitle: 勿在浮沙筑高塔</span><br><span class="line">description:</span><br><span class="line">keywords:</span><br><span class="line">author: Jerome</span><br><span class="line">language: zh-CN</span><br><span class="line">timezone:</span><br></pre></td></tr></table></figure>
-
 <p>在这里可以修改网址的标题和副标题，作者的名字，以及网站语言。其中<code>description</code> 主要用于SEO，告诉搜索引擎一个关于您站点的简单描述，通常建议在其中包含您网站的关键词。（这里在后期配置SEO的时候再来配置）</p>
-<h4 id="2-3-侧边栏社交小图标设置"><a href="#2-3-侧边栏社交小图标设置" class="headerlink" title="2.3 侧边栏社交小图标设置"></a>2.3 侧边栏社交小图标设置</h4><p>打开<code>themes\next\_config.yml</code>这个主题下的配置文件，在<a href="https://fontawesome.com/icons?from=io">图标库</a>中找到自己喜欢的小图标，把名称复制到网页链接的<code>||</code>后面，由于知乎没有对应的图标，于是只显示默认的图标</p>
+<h4 id="侧边栏社交小图标设置">2.3 侧边栏社交小图标设置</h4>
+<p>打开<code>themes\next\_config.yml</code>这个主题下的配置文件，在<a href="https://fontawesome.com/icons?from=io">图标库</a>中找到自己喜欢的小图标，把名称复制到网页链接的<code>||</code>后面，由于知乎没有对应的图标，于是只显示默认的图标</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  GitHub: https:&#x2F;&#x2F;github.com&#x2F;hots-j || github</span><br><span class="line">  知乎: https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;qian-qian-yang-guang-j&#x2F;activities</span><br><span class="line"></span><br><span class="line">social_icons:</span><br><span class="line">  enable: true</span><br><span class="line">  icons_only: false</span><br><span class="line">  transition: false</span><br></pre></td></tr></table></figure>
-
 <p>最后效果像这样</p>
-<p><img src="https://i.loli.net/2019/10/20/L6qPoutgafFmJDr.png"></p>
-<h4 id="2-4-配置版权声明"><a href="#2-4-配置版权声明" class="headerlink" title="2.4 配置版权声明"></a>2.4 配置版权声明</h4><p>在<code>themes\next\_config.yml</code>中找到并配置为</p>
+<p><img src="https://i.loli.net/2019/10/20/L6qPoutgafFmJDr.png" /></p>
+<h4 id="配置版权声明">2.4 配置版权声明</h4>
+<p>在<code>themes\next\_config.yml</code>中找到并配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># CC licenses are available in 39 languages, you can find the specific and correct abbreviation you need on https:&#x2F;&#x2F;creativecommons.org</span><br><span class="line">creative_commons:</span><br><span class="line">  license: by-nc-sa</span><br><span class="line">  sidebar: true</span><br><span class="line">  post: true</span><br><span class="line">  language: en</span><br></pre></td></tr></table></figure>
-
 <p>并在<code>\_config.yml</code>中添加自己的域名</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &#39;http:&#x2F;&#x2F;yoursite.com&#x2F;child&#39; and root as &#39;&#x2F;child&#x2F;&#39;</span><br><span class="line">url: http:&#x2F;&#x2F;cjerome.top</span><br><span class="line">root: &#x2F;</span><br><span class="line">permalink: :year&#x2F;:month&#x2F;:day&#x2F;:title&#x2F;</span><br><span class="line">permalink_defaults:</span><br><span class="line">pretty_urls:</span><br><span class="line">  trailing_index: true # Set to false to remove trailing index.html from permalinks</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-5-去掉底部的强力驱动和主题信息"><a href="#2-5-去掉底部的强力驱动和主题信息" class="headerlink" title="2.5 去掉底部的强力驱动和主题信息"></a>2.5 去掉底部的强力驱动和主题信息</h4><p>在<code>themes\next\_config.yml</code>中找到并配置为</p>
+<h4 id="去掉底部的强力驱动和主题信息">2.5 去掉底部的强力驱动和主题信息</h4>
+<p>在<code>themes\next\_config.yml</code>中找到并配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">powered:</span><br><span class="line">  # Hexo link (Powered by Hexo).</span><br><span class="line">  enable: false</span><br><span class="line">  # Version info of Hexo after Hexo link (vX.X.X).</span><br><span class="line">  version: true</span><br><span class="line"></span><br><span class="line">theme:</span><br><span class="line">  # Theme &amp; scheme info link (Theme - NexT.scheme).</span><br><span class="line">  enable: false</span><br><span class="line">  # Version info of NexT after scheme info (vX.X.X).</span><br><span class="line">  version: true</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-6-网站底部添加访客量"><a href="#2-6-网站底部添加访客量" class="headerlink" title="2.6 网站底部添加访客量"></a>2.6 网站底部添加访客量</h4><p>在<code>themes\next\_config.yml</code>中找到并配置为</p>
+<h4 id="网站底部添加访客量">2.6 网站底部添加访客量</h4>
+<p>在<code>themes\next\_config.yml</code>中找到并配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">busuanzi_count:</span><br><span class="line">  enable: true</span><br><span class="line">  # 总访问人数</span><br><span class="line">  total_visitors: true</span><br><span class="line">  total_visitors_icon: user</span><br><span class="line">  # 总访问量</span><br><span class="line">  total_views: true</span><br><span class="line">  total_views_icon: eye</span><br><span class="line">  # 文章访问量</span><br><span class="line">  post_views: true</span><br><span class="line">  post_views_icon: eye</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img src="https://i.loli.net/2019/10/20/H3sTZIw56WOkjfX.png"></p>
+<p><img src="https://i.loli.net/2019/10/20/H3sTZIw56WOkjfX.png" /></p>
 <p><strong>注意：</strong>因为此时是在本地服务上运行的结果，所以数据会异常，只要部署到github上就显示正常了。</p>
-<h4 id="2-7-添加页面加载条"><a href="#2-7-添加页面加载条" class="headerlink" title="2.7 添加页面加载条"></a>2.7 添加页面加载条</h4><p>然后在<code>themes\next\_config.yml</code>中修改配置为</p>
+<h4 id="添加页面加载条">2.7 添加页面加载条</h4>
+<p>然后在<code>themes\next\_config.yml</code>中修改配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pace:</span><br><span class="line">  enable: true</span><br><span class="line">  # Themes list:</span><br><span class="line">  # big-counter | bounce | barber-shop | center-atom | center-circle | center-radar | center-simple</span><br><span class="line">  # corner-indicator | fill-left | flat-top | flash | loading-bar | mac-osx | material | minimal</span><br><span class="line">  theme: minimal</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-8-添加作者头像"><a href="#2-8-添加作者头像" class="headerlink" title="2.8 添加作者头像"></a>2.8 添加作者头像</h4><p>找到<code>\themes\next\source\images</code>文件夹，将自己的头像图片放在这个文件夹下，然后在<code>themes\next\_config.yml</code>中找到并配置为，即自己头像的路径</p>
+<h4 id="添加作者头像">2.8 添加作者头像</h4>
+<p>找到<code>\themes\next\source\images</code>文件夹，将自己的头像图片放在这个文件夹下，然后在<code>themes\next\_config.yml</code>中找到并配置为，即自己头像的路径</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">avatar: &#x2F;images&#x2F;avatar.jpg</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-9-添加GitHub-Corners"><a href="#2-9-添加GitHub-Corners" class="headerlink" title="2.9 添加GitHub Corners"></a>2.9 添加GitHub Corners</h4><p> 在<code>themes\next\_config.yml</code>中找到并配置为 </p>
+<h4 id="添加github-corners">2.9 添加GitHub Corners</h4>
+<p>在<code>themes\next\_config.yml</code>中找到并配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># &#96;Follow me on GitHub&#96; banner in the top-right corner.</span><br><span class="line">github_banner:</span><br><span class="line">  enable: true</span><br><span class="line">  permalink: https:&#x2F;&#x2F;github.com&#x2F;hots-j</span><br><span class="line">  title: Follow me on GitHub</span><br></pre></td></tr></table></figure>
-
 <p>最后就能显示啦，显示的效果为：</p>
-<p><img src="https://i.loli.net/2019/10/20/PC3BxGJ9FSb4vUM.png"></p>
-<h4 id="2-10-添加本地搜索"><a href="#2-10-添加本地搜索" class="headerlink" title="2.10 添加本地搜索"></a>2.10 添加本地搜索</h4><ul>
-<li><code>npm install hexo-generator-searchdb --save  </code></li>
+<p><img src="https://i.loli.net/2019/10/20/PC3BxGJ9FSb4vUM.png" /></p>
+<h4 id="添加本地搜索">2.10 添加本地搜索</h4>
+<ul>
+<li><code>npm install hexo-generator-searchdb --save</code></li>
 <li>查找主题配置文件<code>themes/next/_config.yml</code>中的<code>local_search</code>配置为</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">  enable: true</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>在站点配置文件中添加</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  content: true</span><br><span class="line">  format: html</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-11-优化底部标签样式"><a href="#2-11-优化底部标签样式" class="headerlink" title="2.11 优化底部标签样式"></a>2.11 优化底部标签样式</h4><p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p>
+<h4 id="优化底部标签样式">2.11 优化底部标签样式</h4>
+<p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Use icon instead of the symbol # to indicate the tag at the bottom of the post</span><br><span class="line">tag_icon: true</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-12-添加评论模块"><a href="#2-12-添加评论模块" class="headerlink" title="2.12 添加评论模块"></a>2.12 添加评论模块</h4><p>评论模块我选用的是 <a href="https://valine.js.org/">Valine</a> </p>
+<h4 id="添加评论模块">2.12 添加评论模块</h4>
+<p>评论模块我选用的是 <a href="https://valine.js.org/">Valine</a></p>
 <ul>
 <li>获取APP ID 和 APP Key</li>
 </ul>
 <p>请先<a href="https://leancloud.cn/dashboard/login.html#/signin">登录</a>或<a href="https://leancloud.cn/dashboard/login.html#/signup">注册</a> <code>LeanCloud</code>, 进入<a href="https://leancloud.cn/dashboard/applist.html#/apps">控制台</a>后点击左下角<a href="https://leancloud.cn/dashboard/applist.html#/newapp">创建应用</a>：</p>
-<p><img src="https://i.loli.net/2019/06/21/5d0c995c86fac81746.jpg" alt="img"></p>
+<figure>
+<img src="https://i.loli.net/2019/06/21/5d0c995c86fac81746.jpg" alt="img" /><figcaption>img</figcaption>
+</figure>
 <p>应用创建好以后，进入刚刚创建的应用，选择左下角的<code>设置</code>&gt;<code>应用Key</code>，然后就能看到你的<code>APP ID</code>和<code>APP Key</code>了：</p>
-<p><img src="https://i.loli.net/2019/06/21/5d0c997a60baa24436.jpg" alt="img"></p>
+<figure>
+<img src="https://i.loli.net/2019/06/21/5d0c997a60baa24436.jpg" alt="img" /><figcaption>img</figcaption>
+</figure>
 <ul>
-<li><p>记得在Leancloud -&gt; 设置 -&gt; 安全中心 -&gt; Web 安全域名 把你的域名加进去 </p>
-</li>
-<li><p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p>
-</li>
+<li><p>记得在Leancloud -&gt; 设置 -&gt; 安全中心 -&gt; Web 安全域名 把你的域名加进去</p></li>
+<li><p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p></li>
 </ul>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Valine</span></span><br><span class="line"><span class="comment"># You can get your appid and appkey from https://leancloud.cn</span></span><br><span class="line"><span class="comment"># For more information: https://valine.js.org, https://github.com/xCss/Valine</span></span><br><span class="line"><span class="attr">valine:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># When enable is set to be true, leancloud_visitors is recommended to be closed for the re-initialization problem within different leancloud adk version</span></span><br><span class="line">  <span class="attr">appid:</span>  <span class="comment"># Your leancloud application appid</span></span><br><span class="line">  <span class="attr">appkey:</span> <span class="comment"># Your leancloud application appkey</span></span><br><span class="line">  <span class="attr">notify:</span> <span class="literal">false</span> <span class="comment"># Mail notifier. See: https://github.com/xCss/Valine/wiki</span></span><br><span class="line">  <span class="attr">verify:</span> <span class="literal">false</span> <span class="comment"># Verification code</span></span><br><span class="line">  <span class="attr">placeholder:</span> <span class="string">hello</span> <span class="string">world</span> <span class="comment"># Comment box placeholder</span></span><br><span class="line">  <span class="attr">avatar:</span> <span class="string">mm</span> <span class="comment"># Gravatar style</span></span><br><span class="line">  <span class="attr">guest_info:</span> <span class="string">nick,mail,link</span> <span class="comment"># Custom comment header</span></span><br><span class="line">  <span class="attr">pageSize:</span> <span class="number">10</span> <span class="comment"># Pagination size</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">zh-cn</span> <span class="comment"># Language, available values: en, zh-cn</span></span><br><span class="line">  <span class="attr">visitor:</span> <span class="literal">false</span> <span class="comment"># leancloud-counter-security is not supported for now. When visitor is set to be true, appid and appkey are recommended to be the same as leancloud_visitors&#x27; for counter compatibility. Article reading statistic https://valine.js.org/visitor.html</span></span><br><span class="line">  <span class="attr">comment_count:</span> <span class="literal">false</span> <span class="comment"># If false, comment count will only be displayed in post page, not in home page</span></span><br><span class="line">  <span class="attr">recordIP:</span> <span class="literal">false</span> <span class="comment"># Whether to record the commenter IP</span></span><br><span class="line">  <span class="attr">serverURLs:</span> <span class="comment"># When the custom domain name is enabled, fill it in here (it will be detected automatically by default, no need to fill in)</span></span><br><span class="line">  <span class="comment">#post_meta_order: 0</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-13-添加分类和标签模块"><a href="#2-13-添加分类和标签模块" class="headerlink" title="2.13 添加分类和标签模块"></a>2.13 添加分类和标签模块</h4><p>在博客的文件夹内：</p>
+<h4 id="添加分类和标签模块">2.13 添加分类和标签模块</h4>
+<p>在博客的文件夹内：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new page categories</span><br><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
-
 <p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># External url should start with http:&#x2F;&#x2F; or https:&#x2F;&#x2F;</span><br><span class="line">menu:</span><br><span class="line">  home: &#x2F; || home</span><br><span class="line">  #about: &#x2F;about&#x2F; || user</span><br><span class="line">  tags: &#x2F;tags&#x2F; || tags</span><br><span class="line">  categories: &#x2F;categories&#x2F; || th</span><br><span class="line">  archives: &#x2F;archives&#x2F; || archive</span><br><span class="line">  #schedule: &#x2F;schedule&#x2F; || calendar</span><br><span class="line">  #sitemap: &#x2F;sitemap.xml || sitemap</span><br><span class="line">  #commonweal: &#x2F;404&#x2F; || heartbeat</span><br></pre></td></tr></table></figure>
-
-<p>创建成功，\source 文件夹下会有个 categories\index.md，打开 index.md 文件并配置为</p>
+<p>创建成功，文件夹下会有个 categories.md，打开 index.md 文件并配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: 分类</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">comments: false</span><br></pre></td></tr></table></figure>
-
-<p>创建成功，\source 文件夹下会有个 tags\index.md，打开 index.md 文件并配置为</p>
+<p>创建成功，文件夹下会有个 tags.md，打开 index.md 文件并配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: 标签</span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">comments: false</span><br></pre></td></tr></table></figure>
-
 <p>其中<code>comments: false</code>是用来关闭当前页面的评论。</p>
-<h4 id="2-14-添加字数统计"><a href="#2-14-添加字数统计" class="headerlink" title="2.14 添加字数统计"></a>2.14 添加字数统计</h4><p><code>npm install hexo-symbols-count-time --save </code></p>
+<h4 id="添加字数统计">2.14 添加字数统计</h4>
+<p><code>npm install hexo-symbols-count-time --save</code></p>
 <p>在站点配置文件<code>_config.yml</code>中配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">symbols_count_time:</span><br><span class="line">  symbols: true                # 文章字数统计</span><br><span class="line">  time: true                   # 文章阅读时长</span><br><span class="line">  total_symbols: true          # 站点总字数统计</span><br><span class="line">  total_time: false             # 站点总阅读时长</span><br><span class="line">  exclude_codeblock: false     # 排除代码字数统计</span><br></pre></td></tr></table></figure>
-
 <p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># Post wordcount display settings</span><br><span class="line"># Dependencies: https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-symbols-count-time</span><br><span class="line">symbols_count_time:</span><br><span class="line">  separated_meta: true     # 是否另起一行（true的话不和发表时间等同一行）</span><br><span class="line">  item_text_post: true     # 首页文章统计数量前是否显示文字描述（本文字数、阅读时长）</span><br><span class="line">  item_text_total: true   # 页面底部统计数量前是否显示文字描述（站点总字数、站点阅读时长）</span><br><span class="line">  awl: 4                   # Average Word Length</span><br><span class="line">  wpm: 275                 # Words Per Minute（每分钟阅读词数）</span><br><span class="line">  suffix: mins.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-15-侧边栏阅读进度"><a href="#2-15-侧边栏阅读进度" class="headerlink" title="2.15 侧边栏阅读进度"></a>2.15 侧边栏阅读进度</h4><p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p>
+<h4 id="侧边栏阅读进度">2.15 侧边栏阅读进度</h4>
+<p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">back2top:</span><br><span class="line">  enable: true</span><br><span class="line">  # 回页面顶部</span><br><span class="line">  sidebar: true</span><br><span class="line">  # 显示阅读百分比</span><br><span class="line">  scrollpercent: true</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-16-添加文章结束标识"><a href="#2-16-添加文章结束标识" class="headerlink" title="2.16 添加文章结束标识"></a>2.16 添加文章结束标识</h4><ol>
-<li><p>在 <code>\在博客文件夹\source</code> 目录下，新建 <code>_data</code> 文件夹</p>
-</li>
-<li><p>进入 <code>_data</code> 文件夹，创建文件 <code>post-body-end.swig</code></p>
-</li>
+<h4 id="添加文章结束标识">2.16 添加文章结束标识</h4>
+<ol type="1">
+<li><p>在 <code>\在博客文件夹\source</code> 目录下，新建 <code>_data</code> 文件夹</p></li>
+<li><p>进入 <code>_data</code> 文件夹，创建文件 <code>post-body-end.swig</code></p></li>
 <li><p>编辑文件，添加如下内容</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &lt;div style&#x3D;&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;</span><br><span class="line">        -------------本文结束 &lt;i class&#x3D;&quot;fa fa-paw&quot;&gt;&lt;&#x2F;i&gt; 感谢您的阅读-------------</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>打开 <code>\themes\next\_config.yml</code></p>
-</li>
-<li><p>搜索 <strong>custom_file_path</strong> ，将如下内容取消注释</p>
-</li>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &lt;div style&#x3D;&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;</span><br><span class="line">        -------------本文结束 &lt;i class&#x3D;&quot;fa fa-paw&quot;&gt;&lt;&#x2F;i&gt; 感谢您的阅读-------------</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>打开 <code>\themes\next\_config.yml</code></p></li>
+<li><p>搜索 <strong>custom_file_path</strong> ，将如下内容取消注释</p></li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">postBodyEnd: source&#x2F;_data&#x2F;post-body-end.swig</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-17-修改文章内链接样式"><a href="#2-17-修改文章内链接样式" class="headerlink" title="2.17 修改文章内链接样式"></a>2.17 修改文章内链接样式</h4><p>找到<code>themes/next/source/css/_common/components/post/post.styl</code></p>
+<h4 id="修改文章内链接样式">2.17 修改文章内链接样式</h4>
+<p>找到<code>themes/next/source/css/_common/components/post/post.styl</code></p>
 <p>在文件尾添加如下代码</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.post-body p a &#123;</span><br><span class="line">    color: #007ab2;</span><br><span class="line">    border-bottom: none;</span><br><span class="line">    border-bottom: 1px solid #007ab2;</span><br><span class="line">    &amp;:hover &#123;</span><br><span class="line">    color: #ff4f79;</span><br><span class="line">    border-bottom: none;</span><br><span class="line">    border-bottom: 1px solid #ff4f79;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-18-修改底部年份和名称中间的图标"><a href="#2-18-修改底部年份和名称中间的图标" class="headerlink" title="2.18 修改底部年份和名称中间的图标"></a>2.18 修改底部年份和名称中间的图标</h4><p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p>
+<h4 id="修改底部年份和名称中间的图标">2.18 修改底部年份和名称中间的图标</h4>
+<p>在主题配置文件<code>themes/next/_config.yml</code>中配置为</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">footer:</span><br><span class="line">  icon:</span><br><span class="line">    # 图标名称</span><br><span class="line">    name: heart</span><br><span class="line">    # 是否开启动画效果</span><br><span class="line">    animated: true</span><br><span class="line">    # 图标颜色</span><br><span class="line">    color: &quot;#ff4f79&quot;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-19-添加Live-2D模型"><a href="#2-19-添加Live-2D模型" class="headerlink" title="2.19 添加Live 2D模型"></a>2.19 添加Live 2D模型</h4><p>首先<code>npm install --save hexo-helper-live2d</code></p>
+<h4 id="添加live-2d模型">2.19 添加Live 2D模型</h4>
+<p>首先<code>npm install --save hexo-helper-live2d</code></p>
 <p>然后在站点配置文件<code>_config.yml</code>中添加</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Live2D</span><br><span class="line">## https:&#x2F;&#x2F;github.com&#x2F;EYHN&#x2F;hexo-helper-live2d</span><br><span class="line">## https:&#x2F;&#x2F;l2dwidget.js.org&#x2F;docs&#x2F;class&#x2F;src&#x2F;index.js~L2Dwidget.html#instance-method-init</span><br><span class="line">live2d:</span><br><span class="line">  enable: true</span><br><span class="line">  # scriptFrom: local # 默认</span><br><span class="line">  pluginRootPath: live2dw&#x2F; # 插件在站点上的根目录(相对路径)</span><br><span class="line">  pluginJsPath: lib&#x2F; # 脚本文件相对与插件根目录路径</span><br><span class="line">  pluginModelPath: assets&#x2F; # 模型文件相对与插件根目录路径</span><br><span class="line">  scriptFrom: jsdelivr # jsdelivr CDN</span><br><span class="line">  # scriptFrom: unpkg # unpkg CDN</span><br><span class="line">  # scriptFrom: https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;live2d-widget@3.x&#x2F;lib&#x2F;L2Dwidget.min.js # 你的自定义 url</span><br><span class="line">  tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中</span><br><span class="line">  debug: false # 调试, 是否在控制台输出日志</span><br><span class="line">  model:</span><br><span class="line">    use: live2d-widget-model-hijiki</span><br><span class="line">    # use: live2d-widget-model-wanko</span><br><span class="line">    # npm-module package name</span><br><span class="line">    # use: wanko # 博客根目录&#x2F;live2d_models&#x2F; 下的目录名</span><br><span class="line">    # use: .&#x2F;wives&#x2F;wanko # 相对于博客根目录的路径</span><br><span class="line">    # use: https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;live2d-widget-model-wanko@1.0.5&#x2F;assets&#x2F;wanko.model.json # 你的自定义 url</span><br><span class="line">  display:</span><br><span class="line">    position: right</span><br><span class="line">    width: 145</span><br><span class="line">    height: 315</span><br><span class="line">  mobile:</span><br><span class="line">    show: false# 是否在移动设备上显示</span><br><span class="line">    scale: 0.5 # 移动设备上的缩放</span><br><span class="line">  react:</span><br><span class="line">    opacityDefault: 0.7</span><br><span class="line">    opacityOnHover: 0.8</span><br></pre></td></tr></table></figure>
-
 <p>最后下载想要使用的模型</p>
 <p><code>npm install live2d-widget-model-hijiki</code></p>
 <p>所有模型的名称如下：模型的预览<a href="https://huaji8.top/post/live2d-plugin-2.0/">在这</a></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">live2d-widget-model-chitose</span><br><span class="line">live2d-widget-model-epsilon2_1</span><br><span class="line">live2d-widget-model-gf</span><br><span class="line">live2d-widget-model-haru&#x2F;01 (use npm install --save live2d-widget-model-haru)</span><br><span class="line">live2d-widget-model-haru&#x2F;02 (use npm install --save live2d-widget-model-haru)</span><br><span class="line">live2d-widget-model-haruto</span><br><span class="line">live2d-widget-model-hibiki</span><br><span class="line">live2d-widget-model-hijiki</span><br><span class="line">live2d-widget-model-izumi</span><br><span class="line">live2d-widget-model-koharu</span><br><span class="line">live2d-widget-model-miku</span><br><span class="line">live2d-widget-model-ni-j</span><br><span class="line">live2d-widget-model-nico</span><br><span class="line">live2d-widget-model-nietzsche</span><br><span class="line">live2d-widget-model-nipsilon</span><br><span class="line">live2d-widget-model-nito</span><br><span class="line">live2d-widget-model-shizuku</span><br><span class="line">live2d-widget-model-tororo</span><br><span class="line">live2d-widget-model-tsumiki</span><br><span class="line">live2d-widget-model-unitychan</span><br><span class="line">live2d-widget-model-wanko</span><br><span class="line">live2d-widget-model-z16</span><br></pre></td></tr></table></figure>
-
 <p>为了防止在手机端，模型会挡住文章，可以关闭mobile里的show。</p>
-<h4 id="2-20-修改文章的链接地址"><a href="#2-20-修改文章的链接地址" class="headerlink" title="2.20 修改文章的链接地址"></a>2.20 修改文章的链接地址</h4><p>Hexo文章的链接地址默认格式是<code>:year/:month/:day/:title/</code></p>
+<h4 id="修改文章的链接地址">2.20 修改文章的链接地址</h4>
+<p>Hexo文章的链接地址默认格式是<code>:year/:month/:day/:title/</code></p>
 <p>如果文章的标题是中文的，那么链接就会出现一堆字符，从而可能引起各种问题，并且过长的文章链接也不利于百度蜘蛛的抓取。</p>
 <p>首先安装 <code>npm install hexo-abbrlink --save</code></p>
 <p>然后在站点配置文件<code>_config.yml</code>中修改为：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># permalink: :year&#x2F;:month&#x2F;:day&#x2F;:title&#x2F;</span><br><span class="line"># permalink_defaults:</span><br><span class="line">permalink: posts&#x2F;:abbrlink.html</span><br><span class="line">abbrlink:</span><br><span class="line">  alg: crc32  # 算法：crc16(default) and crc32</span><br><span class="line">  rep: hex    # 进制：dec(default) and hex</span><br></pre></td></tr></table></figure>
-
 <p>最后hexo三连一波就OK啦！</p>
 <p><strong>参考教程</strong></p>
 <blockquote>
-<p> <a href="https://www.lnrcoder.cn/"><strong>学而不已</strong></a> </p>
+<p><a href="https://www.lnrcoder.cn/"><strong>学而不已</strong></a></p>
 </blockquote>
 ]]></content>
       <categories>
@@ -250,72 +236,168 @@
   <entry>
     <title>PCA的数学分析</title>
     <url>/posts/cb29d277.html</url>
-    <content><![CDATA[<h3 id="1-什么是PCA"><a href="#1-什么是PCA" class="headerlink" title="1. 什么是PCA"></a>1. 什么是PCA</h3><p><strong>PCA</strong>（Principal Component Analysis）是一种常用的数据分析方法。通过线性变换将原始数据变换为一组<br>各维度线性无关的数据，可用于提取数据的主要特征分量，常用于高维数据的降维。</p>
+    <content><![CDATA[<h3 id="什么是pca">1. 什么是PCA</h3>
+<p><strong>PCA</strong>（Principal Component Analysis）是一种常用的数据分析方法。通过线性变换将原始数据变换为一组 各维度线性无关的数据，可用于提取数据的主要特征分量，常用于高维数据的降维。</p>
 <a id="more"></a>
-
 <p>在数据挖掘和机器学习中，数据常被表示为一组向量。</p>
 <p>例如，2019年双十一的某家店铺的交易数据可以表示为一个向量，该列向量的格式为</p>
-<p>(浏览量, 访客数, 下单数, 成交数, 成交金额)^T^ 如(500, 240, 25, 20, 2312.15)^T^</p>
+<p>(浏览量, 访客数, 下单数, 成交数, 成交金额)<sup>T</sup> 如(500, 240, 25, 20, 2312.15)<sup>T</sup></p>
 <p>在这组数据中，我们可以看到浏览量和访客数，下单数和成交数都有着较强的相关关系。这种较强的相互关系可以理解为 “当某一天这个店铺的浏览量较高（或较低）时，我们应该很大程度上认为这天的访客数也较高（或较低）”。</p>
 <p>又因为机器学习算法的复杂度通常与数据的维数关系很密切，为了降低算法的复杂度，我们通常会对数据进行降维，虽然降维的结果会导致信息的丢失，但是由于某些维度之间存在着相互关系，因此我们可以将信息的损失尽量降低。</p>
-<h3 id="2-向量相关"><a href="#2-向量相关" class="headerlink" title="2. 向量相关"></a>2. 向量相关</h3><h4 id="2-1-向量的内积"><a href="#2-1-向量的内积" class="headerlink" title="2.1 向量的内积"></a>2.1 向量的内积</h4><p>两个维数相同的向量的内积被定义为：<br>$$<br>(a_1,a_2,…,a_n)^T\cdot(b_1,b_2,…,b_n)^T = a_1b_1+a_2b_2+…+a_nb_n<br>$$<br>且内积运算将两个向量映射成了一个实数。</p>
-<p>设A、B是两个n维向量，n维向量可以等价表示为n维空间中的一条从原点发射的有向线段。取<br>$$<br>A = (x_1, y_1)\<br>B = (x_2, y_2)<br>$$<br>即其他维度的值都为0，从A点向B所在直线引一条垂线，垂线与B的交点叫做A在B上的投影，设A与B的夹角是a,则投影的矢量长度为  $|A|cos(a)$，其中$|A|=\sqrt{(x^2 _1+y^2 _1)}$，是向量A的模，即线段A的标量长度。</p>
-<img src="https://i.loli.net/2019/11/02/CXKvAJQsZEF8YLN.png" style="zoom:80%;" />
-
-<p>又由内积公式的另一种形式：<br>$$<br>A\cdot B=|A||B|cos(a)<br>$$<br>令$|B| = 1$，则原式为：<br>$$<br>A\cdot B=|A|cos(a)<br>$$<br><strong>那么可以得到，设向量B的模为1，则A与B的内积值等于A向B所在直线投影的矢量长度。</strong></p>
-<h4 id="2-2-向量的基"><a href="#2-2-向量的基" class="headerlink" title="2.2 向量的基"></a>2.2 向量的基</h4><p>要准确描述一个向量，首先要确定一组基，然后给出在基所在的各个直线上的投影值。上述的向量均是默认在二维笛卡尔直角坐标系中，此时向量的基为(1,0), (0,1)。那么一个向量(x,y)实际上就是 $x(1,0)^T +y(0,1)^T$</p>
-<img src="https://i.loli.net/2019/11/02/vrQULDtTyBgxJl2.png" style="zoom:80%;" />
-
-<p>那么，如果我们换一个基呢？例如，(1,1)和(-1,1)也可以成为一组基。那么我们首先要对基进行标准化，即，使其的模为1。标准化后的基为$(\frac{1}{\sqrt{2}} , \frac{1}{\sqrt{2}})$和$(- \frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}})$</p>
-<p>那么在笛卡尔坐标系中的向量(3,2)在新的基中的坐标就为$(\frac{5}{\sqrt{2}},- \frac{1}{\sqrt{2}})$，因为向量A在B上的投影为A与B的内积，那么向量在基上的投影也就为向量与基的内积，故变换过程为：<br>$$<br>\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\<br>-\frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}<br>\begin{pmatrix} 3\ 2 \end{pmatrix}=<br>\begin{pmatrix} \frac{5}{\sqrt{2}}\ -\frac{1}{\sqrt{2}} \end{pmatrix}<br>$$<br>变换过程的图如下所示：</p>
-<img src="https://i.loli.net/2019/11/02/CUYuqZSyJXkoKI6.png" style="zoom:80%;" />
-
+<h3 id="向量相关">2. 向量相关</h3>
+<h4 id="向量的内积">2.1 向量的内积</h4>
+<p>两个维数相同的向量的内积被定义为： <span class="math display">\[
+(a_1,a_2,...,a_n)^T\cdot(b_1,b_2,...,b_n)^T = a_1b_1+a_2b_2+...+a_nb_n
+\]</span> 且内积运算将两个向量映射成了一个实数。</p>
+<p>设A、B是两个n维向量，n维向量可以等价表示为n维空间中的一条从原点发射的有向线段。取 <span class="math display">\[
+A = (x_1, y_1)\\
+B = (x_2, y_2)
+\]</span> 即其他维度的值都为0，从A点向B所在直线引一条垂线，垂线与B的交点叫做A在B上的投影，设A与B的夹角是a,则投影的矢量长度为 <span class="math inline">\(|A|cos(a)\)</span>，其中<span class="math inline">\(|A|=\sqrt{(x^2 _1+y^2 _1)}\)</span>，是向量A的模，即线段A的标量长度。</p>
+<p><img src="https://i.loli.net/2019/11/02/CXKvAJQsZEF8YLN.png" style="zoom:80%;" /></p>
+<p>又由内积公式的另一种形式： <span class="math display">\[
+A\cdot B=|A||B|cos(a)
+\]</span> 令<span class="math inline">\(|B| = 1\)</span>，则原式为： <span class="math display">\[
+A\cdot B=|A|cos(a)
+\]</span> <strong>那么可以得到，设向量B的模为1，则A与B的内积值等于A向B所在直线投影的矢量长度。</strong></p>
+<h4 id="向量的基">2.2 向量的基</h4>
+<p>要准确描述一个向量，首先要确定一组基，然后给出在基所在的各个直线上的投影值。上述的向量均是默认在二维笛卡尔直角坐标系中，此时向量的基为(1,0), (0,1)。那么一个向量(x,y)实际上就是 <span class="math inline">\(x(1,0)^T +y(0,1)^T\)</span></p>
+<p><img src="https://i.loli.net/2019/11/02/vrQULDtTyBgxJl2.png" style="zoom:80%;" /></p>
+<p>那么，如果我们换一个基呢？例如，(1,1)和(-1,1)也可以成为一组基。那么我们首先要对基进行标准化，即，使其的模为1。标准化后的基为<span class="math inline">\((\frac{1}{\sqrt{2}} , \frac{1}{\sqrt{2}})\)</span>和<span class="math inline">\((- \frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}})\)</span></p>
+<p>那么在笛卡尔坐标系中的向量(3,2)在新的基中的坐标就为<span class="math inline">\((\frac{5}{\sqrt{2}},- \frac{1}{\sqrt{2}})\)</span>，因为向量A在B上的投影为A与B的内积，那么向量在基上的投影也就为向量与基的内积，故变换过程为： <span class="math display">\[
+\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\\
+-\frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
+\begin{pmatrix} 3\\ 2 \end{pmatrix}=
+\begin{pmatrix} \frac{5}{\sqrt{2}}\\ -\frac{1}{\sqrt{2}} \end{pmatrix}
+\]</span> 变换过程的图如下所示：</p>
+<p><img src="https://i.loli.net/2019/11/02/CUYuqZSyJXkoKI6.png" style="zoom:80%;" /></p>
 <p>这种变换可以进行推广，如果有<strong>M个N维向量</strong>，想将其变换为由<strong>R个N维向量</strong>表示的新空间中，那么首先将R个基按行组成矩阵A，然后将向量按列组成矩阵B，那么两矩阵的乘积AB就是变换结果。</p>
-<p>数学表示为：<br>$$<br>\left(\begin{array}{c}{p_{1}} \ {p_{2}} \ {\vdots} \ {p_{R}}\end{array}\right)\left(\begin{array}{llll}{a_{1}} &amp; {a_{2}} &amp; {\cdots} &amp; {a_{M}}\end{array}\right)=\left(\begin{array}{cccc}{p_{1} a_{1}} &amp; {p_{1} a_{2}} &amp; {\cdots} &amp; {p_{1} a_{M}} \ {p_{2} a_{1}} &amp; {p_{2} a_{2}} &amp; {\cdots} &amp; {p_{2} a_{M}} \ {\vdots} &amp; {\vdots} &amp; {\ddots} &amp; {\vdots} \ {p_{R} a_{1}} &amp; {p_{R} a_{2}} &amp; {\cdots} &amp; {p_{R} a_{M}}\end{array}\right)<br>$$<br>其中$P_i$是一个行向量，表示第$i$个基；$a_j$是一个列向量，表示第$j$个原始数据记录。</p>
-<h3 id="3-降维的思路与预处理"><a href="#3-降维的思路与预处理" class="headerlink" title="3. 降维的思路与预处理"></a>3. 降维的思路与预处理</h3><p>那么我们回到降维，对于一组N维向量，现在要将其降到K维（K小于N），那么我们应该如何选择K个基来进行变换才能最大程度的保留原有的信息呢？</p>
-<p>设一组数据由5条记录组成，描述为矩阵形式为：<br>$$<br>\begin{pmatrix} 1&amp;1&amp;2&amp;4&amp;2\<br>1&amp;3&amp;3&amp;4&amp;4 \end{pmatrix}<br>$$<br>其中每一列为一条数据记录，而一行为一个字段。为了后续处理方便，首先将每个字段内所有值都减去字段均值，<br>其结果是将每个字段的均值变为0。</p>
-<p>预处理之后为：<br>$$<br>\begin{pmatrix} -1&amp;-1&amp;0&amp;2&amp;0\<br>-2&amp;0&amp;0&amp;1&amp;1 \end{pmatrix}<br>$$<br>在直角坐标系中绘制如下：</p>
-<img src="http://blog.codinglabs.org/uploads/pictures/pca-tutorial/06.png" alt="img" style="zoom:80%;" />
-
+<p>数学表示为： <span class="math display">\[
+\left(\begin{array}{c}{p_{1}} \\ {p_{2}} \\ {\vdots} \\ {p_{R}}\end{array}\right)\left(\begin{array}{llll}{a_{1}} &amp; {a_{2}} &amp; {\cdots} &amp; {a_{M}}\end{array}\right)=\left(\begin{array}{cccc}{p_{1} a_{1}} &amp; {p_{1} a_{2}} &amp; {\cdots} &amp; {p_{1} a_{M}} \\ {p_{2} a_{1}} &amp; {p_{2} a_{2}} &amp; {\cdots} &amp; {p_{2} a_{M}} \\ {\vdots} &amp; {\vdots} &amp; {\ddots} &amp; {\vdots} \\ {p_{R} a_{1}} &amp; {p_{R} a_{2}} &amp; {\cdots} &amp; {p_{R} a_{M}}\end{array}\right)
+\]</span> 其中<span class="math inline">\(P_i\)</span>是一个行向量，表示第<span class="math inline">\(i\)</span>个基；<span class="math inline">\(a_j\)</span>是一个列向量，表示第<span class="math inline">\(j\)</span>个原始数据记录。</p>
+<h3 id="降维的思路与预处理">3. 降维的思路与预处理</h3>
+<p>那么我们回到降维，对于一组N维向量，现在要将其降到K维（K小于N），那么我们应该如何选择K个基来进行变换才能最大程度的保留原有的信息呢？</p>
+<p>设一组数据由5条记录组成，描述为矩阵形式为： <span class="math display">\[
+\begin{pmatrix} 1&amp;1&amp;2&amp;4&amp;2\\
+1&amp;3&amp;3&amp;4&amp;4 \end{pmatrix}
+\]</span> 其中每一列为一条数据记录，而一行为一个字段。为了后续处理方便，首先将每个字段内所有值都减去字段均值， 其结果是将每个字段的均值变为0。</p>
+<p>预处理之后为： <span class="math display">\[
+\begin{pmatrix} -1&amp;-1&amp;0&amp;2&amp;0\\
+-2&amp;0&amp;0&amp;1&amp;1 \end{pmatrix}
+\]</span> 在直角坐标系中绘制如下：</p>
+<p><img src="http://blog.codinglabs.org/uploads/pictures/pca-tutorial/06.png" alt="img" style="zoom:80%;" /></p>
 <p>对于这5个二维数据，我们需要降维至一维来表示这些数据，由上述基变换的思路可以知道，这个问题实际上是要在二维平面中选择一个方向，将所有数据都投影到这个方向所在直线上，用投影值表示原始记录。</p>
 <p>那么该如何找到这个方向？不过我们知道的是对于在这个方向投影后的投影值，有两个具体目标：</p>
-<ol>
+<ol type="1">
 <li>首先我们希望投影后的投影值尽可能的分散。</li>
 <li>其次我们希望投影后的投影值能尽可能表示更多的原始信息，即不希望它们之间存在（线性）相关性。</li>
 </ol>
-<h3 id="4-方差与协方差"><a href="#4-方差与协方差" class="headerlink" title="4. 方差与协方差"></a>4. 方差与协方差</h3><h4 id="4-1-方差"><a href="#4-1-方差" class="headerlink" title="4.1 方差"></a>4.1 方差</h4><p>对于要求投影后投影值尽可能分散，而这种分散程度，可以用数学上的<strong>方差</strong>来表述。</p>
-<p>一个字段的方差可以看做是每个元素与字段均值的差的平方和的均值，即：<br>$$<br>\operatorname{Var}(a)=\frac{1}{m} \sum_{i=1}^{m}\left(a_{i}-\mu\right)^{2}<br>$$<br>因为在预处理中，已经将每个字段的均值转化为0了，因此原方差就可以表示为：<br>$$<br>\operatorname{Var}(a)=\frac{1}{m} \sum_{i=1}^{m}\left(a_{i}\right)^{2}<br>$$<br>因此目标一问题就转化为：<strong>寻找一个一维基，使得所有数据变换为这个基上的坐标表示后，方差值最大。</strong></p>
-<p><strong>注：</strong>对于样本方差的计算，如果要得到他的无偏估计，应该除以$m-1$而不是$m$，但是对于降维来说，我们只需要使其得到最大值，而不是准确的无偏估计，即当取最大值时跟要除的常数没有关系，故为了计算的方便，选择了除以$m$.下面的协方差公式同样如此。</p>
-<h4 id="4-2-协方差"><a href="#4-2-协方差" class="headerlink" title="4.2 协方差"></a>4.2 协方差</h4><p>对于要求投影后的投影值不希望它们之间存在（线性）相关性。而这种相关性，可以用数学上的<strong>协方差</strong>来表述。</p>
-<p>两个字段间的协方差的数学公式可以表示为：<br>$$<br>\operatorname{Cov}(a,b)=\frac{1}{m} \sum_{i=1}^{m}(a_{i}-a_{\mu})\cdot(b_{i}-b_{\mu})<br>$$<br>由于字段均值均为0，协方差公式可以简化为：<br>$$<br>\operatorname{Cov}(a,b)=\frac{1}{m} \sum_{i=1}^{m}a_{i}\cdot b_{i}<br>$$<br>即可以简洁的表示为两个字段的内积再除以元素数m。</p>
+<h3 id="方差与协方差">4. 方差与协方差</h3>
+<h4 id="方差">4.1 方差</h4>
+<p>对于要求投影后投影值尽可能分散，而这种分散程度，可以用数学上的<strong>方差</strong>来表述。</p>
+<p>一个字段的方差可以看做是每个元素与字段均值的差的平方和的均值，即： <span class="math display">\[
+\operatorname{Var}(a)=\frac{1}{m} \sum_{i=1}^{m}\left(a_{i}-\mu\right)^{2}
+\]</span> 因为在预处理中，已经将每个字段的均值转化为0了，因此原方差就可以表示为： <span class="math display">\[
+\operatorname{Var}(a)=\frac{1}{m} \sum_{i=1}^{m}\left(a_{i}\right)^{2}
+\]</span> 因此目标一问题就转化为：<strong>寻找一个一维基，使得所有数据变换为这个基上的坐标表示后，方差值最大。</strong></p>
+<p><strong>注：</strong>对于样本方差的计算，如果要得到他的无偏估计，应该除以<span class="math inline">\(m-1\)</span>而不是<span class="math inline">\(m\)</span>，但是对于降维来说，我们只需要使其得到最大值，而不是准确的无偏估计，即当取最大值时跟要除的常数没有关系，故为了计算的方便，选择了除以<span class="math inline">\(m\)</span>.下面的协方差公式同样如此。</p>
+<h4 id="协方差">4.2 协方差</h4>
+<p>对于要求投影后的投影值不希望它们之间存在（线性）相关性。而这种相关性，可以用数学上的<strong>协方差</strong>来表述。</p>
+<p>两个字段间的协方差的数学公式可以表示为： <span class="math display">\[
+\operatorname{Cov}(a,b)=\frac{1}{m} \sum_{i=1}^{m}(a_{i}-a_{\mu})\cdot(b_{i}-b_{\mu})
+\]</span> 由于字段均值均为0，协方差公式可以简化为： <span class="math display">\[
+\operatorname{Cov}(a,b)=\frac{1}{m} \sum_{i=1}^{m}a_{i}\cdot b_{i}
+\]</span> 即可以简洁的表示为两个字段的内积再除以元素数m。</p>
 <p>当协方差为0时，表示两个字段完全不相关。为了让协方差为0，我们选择第二个基时只能在与第一个基正交的方向上选择。因此最终选择的两个方向一定是正交的。</p>
 <p>因此降维的优化目标就转化为：<strong>将一组N维向量降为K维（K大于0，小于N ），其目标是选择K个单位（模为1）的正交基，使得原始数据变换到这组基上后，各字段两两间协方差为0，而字段的方差则尽可能大（在正交的约束下，取最大的K个方差）。</strong></p>
-<h4 id="4-3-协方差矩阵"><a href="#4-3-协方差矩阵" class="headerlink" title="4.3 协方差矩阵"></a>4.3 协方差矩阵</h4><p>由于字段内方差及字段间协方差有密切关系。因此，可将两者统一表示。</p>
-<p>记$m$个二维向量构成的矩阵为$X$，则:<br>$$<br>X=<br>\begin{pmatrix} a_1&amp;a_2&amp;\cdots&amp;a_m\<br>b_1&amp;b_2&amp;\cdots&amp;b_m \end{pmatrix}<br>$$<br>用$X$乘以$X$的转置，并乘上系数$\frac{1}{m}$，则可得到协方差矩阵：<br>$$<br>\frac{1}{m} X X^{\top}=\left(\begin{array}{cc}<br>{\frac{1}{m} \sum\limits_{i=1}^{m} a_{i}^{2}} &amp; {\frac{1}{m} \sum\limits_{i=1}^{m} a_{i} b_{i}} \<br>{\frac{1}{m} \sum\limits_{i=1}^{m} a_{i} b_{i}} &amp; {\frac{1}{m} \sum\limits_{i=1}^{m} b_{i}^{2}}\end{array}\right)<br>$$<br>在协方差矩阵中，<strong>矩阵对角线上的两个元素分别是两个字段的方差，而其它元素是a和b的协方差。</strong></p>
-<h4 id="4-4-协方差矩阵对角化"><a href="#4-4-协方差矩阵对角化" class="headerlink" title="4.4 协方差矩阵对角化"></a>4.4 协方差矩阵对角化</h4><p>有了协方差矩阵，我们的目标就变成了，使除对角线外的其他元素化为0，并且在对角线上将元素按大小从上到下排列。而且这个目标的结果，正好就是对协方差矩阵求对角化的结果。</p>
-<p>设原始数据矩阵$X$对应的协方差矩阵为$C$，一组基按行组成的矩阵为$P$，设$Y=PX$，则$Y$为$X$对$P$做基变换后的数据矩阵。设$Y$的协方差矩阵为$D$，那么$D$与$C$的关系为：<br>$$<br>\begin{equation}<br>\begin{aligned} D &amp;=\frac{1}{m} Y Y^{\top} \ &amp;=\frac{1}{m}(P X)(P X)^{\top} \ &amp;=\frac{1}{m} P X X^{\top} P^{\top} \ &amp;=P\left(\frac{1}{m} X X^{\top}\right) P^{\top} \ &amp;=P C P^{\top} \end{aligned}<br>\end{equation}<br>$$<br>由上述关系可以看出，优化目标为：寻找一个矩阵$P$，满足$PCP^T$是一个对角矩阵，并且对角元素按从大到小依次排列，那么$P$的前$K$行就是要寻找的基，用$P$的前$K$行组成的矩阵乘以$X$，就使得$X$从N维降到了K维，并满足上述优化条件。</p>
-<h4 id="4-5-实对称矩阵"><a href="#4-5-实对称矩阵" class="headerlink" title="4.5 实对称矩阵"></a>4.5 实对称矩阵</h4><p>由上述分析可知，协方差矩阵$C$是一个对称矩阵，在线性代数中，实对称矩阵有着以下性质：</p>
+<h4 id="协方差矩阵">4.3 协方差矩阵</h4>
+<p>由于字段内方差及字段间协方差有密切关系。因此，可将两者统一表示。</p>
+<p>记<span class="math inline">\(m\)</span>个二维向量构成的矩阵为<span class="math inline">\(X\)</span>，则: <span class="math display">\[
+X=
+\begin{pmatrix} a_1&amp;a_2&amp;\cdots&amp;a_m\\
+b_1&amp;b_2&amp;\cdots&amp;b_m \end{pmatrix}
+\]</span> 用<span class="math inline">\(X\)</span>乘以<span class="math inline">\(X\)</span>的转置，并乘上系数<span class="math inline">\(\frac{1}{m}\)</span>，则可得到协方差矩阵： <span class="math display">\[
+\frac{1}{m} X X^{\top}=\left(\begin{array}{cc}
+{\frac{1}{m} \sum\limits_{i=1}^{m} a_{i}^{2}} &amp; {\frac{1}{m} \sum\limits_{i=1}^{m} a_{i} b_{i}} \\
+{\frac{1}{m} \sum\limits_{i=1}^{m} a_{i} b_{i}} &amp; {\frac{1}{m} \sum\limits_{i=1}^{m} b_{i}^{2}}\end{array}\right)
+\]</span> 在协方差矩阵中，<strong>矩阵对角线上的两个元素分别是两个字段的方差，而其它元素是a和b的协方差。</strong></p>
+<h4 id="协方差矩阵对角化">4.4 协方差矩阵对角化</h4>
+<p>有了协方差矩阵，我们的目标就变成了，使除对角线外的其他元素化为0，并且在对角线上将元素按大小从上到下排列。而且这个目标的结果，正好就是对协方差矩阵求对角化的结果。</p>
+<p>设原始数据矩阵<span class="math inline">\(X\)</span>对应的协方差矩阵为<span class="math inline">\(C\)</span>，一组基按行组成的矩阵为<span class="math inline">\(P\)</span>，设<span class="math inline">\(Y=PX\)</span>，则<span class="math inline">\(Y\)</span>为<span class="math inline">\(X\)</span>对<span class="math inline">\(P\)</span>做基变换后的数据矩阵。设<span class="math inline">\(Y\)</span>的协方差矩阵为<span class="math inline">\(D\)</span>，那么<span class="math inline">\(D\)</span>与<span class="math inline">\(C\)</span>的关系为： <span class="math display">\[
+\begin{equation}
+\begin{aligned} D &amp;=\frac{1}{m} Y Y^{\top} \\ &amp;=\frac{1}{m}(P X)(P X)^{\top} \\ &amp;=\frac{1}{m} P X X^{\top} P^{\top} \\ &amp;=P\left(\frac{1}{m} X X^{\top}\right) P^{\top} \\ &amp;=P C P^{\top} \end{aligned}
+\end{equation}
+\]</span> 由上述关系可以看出，优化目标为：寻找一个矩阵<span class="math inline">\(P\)</span>，满足<span class="math inline">\(PCP^T\)</span>是一个对角矩阵，并且对角元素按从大到小依次排列，那么<span class="math inline">\(P\)</span>的前<span class="math inline">\(K\)</span>行就是要寻找的基，用<span class="math inline">\(P\)</span>的前<span class="math inline">\(K\)</span>行组成的矩阵乘以<span class="math inline">\(X\)</span>，就使得<span class="math inline">\(X\)</span>从N维降到了K维，并满足上述优化条件。</p>
+<h4 id="实对称矩阵">4.5 实对称矩阵</h4>
+<p>由上述分析可知，协方差矩阵<span class="math inline">\(C\)</span>是一个对称矩阵，在线性代数中，实对称矩阵有着以下性质：</p>
 <ul>
 <li>实对称矩阵不同特征值对应的特征向量必然正交。</li>
 <li>设特征向量λ重数为r，则必然存在r个线性无关的特征向量对应于λ，因此可以将这r个特征向量单位正交化。</li>
 </ul>
-<p>由上面两条可知，一个n行n列的实对称矩阵一定可以找到n个单位正交特征向量，设这n个特征向量为$e_1,e_2,\cdots,e_n$，我们将其按列组成矩阵：<br>$$<br>E = \begin{pmatrix} e_1&amp;e_2&amp;\cdots&amp;e_n<br> \end{pmatrix}<br>$$<br>则矩阵$E$和协方差矩阵$C$的关系为：<br>$$<br>\begin{equation}<br>E^{\top} C E=\Lambda=\left(\begin{array}{cccc}{\lambda_{1}} &amp; {} &amp; {} &amp; {} \ {} &amp; {\lambda_{2}} &amp; {} &amp; {} \ {} &amp; {} &amp; {\ddots} &amp; {} \ {} &amp; {} &amp; {} &amp; {\lambda_{n}}\end{array}\right)<br>\end{equation}<br>$$<br>其中$\wedge$为对角矩阵， 其对角元素为各特征向量对应的特征值（可能有重复）。 </p>
-<p>因此，我们要找的矩阵$P$：<br>$$<br>P=E^T<br>$$<br>$P$是协方差矩阵的特征向量单位化后按行排列出的矩阵，其中每一行都是协方差矩阵$C$的一个特征向量。如果设$P$按照$\wedge$中特征值从大到小，将特征向量从上到下排列，则用$P$的前K行组成的矩阵乘以原始数据矩阵$X$，就得到了我们需要的降维后的数据矩阵$Y$。</p>
-<h3 id="5-PCA的算法步骤"><a href="#5-PCA的算法步骤" class="headerlink" title="5. PCA的算法步骤"></a>5. PCA的算法步骤</h3><p>设有m条n维数据。</p>
-<ol>
-<li>将原始数据按列组成n行m列矩阵$X$</li>
-<li>将$X$的每一行（代表一个属性字段）进行零均值化，即减去这一行的均值</li>
-<li>求出协方差矩阵$C=\frac{1}{m} X X^{\top}$</li>
+<p>由上面两条可知，一个n行n列的实对称矩阵一定可以找到n个单位正交特征向量，设这n个特征向量为<span class="math inline">\(e_1,e_2,\cdots,e_n\)</span>，我们将其按列组成矩阵： <span class="math display">\[
+E = \begin{pmatrix} e_1&amp;e_2&amp;\cdots&amp;e_n
+ \end{pmatrix}
+\]</span> 则矩阵<span class="math inline">\(E\)</span>和协方差矩阵<span class="math inline">\(C\)</span>的关系为： <span class="math display">\[
+\begin{equation}
+E^{\top} C E=\Lambda=\left(\begin{array}{cccc}{\lambda_{1}} &amp; {} &amp; {} &amp; {} \\ {} &amp; {\lambda_{2}} &amp; {} &amp; {} \\ {} &amp; {} &amp; {\ddots} &amp; {} \\ {} &amp; {} &amp; {} &amp; {\lambda_{n}}\end{array}\right)
+\end{equation}
+\]</span> 其中<span class="math inline">\(\wedge\)</span>为对角矩阵， 其对角元素为各特征向量对应的特征值（可能有重复）。</p>
+<p>因此，我们要找的矩阵<span class="math inline">\(P\)</span>： <span class="math display">\[
+P=E^T
+\]</span> <span class="math inline">\(P\)</span>是协方差矩阵的特征向量单位化后按行排列出的矩阵，其中每一行都是协方差矩阵<span class="math inline">\(C\)</span>的一个特征向量。如果设<span class="math inline">\(P\)</span>按照<span class="math inline">\(\wedge\)</span>中特征值从大到小，将特征向量从上到下排列，则用<span class="math inline">\(P\)</span>的前K行组成的矩阵乘以原始数据矩阵<span class="math inline">\(X\)</span>，就得到了我们需要的降维后的数据矩阵<span class="math inline">\(Y\)</span>。</p>
+<h3 id="pca的算法步骤">5. PCA的算法步骤</h3>
+<p>设有m条n维数据。</p>
+<ol type="1">
+<li>将原始数据按列组成n行m列矩阵<span class="math inline">\(X\)</span></li>
+<li>将<span class="math inline">\(X\)</span>的每一行（代表一个属性字段）进行零均值化，即减去这一行的均值</li>
+<li>求出协方差矩阵<span class="math inline">\(C=\frac{1}{m} X X^{\top}\)</span></li>
 <li>求出协方差矩阵的特征值及对应的特征向量</li>
-<li>将特征向量按对应特征值大小从上到下按行排列成矩阵，取前k行组成矩阵$P$</li>
-<li>$Y=PX$即为降维到k维后的数据</li>
+<li>将特征向量按对应特征值大小从上到下按行排列成矩阵，取前k行组成矩阵<span class="math inline">\(P\)</span></li>
+<li><span class="math inline">\(Y=PX\)</span>即为降维到k维后的数据</li>
 </ol>
-<h3 id="6-PCA降维的实例"><a href="#6-PCA降维的实例" class="headerlink" title="6. PCA降维的实例"></a>6. PCA降维的实例</h3><p>以上文提到的<br>$$<br>\begin{pmatrix} -1&amp;-1&amp;0&amp;2&amp;0\<br>-2&amp;0&amp;0&amp;1&amp;1 \end{pmatrix}<br>$$<br>为例，我们用PCA方法将这组二维数据其降到一维。</p>
-<p>因为这个矩阵的每行已经是零均值，这里直接求协方差矩阵：<br>$$<br>C=\frac{1}{5}\begin{pmatrix} -1&amp;-1&amp;0&amp;2&amp;0\<br>-2&amp;0&amp;0&amp;1&amp;1 \end{pmatrix}<br>\begin{pmatrix} -1&amp;-2\-1&amp;0\0&amp;0\<br>2&amp;1\0&amp;1 \end{pmatrix}=<br>\begin{pmatrix} \frac{6}{5}&amp;\frac{4}{5}\<br>\frac{4}{5}&amp;\frac{6}{5} \end{pmatrix}<br>$$<br>然后求其特征值和特征向量，求解后特征值为：<br>$$<br>\lambda_1=2,\lambda_2=\frac{2}{5}<br>$$<br>其对应的特征向量分别是：<br>$$<br>c_1\begin{pmatrix} 1\<br>1 \end{pmatrix},c_2\begin{pmatrix} -1\<br>1 \end{pmatrix}<br>$$<br>其中对应的特征向量分别是一个通解，$c_1$和$c_2$可取任意实数。那么标准化后的特征向量为：<br>$$<br>\begin{pmatrix} \frac{1}{\sqrt{2}}\<br>-\frac{1}{\sqrt{2}} \end{pmatrix},<br>\begin{pmatrix} -\frac{1}{\sqrt{2}}\<br>\frac{1}{\sqrt{2}} \end{pmatrix}<br>$$<br>因此我们的矩阵$P$为：<br>$$<br>\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\<br> -\frac{1}{\sqrt{2}}&amp;<br>\frac{1}{\sqrt{2}} \end{pmatrix}<br>$$<br>可以验证协方差矩阵C的对角化：<br>$$<br>PCP^T=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\<br> -\frac{1}{\sqrt{2}}&amp;<br>\frac{1}{\sqrt{2}} \end{pmatrix}\begin{pmatrix} \frac{6}{5}&amp;\frac{4}{5}\<br> \frac{4}{5}&amp;<br>\frac{6}{5} \end{pmatrix}\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}}\<br> \frac{1}{\sqrt{2}}&amp;<br>\frac{1}{\sqrt{2}} \end{pmatrix}=\begin{pmatrix} 2&amp;0\<br> 0&amp;\frac{2}{5} \end{pmatrix}<br>$$<br>最后我们用P的第一行乘以数据矩阵，就得到了降维后的数据：<br>$$<br>Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}<br>\begin{pmatrix} -1&amp;-1&amp;0&amp;2&amp;0\<br>-2&amp;0&amp;0&amp;1&amp;1 \end{pmatrix}=<br>\begin{pmatrix} -\frac{3}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}}&amp;0&amp;\frac{3}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}<br>\end{pmatrix}<br>$$<br>降维投影结果如下图：</p>
-<img src="https://i.loli.net/2019/11/04/D8lVLyTxPQ2k3am.png" style="zoom:80%;" />
-
-
-
+<h3 id="pca降维的实例">6. PCA降维的实例</h3>
+<p>以上文提到的 <span class="math display">\[
+\begin{pmatrix} -1&amp;-1&amp;0&amp;2&amp;0\\
+-2&amp;0&amp;0&amp;1&amp;1 \end{pmatrix}
+\]</span> 为例，我们用PCA方法将这组二维数据其降到一维。</p>
+<p>因为这个矩阵的每行已经是零均值，这里直接求协方差矩阵： <span class="math display">\[
+C=\frac{1}{5}\begin{pmatrix} -1&amp;-1&amp;0&amp;2&amp;0\\
+-2&amp;0&amp;0&amp;1&amp;1 \end{pmatrix}
+\begin{pmatrix} -1&amp;-2\\-1&amp;0\\0&amp;0\\
+2&amp;1\\0&amp;1 \end{pmatrix}=
+\begin{pmatrix} \frac{6}{5}&amp;\frac{4}{5}\\
+\frac{4}{5}&amp;\frac{6}{5} \end{pmatrix}
+\]</span> 然后求其特征值和特征向量，求解后特征值为： <span class="math display">\[
+\lambda_1=2,\lambda_2=\frac{2}{5}
+\]</span> 其对应的特征向量分别是： <span class="math display">\[
+c_1\begin{pmatrix} 1\\
+1 \end{pmatrix},c_2\begin{pmatrix} -1\\
+1 \end{pmatrix}
+\]</span> 其中对应的特征向量分别是一个通解，<span class="math inline">\(c_1\)</span>和<span class="math inline">\(c_2\)</span>可取任意实数。那么标准化后的特征向量为： <span class="math display">\[
+\begin{pmatrix} \frac{1}{\sqrt{2}}\\
+-\frac{1}{\sqrt{2}} \end{pmatrix},
+\begin{pmatrix} -\frac{1}{\sqrt{2}}\\
+\frac{1}{\sqrt{2}} \end{pmatrix}
+\]</span> 因此我们的矩阵<span class="math inline">\(P\)</span>为： <span class="math display">\[
+\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\\
+ -\frac{1}{\sqrt{2}}&amp;
+\frac{1}{\sqrt{2}} \end{pmatrix}
+\]</span> 可以验证协方差矩阵C的对角化： <span class="math display">\[
+PCP^T=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\\
+ -\frac{1}{\sqrt{2}}&amp;
+\frac{1}{\sqrt{2}} \end{pmatrix}\begin{pmatrix} \frac{6}{5}&amp;\frac{4}{5}\\
+ \frac{4}{5}&amp;
+\frac{6}{5} \end{pmatrix}\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}}\\
+ \frac{1}{\sqrt{2}}&amp;
+\frac{1}{\sqrt{2}} \end{pmatrix}=\begin{pmatrix} 2&amp;0\\
+ 0&amp;\frac{2}{5} \end{pmatrix}
+\]</span> 最后我们用P的第一行乘以数据矩阵，就得到了降维后的数据： <span class="math display">\[
+Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
+\begin{pmatrix} -1&amp;-1&amp;0&amp;2&amp;0\\
+-2&amp;0&amp;0&amp;1&amp;1 \end{pmatrix}=
+\begin{pmatrix} -\frac{3}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}}&amp;0&amp;\frac{3}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}
+\end{pmatrix}
+\]</span> 降维投影结果如下图：</p>
+<p><img src="https://i.loli.net/2019/11/04/D8lVLyTxPQ2k3am.png" style="zoom:80%;" /></p>
 ]]></content>
       <categories>
         <category>机器学习</category>
@@ -327,7 +409,8 @@
   <entry>
     <title>逻辑回归</title>
     <url>/posts/f9b01ad8.html</url>
-    <content><![CDATA[<h3 id="1-逻辑回归的应用"><a href="#1-逻辑回归的应用" class="headerlink" title="1. 逻辑回归的应用"></a>1. 逻辑回归的应用</h3><p>生活中的很多分类问题</p>
+    <content><![CDATA[<h3 id="逻辑回归的应用">1. 逻辑回归的应用</h3>
+<p>生活中的很多分类问题</p>
 <ul>
 <li>贷款违约情况（会违约/不会违约）</li>
 <li>广告点击问题（会点击/不会点击）</li>
@@ -335,49 +418,110 @@
 <li>情感分析（正面/负面）</li>
 <li>疾病诊断（阳性/阴性）</li>
 </ul>
-<p>等等…..</p>
+<p>等等.....</p>
 <a id="more"></a>
-
 <p>对于这些分类问题，我们可以采用逻辑回归的模型来进行比较好的分类。那么原理是什么呢？</p>
-<h3 id="2-逻辑回归的原理"><a href="#2-逻辑回归的原理" class="headerlink" title="2. 逻辑回归的原理"></a>2. 逻辑回归的原理</h3><p>下面给出一个具体的例子：</p>
-<p><img src="https://i.loli.net/2020/01/10/F8azDLyptJNPiHh.png"></p>
+<h3 id="逻辑回归的原理">2. 逻辑回归的原理</h3>
+<p>下面给出一个具体的例子：</p>
+<p><img src="https://i.loli.net/2020/01/10/F8azDLyptJNPiHh.png" /></p>
 <p>对于这个分类任务，我通过学习已知的年龄、工资、学历情况和对应的是否逾期情况，来判断当年龄为27，工资为7000，学历为本科时，他逾期的概率是多少。本质上就是计算一个条件概率。而对于已知数据的学习，就是想使得对应的条件概率<code>P(Y|X)</code>越大越好。</p>
-<p>重点是如何定义这个条件概率，如果直接用线性回归表示<br>$$<br>P(Y|X;\omega)=\omega^Tx+b<br>$$</p>
-<h4 id="2-1逻辑函数"><a href="#2-1逻辑函数" class="headerlink" title="2.1逻辑函数"></a>2.1逻辑函数</h4><p>那么计算出来的是一个实值，还是无法直接通过实值进行分类。因此考虑引入逻辑函数<br>$$<br>y =\sigma(x)=\frac{1}{1+e^{-x}}<br>$$<br>逻辑函数的图像如下</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/7691426-17d142c9dab67649.png"></p>
-<p>此时将计算出来的值 $z=\omega^Tx+b$ 带入逻辑函数中就可以得到<br>$$<br>y=<br>\begin{cases}<br>0&amp; \text{z&lt;0}\<br>0.5&amp; \text{z=0}\<br>1&amp; \text{z&gt;0}<br>\end{cases}<br>$$<br>即z大于0就判为正例，小于0就判为反例，为临界值0则可以任意判断。</p>
-<h4 id="2-2-目标函数"><a href="#2-2-目标函数" class="headerlink" title="2.2 目标函数"></a>2.2 目标函数</h4><p>因此新的条件概率就定义为<br>$$<br>P(Y|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}<br>$$<br>其中 $\omega^T = (\omega_1, \omega_1,…,\omega_n)$ ，n=特征数量。</p>
-<p>对于上面那个具体的例子，可以列出<br>$$<br>P(Y=Yes|X=(20,4000,本科))=\frac{1}{1+e^{-[{\begin{pmatrix}<br>\omega_1 \omega_2 \omega_3\<br>\end{pmatrix}}{\begin{pmatrix}20\4000\本科\<br>\end{pmatrix}}+b]}}<br>\\ldots<br>$$<br>通过已知数据计算出，令所有似然函数都最大的参数$\omega^T$和$b$，最后代入要预测的特征x，就能得到最终的分类y。</p>
-<p>对于二分类的问题：<br>$$<br>P(Y=1|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}\<br>P(Y=0|X;\omega)=1-P(Y=1|X;\omega)=\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}<br>$$<br>两个式子可以合并成<br>$$<br>P(Y|X;\omega)=P(Y=1|X;\omega)^y[1-P(Y=1|X;\omega)]^{1-y}<br>$$<br>那么接下来的问题就是，该如何计算出参数 $\omega^T$和$b$ 呢？</p>
-<h4 id="2-3-最大化目标函数"><a href="#2-3-最大化目标函数" class="headerlink" title="2.3 最大化目标函数"></a>2.3 最大化目标函数</h4><p>我们要最大化目标函数，从而求出 $\omega^T$和$b$ ，即<br>$$<br>\hat{\omega},\hat{b}=argmax_{\omega,b}\prod_{i=1}^n p(y_i|x_i,w,b)<br>$$<br>两边取对数<br>$$<br>=argmax_{\omega,b}log(\prod_{i=1}^n p(y_i|x_i,w,b))\<br>=argmax_{\omega,b}\sum_{i=1}^nlog( p(y_i|x_i,w,b))<br>$$<br>取负号，即最小化目标函数<br>$$<br>=argmin_{\omega,b}-\sum_{i=1}^nlog( p(y_i|x_i,w,b))\<br>=argmin_{\omega,b}-\sum_{i=1}^nlog[p(y_i=1|x_i;\omega,b)^{y_i}[1-p(y_i=1|x_i;\omega,b]^{1-{y_i}}]\<br>=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]<br>$$<br>接下来就是通过优化算法把目标函数的最优解计算出来。</p>
+<p>重点是如何定义这个条件概率，如果直接用线性回归表示 <span class="math display">\[
+P(Y|X;\omega)=\omega^Tx+b
+\]</span></p>
+<h4 id="逻辑函数">2.1逻辑函数</h4>
+<p>那么计算出来的是一个实值，还是无法直接通过实值进行分类。因此考虑引入逻辑函数 <span class="math display">\[
+y =\sigma(x)=\frac{1}{1+e^{-x}}
+\]</span> 逻辑函数的图像如下</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7691426-17d142c9dab67649.png" /></p>
+<p>此时将计算出来的值 <span class="math inline">\(z=\omega^Tx+b\)</span> 带入逻辑函数中就可以得到 <span class="math display">\[
+y=
+\begin{cases}
+0&amp; \text{z&lt;0}\\
+0.5&amp; \text{z=0}\\
+1&amp; \text{z&gt;0}
+\end{cases}
+\]</span> 即z大于0就判为正例，小于0就判为反例，为临界值0则可以任意判断。</p>
+<h4 id="目标函数">2.2 目标函数</h4>
+<p>因此新的条件概率就定义为 <span class="math display">\[
+P(Y|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}
+\]</span> 其中 <span class="math inline">\(\omega^T = (\omega_1, \omega_1,...,\omega_n)\)</span> ，n=特征数量。</p>
+<p>对于上面那个具体的例子，可以列出 <span class="math display">\[
+P(Y=Yes|X=(20,4000,本科))=\frac{1}{1+e^{-[{\begin{pmatrix}
+\omega_1 \omega_2 \omega_3\\
+\end{pmatrix}}{\begin{pmatrix}20\\4000\\本科\\
+\end{pmatrix}}+b]}}
+\\\ldots
+\]</span> 通过已知数据计算出，令所有似然函数都最大的参数<span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span>，最后代入要预测的特征x，就能得到最终的分类y。</p>
+<p>对于二分类的问题： <span class="math display">\[
+P(Y=1|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}\\
+P(Y=0|X;\omega)=1-P(Y=1|X;\omega)=\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}
+\]</span> 两个式子可以合并成 <span class="math display">\[
+P(Y|X;\omega)=P(Y=1|X;\omega)^y[1-P(Y=1|X;\omega)]^{1-y}
+\]</span> 那么接下来的问题就是，该如何计算出参数 <span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span> 呢？</p>
+<h4 id="最大化目标函数">2.3 最大化目标函数</h4>
+<p>我们要最大化目标函数，从而求出 <span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span> ，即 <span class="math display">\[
+\hat{\omega},\hat{b}=argmax_{\omega,b}\prod_{i=1}^n p(y_i|x_i,w,b)
+\]</span> 两边取对数 <span class="math display">\[
+=argmax_{\omega,b}log(\prod_{i=1}^n p(y_i|x_i,w,b))\\
+=argmax_{\omega,b}\sum_{i=1}^nlog( p(y_i|x_i,w,b))
+\]</span> 取负号，即最小化目标函数 <span class="math display">\[
+=argmin_{\omega,b}-\sum_{i=1}^nlog( p(y_i|x_i,w,b))\\
+=argmin_{\omega,b}-\sum_{i=1}^nlog[p(y_i=1|x_i;\omega,b)^{y_i}[1-p(y_i=1|x_i;\omega,b]^{1-{y_i}}]\\
+=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]
+\]</span> 接下来就是通过优化算法把目标函数的最优解计算出来。</p>
 <p>如何寻找一个函数最大化或者最小化的最优解？</p>
-<h4 id="2-4-优化算法"><a href="#2-4-优化算法" class="headerlink" title="2.4 优化算法"></a>2.4 优化算法</h4><p>对于凸函数来说，对函数求出的最优解一般就算全局最优解。</p>
+<h4 id="优化算法">2.4 优化算法</h4>
+<p>对于凸函数来说，对函数求出的最优解一般就算全局最优解。</p>
 <p>对于非凸函数来说，求出的最优解一般是局部最优解，不一定是全局最优解。</p>
 <p>该如何选择优化算法呢？</p>
 <p>对于简单的函数，直接求导，令导数为0，就能把参数解出来。但是对于复杂的函数，无法直接求出参数，因此我们要采用数值优化的思路，通过循环迭代的方式找到最优的参数。</p>
 <p>最常用的优化算法就是梯度下降法（ Gradient Descent ）</p>
-<h3 id="3-梯度下降法"><a href="#3-梯度下降法" class="headerlink" title="3. 梯度下降法"></a>3. 梯度下降法</h3><p>求使得$f(w)$值最小的参数$w$</p>
-<p><img src="https://i.loli.net/2020/01/10/4pocyFSPRbMlBVN.png"></p>
-<p>$\eta$为学习率，也就是梯度下降的步长。</p>
-<p>对于上面具体的例子，我们知道<br>$$<br>P(y=1|x;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}<br>$$<br>以及目标函数<br>$$<br>=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]\<br>=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]<br>$$<br>令<br>$$<br>L(w,b)=-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]<br>$$<br>又<br>$$<br>\frac{\partial \sigma(x)}{\partial x}=\sigma(x)\cdot[1-\sigma(x)]<br>$$<br>则<br>$$<br>\frac{\partial L(w,b)}{\partial w}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]\cdot{x_i}<br>$$</p>
-<p>$$<br>\frac{\partial L(w,b)}{\partial b}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]<br>$$</p>
-<p>观察求导后的式子，可以发现$\sigma(\omega^Tx_i+b)$是当前的参数计算出的预测值，$y_i$是真实值，所以就是通过当前的预测值与真实值的差来调整新的参数。</p>
-<h4 id="3-1-梯度下降法的流程"><a href="#3-1-梯度下降法的流程" class="headerlink" title="3.1 梯度下降法的流程"></a>3.1 梯度下降法的流程</h4><p>因此最终的梯度下降法的流程为</p>
-<p><img src="https://i.loli.net/2020/01/10/ZcDiI8KamQG3S2P.png"></p>
-<h4 id="3-2-迭代的终止条件"><a href="#3-2-迭代的终止条件" class="headerlink" title="3.2 迭代的终止条件"></a>3.2 迭代的终止条件</h4><p>有一个问题，这个循环的终止条件是什么？</p>
-<ol>
-<li>计算目标函数$L(w,b)$的值，如果变化幅度很小很小，就可以停止迭代了</li>
-<li>计算$|w^{t+1}-w^{t}|$，如果基本不变了，就可以停止</li>
+<h3 id="梯度下降法">3. 梯度下降法</h3>
+<p>求使得<span class="math inline">\(f(w)\)</span>值最小的参数<span class="math inline">\(w\)</span></p>
+<p><img src="https://i.loli.net/2020/01/10/4pocyFSPRbMlBVN.png" /></p>
+<p><span class="math inline">\(\eta\)</span>为学习率，也就是梯度下降的步长。</p>
+<p>对于上面具体的例子，我们知道 <span class="math display">\[
+P(y=1|x;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}
+\]</span> 以及目标函数 <span class="math display">\[
+=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]\\
+=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]
+\]</span> 令 <span class="math display">\[
+L(w,b)=-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]
+\]</span> 又 <span class="math display">\[
+\frac{\partial \sigma(x)}{\partial x}=\sigma(x)\cdot[1-\sigma(x)]
+\]</span> 则 <span class="math display">\[
+\frac{\partial L(w,b)}{\partial w}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]\cdot{x_i}
+\]</span></p>
+<p><span class="math display">\[
+\frac{\partial L(w,b)}{\partial b}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]
+\]</span></p>
+<p>观察求导后的式子，可以发现<span class="math inline">\(\sigma(\omega^Tx_i+b)\)</span>是当前的参数计算出的预测值，<span class="math inline">\(y_i\)</span>是真实值，所以就是通过当前的预测值与真实值的差来调整新的参数。</p>
+<h4 id="梯度下降法的流程">3.1 梯度下降法的流程</h4>
+<p>因此最终的梯度下降法的流程为</p>
+<p><img src="https://i.loli.net/2020/01/10/ZcDiI8KamQG3S2P.png" /></p>
+<h4 id="迭代的终止条件">3.2 迭代的终止条件</h4>
+<p>有一个问题，这个循环的终止条件是什么？</p>
+<ol type="1">
+<li>计算目标函数<span class="math inline">\(L(w,b)\)</span>的值，如果变化幅度很小很小，就可以停止迭代了</li>
+<li>计算<span class="math inline">\(|w^{t+1}-w^{t}|\)</span>，如果基本不变了，就可以停止</li>
 <li>通过计算验证集的正确率</li>
 <li>直接迭代1w次或者更多次，如果学习率设置合理，那么最终一定会收敛</li>
 </ol>
-<h3 id="4-题外话"><a href="#4-题外话" class="headerlink" title="4.题外话"></a>4.题外话</h3><p>逻辑回归是线性分类器吗？如何判断一个分类器是不是线性分类器呢？</p>
+<h3 id="题外话">4.题外话</h3>
+<p>逻辑回归是线性分类器吗？如何判断一个分类器是不是线性分类器呢？</p>
 <p>判断是不是线性分类器根本是判断模型的决策边界是不是线性的。</p>
 <p>对于二分类的问题，我们知道决策边界有个性质，就是落在决策边界上的点被分成1或者0的概率是相等的。</p>
-<p>因此可以得到决策边界的方程<br>$$<br>\frac {P(Y=1|X;\omega)}{P(Y=0|X;\omega)}=1<br>$$<br>化简为</p>
-<p>$$<br>\frac{\frac{1}{1+e^{-(\omega^Tx+b)}}}{\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}}=1\<br>e^{-(\omega^Tx+b)}=1<br>$$</p>
+<p>因此可以得到决策边界的方程 <span class="math display">\[
+\frac {P(Y=1|X;\omega)}{P(Y=0|X;\omega)}=1
+\]</span> 化简为</p>
+<p><span class="math display">\[
+\frac{\frac{1}{1+e^{-(\omega^Tx+b)}}}{\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}}=1\\
+e^{-(\omega^Tx+b)}=1
+\]</span></p>
 <p>即</p>
-<p>$$<br>\omega^Tx+b=0<br>$$</p>
+<p><span class="math display">\[
+\omega^Tx+b=0
+\]</span></p>
 <p>因为决策边界是线性的，所以逻辑回归也是线性的分类器。</p>
 ]]></content>
       <categories>
