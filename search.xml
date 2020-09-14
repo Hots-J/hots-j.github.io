@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hexo+Github搭建自己的博客(一)</title>
+    <url>/posts/3e596dd.html</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+如果一件事情你不能讲清楚，十有八九你还没有完全理解
+</blockquote>
+<a id="more"></a>
+<p>很早之前就想自己动手搭建一个博客，搭建一个属于自己的小天地，在这里可以写写心情，写写总结，也能写写自己在学习过程中碰见的坑与收获。在实验室折腾了两天，最终用Hexo+Github搭建完了博客，虽然过程十分简单，但是由于对于很多知识的不了解，还是碰见很多坑，折腾了好久。</p>
+<h3 id="背景介绍">0. 背景介绍</h3>
+<h4 id="什么是hexo">0.1 什么是Hexo</h4>
+<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+<h4 id="什么是github">0.2 什么是Github</h4>
+<p>Github是什么，是的，没错，世界最大的同性交友平台。2333......而我们写好的文章就可以部署在这个平台上。</p>
+<p><img src="https://pic2.zhimg.com/80/7c9d3403bf922b1663f56975869c829b_hd.jpg" /></p>
+<p>接下来便是安装、配置、美化、进阶的过程。</p>
+<h3 id="环境的安装">1. 环境的安装</h3>
+<h4 id="安装git">1.1 安装Git</h4>
+<p>可以直接去官网下载，也可以直接点击这 <a href="https://gitforwindows.org/">Git</a> 一路next就可安装完毕，安装完成后，可以通过<code>git --version</code>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/hBsy2GLgRuVNc9r.png"  /></p>
+<h4 id="安装node.js">1.2 安装Node.js</h4>
+<p>可以直接去官网下载，也可以直接点击这 <a href="https://nodejs.org/en/download/">Node.js</a> 一路next就可安装完毕，安装完成后，可以通过</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<p>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/W3miTkNjJv6GAIl.png"  /></p>
+<h4 id="安装hexo">1.3 安装Hexo</h4>
+<p>先在任意路径创建一个空文件夹，在文件夹内，右击，选择<code>git bash here</code>，然后输入</p>
+<p><code>npm install -g hexo-cil</code>安装完成后，可以通过<code>hexo -v</code>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/phdUTLr86l5W94N.png"  /></p>
+<p>然后在bash里输入<code>hexo init myblog(任意名字)</code> 进入生成的这个文件夹，输入<code>npm install</code></p>
+<p>就完成了环境的配置。此时本地的文件夹应该像这样（可能没有public文件夹）</p>
+<p><img src="https://i.loli.net/2019/10/19/QfE6qb3d912PDCL.png" style="zoom:;" /></p>
+<h3 id="部署到github">2. 部署到Github</h3>
+<h5 id="创建github账号这个自己创一下就好">2.1 创建github账号，这个自己创一下就好。</h5>
+<h5 id="创建一个-repository-仓库名称必须为-你的github的用户名.github.io">2.2 创建一个 repository， 仓库名称必须为 <strong>你的GitHub的用户名.github.io</strong></h5>
+<h5 id="生成ssh">2.3 生成SSH</h5>
+<p>任意位置右键打开git bash，输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;GitHub用户名&quot;</span><br><span class="line">git config --global user.email &quot;GitHub的邮箱&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;GitHub用户名&quot;</span><br></pre></td></tr></table></figure>
+<p>然后一路回车，就创建好了SSH，此时终端上会显示存放SSH的路径，打开此路径，<strong>注意需要设置显示隐藏的文件才能看见.ssh文件夹</strong>。打开 id_rsa.pub ，复制其中的公共密钥。然后打开自己的github主页，点击自己头像下的setting，然后点击<code>new SSH key</code>，粘贴复制的密钥。</p>
+<p><img src="https://i.loli.net/2019/10/19/DLYgURZdonw4Fm6.png"  /></p>
+<p>完成后，在git bash中，输入<code>ssh -T git@github.com</code>，查看是否配置成功。成功后应该像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/5LWYutIsUGbme9T.png"  /></p>
+<p>但是我注意到终端反馈了一个问题，就是那个<code>The authenticity of ... can't be established</code>，随便百度了一波，发现没太大问题</p>
+<p><img src="https://i.loli.net/2019/10/19/T7iEIdp3b9rCqxk.png"  /></p>
+<h5 id="将hexo部署到github上">2.4 将Hexo部署到Github上</h5>
+<p>打开初始化hexo后生成的那个文件夹，打开<code>_config.yml</code>配置文件，在这个文件中，找到，并设置为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;GitHub的用户名&#x2F;GitHub的用户名.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>然后右键 git bash输入 <code>npm install hexo-deployer-git --save</code>来安装部署的指令，安装完毕后，在当前文件夹内依次输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
+<p>其中</p>
+<ul>
+<li><code>hexo clean</code>清除了你之前生成的东西。</li>
+<li><code>hexo generate</code> 生成静态文章。</li>
+<li><code>hexo deploy</code> 部署文章。</li>
+</ul>
+<p>在第一次执行<code>hexo deploy</code>时，会输入一次github的 username和password。</p>
+<p>稍等片刻（大概1-2分钟），就能通过网址 <code>http://GitHub的用户名.github.io</code>访问你的博客啦。不出问题就像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/TS8xLfcrqayJGp6.png"  /></p>
+<p><strong>此时Hexo博客的搭建就基本完成了</strong>，这时可以有两种选择，一种是一直用那个github默认的网址去访问自己的博客，还有一种就是绑定自己的域名。</p>
+<h4 id="绑定自己的域名">3. 绑定自己的域名</h4>
+<h5 id="购买域名">3.1 购买域名</h5>
+<p>我自己呢，就在阿里云上买了一个.top的域名（别问，问就是因为便宜...买了3年60多RMB）。在实名认证等一系列操作都弄完后，进入自己的域名控制台，然后点击操作下面的<strong>解析</strong>，然后点击<strong>添加记录</strong>，添加记录的配置如下</p>
+<p><img src="https://i.loli.net/2019/10/19/EukCUvpty2TM6GW.png"  /></p>
+<p><strong>注意：其中的记录值设置为自己github提供的访问博客的域名。</strong></p>
+<p>然后在添加一条同样的记录，其中主机记录不填。最后的结果应该像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/huHGNRX5439sKPO.png" /></p>
+<p>然后进入github之前创建的那个存放博客的仓库，点击settings，设置Custom domain，输入自己的域名，点击<code>save</code>. 然后在你的博客文件夹的source中创建一个名为CNAME文件，不要后缀。写上你的域名。 最后在git bash中输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
+<p>稍等片刻，就能通过自己的域名访问自己的博客了。奈斯！！！</p>
+<p><strong>参考教程</strong></p>
+<blockquote>
+<p><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexo史上最全搭建教程</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo+Github搭建自己的博客(二)</title>
     <url>/posts/acd40dbf.html</url>
     <content><![CDATA[<h3 id="hexo主题的配置">1.Hexo主题的配置</h3>
@@ -9,7 +90,7 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NexT v7.4.2</span><br><span class="line">Hexo v4.0</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <h4 id="更换主题">1.1 更换主题</h4>
-<p>首先要做的就是更换自己喜欢的主题，默认的主题太难看了...Hexo配套的有大量的主题，点击这儿就能看到 <a href="https://hexo.io/themes/">主题</a>。我个人喜欢的是<a href="https://github.com/theme-next/hexo-theme-next">NexT主题</a>，去对应的github下载源文件，然后解压后，改一个简洁点的名字，把整个s文件夹放到博客主文件夹的<code>themes</code>文件夹内（然后我就把原来的默认主题的文件夹顺手删了..）。然后打开主文件夹的<code>_config.yml</code>，找到</p>
+<p>首先要做的就是更换自己喜欢的主题，默认的主题太难看了...Hexo配套的有大量的主题，点击这儿就能看到 <a href="https://hexo.io/themes/">主题</a>。我个人喜欢的是<a href="https://github.com/theme-next/hexo-theme-next">NexT主题</a>，去对应的github下载源文件，然后解压后，改一个简洁点的名字，把整个文件夹放到博客主文件夹的<code>themes</code>文件夹内（然后我就把原来的默认主题的文件夹顺手删了..）。然后打开主文件夹的<code>_config.yml</code>，找到</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Extensions</span><br><span class="line">## Plugins: https:&#x2F;&#x2F;hexo.io&#x2F;plugins&#x2F;</span><br><span class="line">## Themes: https:&#x2F;&#x2F;hexo.io&#x2F;themes&#x2F;</span><br><span class="line">theme: next</span><br></pre></td></tr></table></figure>
 <p>在<code>theme</code>后输如自己改之后的文件夹的名字，接着打开<code>themes\next\_config.yml</code>这个主题下的配置文件，找到</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Schemes</span><br><span class="line">#scheme: Muse</span><br><span class="line">#scheme: Mist</span><br><span class="line">#scheme: Pisces</span><br><span class="line">scheme: Gemini</span><br></pre></td></tr></table></figure>
@@ -132,7 +213,19 @@
 <p>所有模型的名称如下：模型的预览<a href="https://huaji8.top/post/live2d-plugin-2.0/">在这</a></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">live2d-widget-model-chitose</span><br><span class="line">live2d-widget-model-epsilon2_1</span><br><span class="line">live2d-widget-model-gf</span><br><span class="line">live2d-widget-model-haru&#x2F;01 (use npm install --save live2d-widget-model-haru)</span><br><span class="line">live2d-widget-model-haru&#x2F;02 (use npm install --save live2d-widget-model-haru)</span><br><span class="line">live2d-widget-model-haruto</span><br><span class="line">live2d-widget-model-hibiki</span><br><span class="line">live2d-widget-model-hijiki</span><br><span class="line">live2d-widget-model-izumi</span><br><span class="line">live2d-widget-model-koharu</span><br><span class="line">live2d-widget-model-miku</span><br><span class="line">live2d-widget-model-ni-j</span><br><span class="line">live2d-widget-model-nico</span><br><span class="line">live2d-widget-model-nietzsche</span><br><span class="line">live2d-widget-model-nipsilon</span><br><span class="line">live2d-widget-model-nito</span><br><span class="line">live2d-widget-model-shizuku</span><br><span class="line">live2d-widget-model-tororo</span><br><span class="line">live2d-widget-model-tsumiki</span><br><span class="line">live2d-widget-model-unitychan</span><br><span class="line">live2d-widget-model-wanko</span><br><span class="line">live2d-widget-model-z16</span><br></pre></td></tr></table></figure>
 <p>为了防止在手机端，模型会挡住文章，可以关闭mobile里的show。</p>
-<h4 id="修改文章的链接地址">2.20 修改文章的链接地址</h4>
+<h4 id="添加数学公式的支持">2.20 添加数学公式的支持</h4>
+<p>首先在主题配置文件中，将配置选项打开</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Math Formulas Render Support</span><br><span class="line">math:</span><br><span class="line">  # Default (true) will load mathjax &#x2F; katex script on demand.</span><br><span class="line">  # That is it only render those page which has &#96;mathjax: true&#96; in Front-matter.</span><br><span class="line">  # If you set it to false, it will load mathjax &#x2F; katex srcipt EVERY PAGE.</span><br><span class="line">  per_page: true</span><br><span class="line"></span><br><span class="line">  # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.</span><br><span class="line">  mathjax:</span><br><span class="line">    enable: true</span><br><span class="line">    # See: https:&#x2F;&#x2F;mhchem.github.io&#x2F;MathJax-mhchem&#x2F;</span><br><span class="line">    mhchem: false</span><br></pre></td></tr></table></figure>
+<p>然后安装 pandoc渲染器</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ npm un hexo-renderer-marked</span><br><span class="line">$ npm i hexo-renderer-pandoc</span><br></pre></td></tr></table></figure>
+<p>最后在每篇文章前需要加上，就可以愉快的显示公式了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章title</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<h4 id="压缩静态页面提高网页加载速度">2.21 压缩静态页面，提高网页加载速度</h4>
+<p>首先</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-neat --save</span><br></pre></td></tr></table></figure>
+<p>然后在站点配置文件中添加如下信息就可以了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># hexo-neat</span><br><span class="line"># 博文压缩</span><br><span class="line">neat_enable: true</span><br><span class="line"># 压缩html</span><br><span class="line">neat_html:</span><br><span class="line">  enable: true</span><br><span class="line">  exclude:</span><br><span class="line"># 压缩css  </span><br><span class="line">neat_css:</span><br><span class="line">  enable: true</span><br><span class="line">  exclude:</span><br><span class="line">    - &#39;**&#x2F;*.min.css&#39;</span><br><span class="line"># 压缩js</span><br><span class="line">neat_js:</span><br><span class="line">  enable: true</span><br><span class="line">  mangle: true</span><br><span class="line">  output:</span><br><span class="line">  compress:</span><br><span class="line">  exclude:</span><br><span class="line">    - &#39;**&#x2F;*.min.js&#39;</span><br><span class="line">    - &#39;**&#x2F;jquery.fancybox.pack.js&#39;</span><br><span class="line">    - &#39;**&#x2F;index.js&#39;</span><br></pre></td></tr></table></figure>
+<h4 id="修改文章的链接地址">2.22 修改文章的链接地址</h4>
 <p>Hexo文章的链接地址默认格式是<code>:year/:month/:day/:title/</code></p>
 <p>如果文章的标题是中文的，那么链接就会出现一堆字符，从而可能引起各种问题，并且过长的文章链接也不利于百度蜘蛛的抓取。</p>
 <p>首先安装 <code>npm install hexo-abbrlink --save</code></p>
@@ -153,209 +246,77 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo+Github搭建自己的博客(一)</title>
-    <url>/posts/3e596dd.html</url>
-    <content><![CDATA[<blockquote class="blockquote-center">
-如果一件事情你不能讲清楚，十有八九你还没有完全理解
-</blockquote>
-<a id="more"></a>
-<p>很早之前就想自己动手搭建一个博客，搭建一个属于自己的小天地，在这里可以写写心情，写写总结，也能写写自己在学习过程中碰见的坑与收获。在实验室折腾了两天，最终用Hexo+Github搭建完了博客，虽然过程十分简单，但是由于对于很多知识的不了解，还是碰见很多坑，折腾了好久。</p>
-<h3 id="背景介绍">0. 背景介绍</h3>
-<h4 id="什么是hexo">0.1 什么是Hexo</h4>
-<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
-<h4 id="什么是github">0.2 什么是Github</h4>
-<p>Github是什么，是的，没错，世界最大的同性交友平台。2333......而我们写好的文章就可以部署在这个平台上。</p>
-<p><img src="https://pic2.zhimg.com/80/7c9d3403bf922b1663f56975869c829b_hd.jpg" /></p>
-<p>接下来便是安装、配置、美化、进阶的过程。</p>
-<h3 id="环境的安装">1. 环境的安装</h3>
-<h4 id="安装git">1.1 安装Git</h4>
-<p>可以直接去官网下载，也可以直接点击这 <a href="https://gitforwindows.org/">Git</a> 一路next就可安装完毕，安装完成后，可以通过<code>git --version</code>来查看是否安装成功。</p>
-<p><img src="https://i.loli.net/2019/10/19/hBsy2GLgRuVNc9r.png"  /></p>
-<h4 id="安装node.js">1.2 安装Node.js</h4>
-<p>可以直接去官网下载，也可以直接点击这 <a href="https://nodejs.org/en/download/">Node.js</a> 一路next就可安装完毕，安装完成后，可以通过</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
-<p>来查看是否安装成功。</p>
-<p><img src="https://i.loli.net/2019/10/19/W3miTkNjJv6GAIl.png"  /></p>
-<h4 id="安装hexo">1.3 安装Hexo</h4>
-<p>先在任意路径创建一个空文件夹，在文件夹内，右击，选择<code>git bash here</code>，然后输入</p>
-<p><code>npm install -g hexo-cil</code>安装完成后，可以通过<code>hexo -v</code>来查看是否安装成功。</p>
-<p><img src="https://i.loli.net/2019/10/19/phdUTLr86l5W94N.png"  /></p>
-<p>然后在bash里输入<code>hexo init myblog(任意名字)</code> 进入生成的这个文件夹，输入<code>npm install</code></p>
-<p>就完成了环境的配置。此时本地的文件夹应该像这样（可能没有public文件夹）</p>
-<p><img src="https://i.loli.net/2019/10/19/QfE6qb3d912PDCL.png" style="zoom:;" /></p>
-<h3 id="部署到github">2. 部署到Github</h3>
-<h5 id="创建github账号这个自己创一下就好">2.1 创建github账号，这个自己创一下就好。</h5>
-<h5 id="创建一个-repository-仓库名称必须为-你的github的用户名.github.io">2.2 创建一个 repository， 仓库名称必须为 <strong>你的GitHub的用户名.github.io</strong></h5>
-<h5 id="生成ssh">2.3 生成SSH</h5>
-<p>任意位置右键打开git bash，输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;GitHub用户名&quot;</span><br><span class="line">git config --global user.email &quot;GitHub的邮箱&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;GitHub用户名&quot;</span><br></pre></td></tr></table></figure>
-<p>然后一路回车，就创建好了SSH，此时终端上会显示存放SSH的路径，打开此路径，<strong>注意需要设置显示隐藏的文件才能看见.ssh文件夹</strong>。打开 id_rsa.pub ，复制其中的公共密钥。然后打开自己的github主页，点击自己头像下的setting，然后点击<code>new SSH key</code>，粘贴复制的密钥。</p>
-<p><img src="https://i.loli.net/2019/10/19/DLYgURZdonw4Fm6.png"  /></p>
-<p>完成后，在git bash中，输入<code>ssh -T git@github.com</code>，查看是否配置成功。成功后应该像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/5LWYutIsUGbme9T.png"  /></p>
-<p>但是我注意到终端反馈了一个问题，就是那个<code>The authenticity of ... can't be established</code>，随便百度了一波，发现没太大问题</p>
-<p><img src="https://i.loli.net/2019/10/19/T7iEIdp3b9rCqxk.png"  /></p>
-<h5 id="将hexo部署到github上">2.4 将Hexo部署到Github上</h5>
-<p>打开初始化hexo后生成的那个文件夹，打开<code>_config.yml</code>配置文件，在这个文件中，找到，并设置为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;GitHub的用户名&#x2F;GitHub的用户名.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<p>然后右键 git bash输入 <code>npm install hexo-deployer-git --save</code>来安装部署的指令，安装完毕后，在当前文件夹内依次输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
-<p>其中</p>
-<ul>
-<li><code>hexo clean</code>清除了你之前生成的东西。</li>
-<li><code>hexo generate</code> 生成静态文章。</li>
-<li><code>hexo deploy</code> 部署文章。</li>
-</ul>
-<p>在第一次执行<code>hexo deploy</code>时，会输入一次github的 username和password。</p>
-<p>稍等片刻（大概1-2分钟），就能通过网址 <code>http://GitHub的用户名.github.io</code>访问你的博客啦。不出问题就像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/TS8xLfcrqayJGp6.png"  /></p>
-<p><strong>此时Hexo博客的搭建就基本完成了</strong>，这时可以有两种选择，一种是一直用那个github默认的网址去访问自己的博客，还有一种就是绑定自己的域名。</p>
-<h4 id="绑定自己的域名">3. 绑定自己的域名</h4>
-<h5 id="购买域名">3.1 购买域名</h5>
-<p>我自己呢，就在阿里云上买了一个.top的域名（别问，问就是因为便宜...买了3年60多RMB）。在实名认证等一系列操作都弄完后，进入自己的域名控制台，然后点击操作下面的<strong>解析</strong>，然后点击<strong>添加记录</strong>，添加记录的配置如下</p>
-<p><img src="https://i.loli.net/2019/10/19/EukCUvpty2TM6GW.png"  /></p>
-<p><strong>注意：其中的记录值设置为自己github提供的访问博客的域名。</strong></p>
-<p>然后在添加一条同样的记录，其中主机记录不填。最后的结果应该像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/huHGNRX5439sKPO.png" /></p>
-<p>然后进入github之前创建的那个存放博客的仓库，点击settings，设置Custom domain，输入自己的域名，点击<code>save</code>. 然后在你的博客文件夹的source中创建一个名为CNAME文件，不要后缀。写上你的域名。 最后在git bash中输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
-<p>稍等片刻，就能通过自己的域名访问自己的博客了。奈斯！！！</p>
-<p><strong>参考教程</strong></p>
-<blockquote>
-<p><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexo史上最全搭建教程</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>逻辑回归</title>
-    <url>/posts/f9b01ad8.html</url>
-    <content><![CDATA[<h3 id="逻辑回归的应用">1. 逻辑回归的应用</h3>
-<p>生活中的很多分类问题</p>
-<ul>
-<li>贷款违约情况（会违约/不会违约）</li>
-<li>广告点击问题（会点击/不会点击）</li>
-<li>商品推荐（会购买/不会购买）</li>
-<li>情感分析（正面/负面）</li>
-<li>疾病诊断（阳性/阴性）</li>
-</ul>
-<p>等等.....</p>
+    <title>Java实现二分搜索树</title>
+    <url>/posts/2d27453e.html</url>
+    <content><![CDATA[<h3 id="二分搜索树的定义">1. 二分搜索树的定义</h3>
+<p>二分搜索树是一颗二叉树</p>
+<p>二分搜索树每个节点的左子树的值都小于该节点的值，每个节点右子树的值都大于该节点的值</p>
+<p>任意一个节点的每棵子树都满足二分搜索树的定义</p>
 <a id="more"></a>
 <p>对于这些分类问题，我们可以采用逻辑回归的模型来进行比较好的分类。那么原理是什么呢？</p>
-<h3 id="逻辑回归的原理">2. 逻辑回归的原理</h3>
-<p>下面给出一个具体的例子：</p>
-<p><img src="https://i.loli.net/2020/01/10/F8azDLyptJNPiHh.png" /></p>
-<p>对于这个分类任务，我通过学习已知的年龄、工资、学历情况和对应的是否逾期情况，来判断当年龄为27，工资为7000，学历为本科时，他逾期的概率是多少。本质上就是计算一个条件概率。而对于已知数据的学习，就是想使得对应的条件概率<code>P(Y|X)</code>越大越好。</p>
-<p>重点是如何定义这个条件概率，如果直接用线性回归表示 <span class="math display">\[
-P(Y|X;\omega)=\omega^Tx+b
-\]</span></p>
-<h4 id="逻辑函数">2.1逻辑函数</h4>
-<p>那么计算出来的是一个实值，还是无法直接通过实值进行分类。因此考虑引入逻辑函数 <span class="math display">\[
-y =\sigma(x)=\frac{1}{1+e^{-x}}
-\]</span> 逻辑函数的图像如下</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/7691426-17d142c9dab67649.png" /></p>
-<p>此时将计算出来的值 <span class="math inline">\(z=\omega^Tx+b\)</span> 带入逻辑函数中就可以得到 <span class="math display">\[
-y=
-\begin{cases}
-0&amp; \text{z&lt;0}\\
-0.5&amp; \text{z=0}\\
-1&amp; \text{z&gt;0}
-\end{cases}
-\]</span> 即z大于0就判为正例，小于0就判为反例，为临界值0则可以任意判断。</p>
-<h4 id="目标函数">2.2 目标函数</h4>
-<p>因此新的条件概率就定义为 <span class="math display">\[
-P(Y|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}
-\]</span> 其中 <span class="math inline">\(\omega^T = (\omega_1, \omega_1,...,\omega_n)\)</span> ，n=特征数量。</p>
-<p>对于上面那个具体的例子，可以列出 <span class="math display">\[
-P(Y=Yes|X=(20,4000,本科))=\frac{1}{1+e^{-[{\begin{pmatrix}
-\omega_1 \omega_2 \omega_3\\
-\end{pmatrix}}{\begin{pmatrix}20\\4000\\本科\\
-\end{pmatrix}}+b]}}
-\\\ldots
-\]</span> 通过已知数据计算出，令所有似然函数都最大的参数<span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span>，最后代入要预测的特征x，就能得到最终的分类y。</p>
-<p>对于二分类的问题： <span class="math display">\[
-P(Y=1|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}\\
-P(Y=0|X;\omega)=1-P(Y=1|X;\omega)=\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}
-\]</span> 两个式子可以合并成 <span class="math display">\[
-P(Y|X;\omega)=P(Y=1|X;\omega)^y[1-P(Y=1|X;\omega)]^{1-y}
-\]</span> 那么接下来的问题就是，该如何计算出参数 <span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span> 呢？</p>
-<h4 id="最大化目标函数">2.3 最大化目标函数</h4>
-<p>我们要最大化目标函数，从而求出 <span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span> ，即 <span class="math display">\[
-\hat{\omega},\hat{b}=argmax_{\omega,b}\prod_{i=1}^n p(y_i|x_i,w,b)
-\]</span> 两边取对数 <span class="math display">\[
-=argmax_{\omega,b}log(\prod_{i=1}^n p(y_i|x_i,w,b))\\
-=argmax_{\omega,b}\sum_{i=1}^nlog( p(y_i|x_i,w,b))
-\]</span> 取负号，即最小化目标函数 <span class="math display">\[
-=argmin_{\omega,b}-\sum_{i=1}^nlog( p(y_i|x_i,w,b))\\
-=argmin_{\omega,b}-\sum_{i=1}^nlog[p(y_i=1|x_i;\omega,b)^{y_i}[1-p(y_i=1|x_i;\omega,b]^{1-{y_i}}]\\
-=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]
-\]</span> 接下来就是通过优化算法把目标函数的最优解计算出来。</p>
-<p>如何寻找一个函数最大化或者最小化的最优解？</p>
-<h4 id="优化算法">2.4 优化算法</h4>
-<p>对于凸函数来说，对函数求出的最优解一般就算全局最优解。</p>
-<p>对于非凸函数来说，求出的最优解一般是局部最优解，不一定是全局最优解。</p>
-<p>该如何选择优化算法呢？</p>
-<p>对于简单的函数，直接求导，令导数为0，就能把参数解出来。但是对于复杂的函数，无法直接求出参数，因此我们要采用数值优化的思路，通过循环迭代的方式找到最优的参数。</p>
-<p>最常用的优化算法就是梯度下降法（ Gradient Descent ）</p>
-<h3 id="梯度下降法">3. 梯度下降法</h3>
-<p>求使得<span class="math inline">\(f(w)\)</span>值最小的参数<span class="math inline">\(w\)</span></p>
-<p><img src="https://i.loli.net/2020/01/10/4pocyFSPRbMlBVN.png" /></p>
-<p><span class="math inline">\(\eta\)</span>为学习率，也就是梯度下降的步长。</p>
-<p>对于上面具体的例子，我们知道 <span class="math display">\[
-P(y=1|x;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}
-\]</span> 以及目标函数 <span class="math display">\[
-=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]\\
-=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]
-\]</span> 令 <span class="math display">\[
-L(w,b)=-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]
-\]</span> 又 <span class="math display">\[
-\frac{\partial \sigma(x)}{\partial x}=\sigma(x)\cdot[1-\sigma(x)]
-\]</span> 则 <span class="math display">\[
-\frac{\partial L(w,b)}{\partial w}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]\cdot{x_i}
-\]</span></p>
-<p><span class="math display">\[
-\frac{\partial L(w,b)}{\partial b}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]
-\]</span></p>
-<p>观察求导后的式子，可以发现<span class="math inline">\(\sigma(\omega^Tx_i+b)\)</span>是当前的参数计算出的预测值，<span class="math inline">\(y_i\)</span>是真实值，所以就是通过当前的预测值与真实值的差来调整新的参数。</p>
-<h4 id="梯度下降法的流程">3.1 梯度下降法的流程</h4>
-<p>因此最终的梯度下降法的流程为</p>
-<p><img src="https://i.loli.net/2020/01/10/ZcDiI8KamQG3S2P.png" /></p>
-<h4 id="迭代的终止条件">3.2 迭代的终止条件</h4>
-<p>有一个问题，这个循环的终止条件是什么？</p>
-<ol type="1">
-<li>计算目标函数<span class="math inline">\(L(w,b)\)</span>的值，如果变化幅度很小很小，就可以停止迭代了</li>
-<li>计算<span class="math inline">\(|w^{t+1}-w^{t}|\)</span>，如果基本不变了，就可以停止</li>
-<li>通过计算验证集的正确率</li>
-<li>直接迭代1w次或者更多次，如果学习率设置合理，那么最终一定会收敛</li>
-</ol>
-<h3 id="题外话">4.题外话</h3>
-<p>逻辑回归是线性分类器吗？如何判断一个分类器是不是线性分类器呢？</p>
-<p>判断是不是线性分类器根本是判断模型的决策边界是不是线性的。</p>
-<p>对于二分类的问题，我们知道决策边界有个性质，就是落在决策边界上的点被分成1或者0的概率是相等的。</p>
-<p>因此可以得到决策边界的方程 <span class="math display">\[
-\frac {P(Y=1|X;\omega)}{P(Y=0|X;\omega)}=1
-\]</span> 化简为</p>
-<p><span class="math display">\[
-\frac{\frac{1}{1+e^{-(\omega^Tx+b)}}}{\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}}=1\\
-e^{-(\omega^Tx+b)}=1
-\]</span></p>
-<p>即</p>
-<p><span class="math display">\[
-\omega^Tx+b=0
-\]</span></p>
-<p>因为决策边界是线性的，所以逻辑回归也是线性的分类器。</p>
+<h3 id="二分搜索树的实现">2. 二分搜索树的实现</h3>
+<h4 id="定义主类">2.1 定义主类</h4>
+<p>这里的二分搜索树支持泛型，由于需要比较节点的值，所以需要泛型必须实现Comparable接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span>&lt;<span class="title">E</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">E</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="定义节点类">2.2 定义节点类</h4>
+<p>用于存储节点的值和左右子节点</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> E e;</span><br><span class="line">    <span class="keyword">public</span> Node left;</span><br><span class="line">    <span class="keyword">public</span> Node right;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.e = e;</span><br><span class="line">        left = <span class="keyword">null</span>;</span><br><span class="line">        right = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="成员变量和构造函数">2.3 成员变量和构造函数</h4>
+<p>二分搜索树只需两个成员变量，根节点root和树中存储元素的数目</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Node root;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BinarySearchTree</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    root = <span class="keyword">null</span>;</span><br><span class="line">    size = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="简单基础方法">2.4 简单基础方法</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> size == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="增加元素和查找元素">2.5 增加元素和查找元素</h4>
+<p>增加元素的逻辑是，如果当前节点为<code>null</code>，则以增加的<code>val</code>去<code>new</code>一个新节点，并且维护一下<code>size</code></p>
+<p>如果当前存在节点，那么判断当前节点的值和增加元素的值的大小，如果小于当前节点，则递归到当前节点的左孩子，递归调用增加函数，大于当前节点，同理。</p>
+<p>查找元素和增加元素也同理，当找到当前节点为<code>null</code>时，则说明树中不存在要找的值</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    root = add(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回插入新元素e后的二分搜索树的根，递归实现</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">add</span><span class="params">(Node node, E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        size++;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Node(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(node.e) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.left = add(node.left, e);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.right = add(node.right, e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> contains(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 以node的为根的二分搜索树中是否包含元素e，递归实现</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Node node, E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (e.equals(node.e)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> contains(node.left, e);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> contains(node.right, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="遍历二分搜索树">2.6 遍历二分搜索树</h4>
+<p>遍历分为递归实现和非递归实现，非递归实现时，需要借助辅助数据结构栈</p>
+<p>层序遍历需要借助队列来实现</p>
+<p>输出当前节点的值</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    preOrder(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 前序遍历以node为根的二分搜索树，递归实现</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//访问该结点</span></span><br><span class="line">    System.out.println(node.e);</span><br><span class="line"></span><br><span class="line">    preOrder(node.left);</span><br><span class="line">    preOrder(node.right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 二分搜索树的前序遍历，非递归实现</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrderNR</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Stack&lt;Node&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    stack.push(root);</span><br><span class="line">    <span class="keyword">while</span> (!stack.isEmpty()) &#123;</span><br><span class="line">        Node cur = stack.pop();</span><br><span class="line">        System.out.println(cur.e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">            stack.push(cur.right);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            stack.push(cur.left);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 二分搜索树的层序遍历</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">levelOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Queue&lt;Node&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    queue.add(root);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">        Node cur = queue.remove();</span><br><span class="line">        System.out.println(cur.e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            queue.add(cur.left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">            queue.add(cur.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="最值相关操作">2.7 最值相关操作</h4>
+<p>查找最小值，由二分搜索树的性质可知，只需不停的递归遍历二分搜索树的左子树，如果当前节点的左子树存在，递归查找，直到左子树不存在时，那么当前节点的值就是整棵树中节点最小的值</p>
+<p>查找最大值同理，只需递归查找右子树即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 寻找二分搜索树中元素的最小值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">minimum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;BST is empty!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minimum(root).e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">minimum</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node.left == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minimum(node.left);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 寻找二分搜索树中元素的最大值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">maximum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;BST is empty!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maximum(root).e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">maximum</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maximum(node.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除一个节点">2.8 删除一个节点</h4>
+<p>删除节点是二分搜索树中最复杂的操作</p>
+<p>删除节点分三种情况分析</p>
+<ul>
+<li>删除树中的最小值的节点</li>
+<li>删除树中的最大值的节点</li>
+<li>删除树中的指定值的节点</li>
+</ul>
+<h5 id="删除树中的最小值的节点">2.8.1 删除树中的最小值的节点</h5>
+<p>首先通过上面写过的minimum()方法得到要删除节点的值</p>
+<p>然后递归找到最左边的节点，如果该结点存在右子树，则将该右子树的根节点接上当前删除节点的父节点</p>
+<p>即<code>node.left = 返回的右子树的根节点</code>，此时的node是递归返回到上一层的node，也就是删除节点的父节点</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除二分搜索树中的最小值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    E ret = minimum();</span><br><span class="line">    root = removeMin(root);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">removeMin</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (node.left == <span class="keyword">null</span>) &#123;</span><br><span class="line">        Node rightNode = node.right;</span><br><span class="line">        node.right = <span class="keyword">null</span>;</span><br><span class="line">        size--;</span><br><span class="line">        <span class="keyword">return</span> rightNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.left = removeMin(node.left);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="删除树中的最大值的节点">2.8.2 删除树中的最大值的节点</h5>
+<p>与删除最小值同理，将删除节点的左子树挂接到删除节点的父节点上</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除二分搜索树中的最大值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeMax</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    E ret = maximum();</span><br><span class="line">    root = removeMax(root);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回删除节点后新的二分搜索树的根</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">removeMax</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">        Node leftNode = node.left;</span><br><span class="line">        node.left = <span class="keyword">null</span>;</span><br><span class="line">        size--;</span><br><span class="line">        <span class="keyword">return</span> leftNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.right = removeMax(node.right);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="删除树中指定值的节点">2.8.3 删除树中指定值的节点</h5>
+<p>删除指定值，首先要找到递归找到指定值，找到该节点后，又要分三种情况，分别是</p>
+<ul>
+<li>待删除节点的左子树为空</li>
+<li>待删除节点的右子树为空</li>
+<li>待删除节点的左右子树都不为空</li>
+</ul>
+<p>如果待删除节点的左子树为空，那么删除的过程就如同删除最小值的节点，即挂接该节点的右子树</p>
+<p>如果待删除节点的右子树为空，那么删除的过程就如同删除最大值的节点，即挂接该节点的左子树</p>
+<p>如果待删除节点的左右子树都不为空，那么根据二分搜索树的性质，我们需要找到待删除节点的右子树中的最小节点，用这个节点来顶替要删除的节点的位置，也就是把这个节点挂接到删除节点的父节点上。</p>
+<p>其中待删除节点的右子树中的最小节点，我们可以通过上面写过的minimum()方法找到，找到后称该节点为后继节点，那么后继节点的左子树就应该是待删除节点的左子树，后继节点的右子树就应该是，待删除节点的右子树中删除后继节点后的子树，可以通过上面写过的removeMin()方法实现。最后就return 后继节点挂接到删除节点的父节点上就可以了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除二分搜索树中元素为e的节点</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    root = remove(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">remove</span><span class="params">(Node node, E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(node.e) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.left = remove(node.left, e);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.right = remove(node.right, e);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//待删除节点左子树为空</span></span><br><span class="line">        <span class="keyword">if</span> (node.left == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Node rightNode = node.right;</span><br><span class="line">            node.right = <span class="keyword">null</span>;</span><br><span class="line">            size--;</span><br><span class="line">            <span class="keyword">return</span> rightNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//待删除节点右子树为空</span></span><br><span class="line">        <span class="keyword">if</span> (node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Node leftNode = node.left;</span><br><span class="line">            node.left = <span class="keyword">null</span>;</span><br><span class="line">            size--;</span><br><span class="line">            <span class="keyword">return</span> leftNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//待删除节点左右都不为空</span></span><br><span class="line">        <span class="comment">//找到待删除节点的右子树中的最小节点，用这个节点来顶替要删除的节点的位置</span></span><br><span class="line">        Node successor = minimum(node.right);</span><br><span class="line">        successor.right = removeMin(node.right);</span><br><span class="line">        successor.left = node.left;</span><br><span class="line">        node.right = <span class="keyword">null</span>;</span><br><span class="line">        node.left = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> successor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二分搜索树的存在的问题">3. 二分搜索树的存在的问题</h3>
+<p>本次实现的这棵二分搜索树在极端情况下会退化成一条链表，如数据是<code>[1,2,3,4,5,6]</code>，此时就失去了二分查找的特性</p>
+<p>对此我们可以将这棵二叉树维护成平衡二叉树，从而避免这种极端情况。</p>
 ]]></content>
       <categories>
-        <category>机器学习</category>
+        <category>数据结构 树</category>
       </categories>
       <tags>
-        <tag>逻辑回归</tag>
+        <tag>二分搜索树</tag>
       </tags>
   </entry>
   <entry>
@@ -529,6 +490,131 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </categories>
       <tags>
         <tag>PCA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>逻辑回归</title>
+    <url>/posts/f9b01ad8.html</url>
+    <content><![CDATA[<h3 id="逻辑回归的应用">1. 逻辑回归的应用</h3>
+<p>生活中的很多分类问题</p>
+<ul>
+<li>贷款违约情况（会违约/不会违约）</li>
+<li>广告点击问题（会点击/不会点击）</li>
+<li>商品推荐（会购买/不会购买）</li>
+<li>情感分析（正面/负面）</li>
+<li>疾病诊断（阳性/阴性）</li>
+</ul>
+<p>等等.....</p>
+<a id="more"></a>
+<p>对于这些分类问题，我们可以采用逻辑回归的模型来进行比较好的分类。那么原理是什么呢？</p>
+<h3 id="逻辑回归的原理">2. 逻辑回归的原理</h3>
+<p>下面给出一个具体的例子：</p>
+<p><img src="https://i.loli.net/2020/01/10/F8azDLyptJNPiHh.png" /></p>
+<p>对于这个分类任务，我通过学习已知的年龄、工资、学历情况和对应的是否逾期情况，来判断当年龄为27，工资为7000，学历为本科时，他逾期的概率是多少。本质上就是计算一个条件概率。而对于已知数据的学习，就是想使得对应的条件概率<code>P(Y|X)</code>越大越好。</p>
+<p>重点是如何定义这个条件概率，如果直接用线性回归表示 <span class="math display">\[
+P(Y|X;\omega)=\omega^Tx+b
+\]</span></p>
+<h4 id="逻辑函数">2.1逻辑函数</h4>
+<p>那么计算出来的是一个实值，还是无法直接通过实值进行分类。因此考虑引入逻辑函数 <span class="math display">\[
+y =\sigma(x)=\frac{1}{1+e^{-x}}
+\]</span> 逻辑函数的图像如下</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7691426-17d142c9dab67649.png" /></p>
+<p>此时将计算出来的值 <span class="math inline">\(z=\omega^Tx+b\)</span> 带入逻辑函数中就可以得到 <span class="math display">\[
+y=
+\begin{cases}
+0&amp; \text{z&lt;0}\\
+0.5&amp; \text{z=0}\\
+1&amp; \text{z&gt;0}
+\end{cases}
+\]</span> 即z大于0就判为正例，小于0就判为反例，为临界值0则可以任意判断。</p>
+<h4 id="目标函数">2.2 目标函数</h4>
+<p>因此新的条件概率就定义为 <span class="math display">\[
+P(Y|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}
+\]</span> 其中 <span class="math inline">\(\omega^T = (\omega_1, \omega_1,...,\omega_n)\)</span> ，n=特征数量。</p>
+<p>对于上面那个具体的例子，可以列出 <span class="math display">\[
+P(Y=Yes|X=(20,4000,本科))=\frac{1}{1+e^{-[{\begin{pmatrix}
+\omega_1 \omega_2 \omega_3\\
+\end{pmatrix}}{\begin{pmatrix}20\\4000\\本科\\
+\end{pmatrix}}+b]}}
+\\\ldots
+\]</span> 通过已知数据计算出，令所有似然函数都最大的参数<span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span>，最后代入要预测的特征x，就能得到最终的分类y。</p>
+<p>对于二分类的问题： <span class="math display">\[
+P(Y=1|X;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}\\
+P(Y=0|X;\omega)=1-P(Y=1|X;\omega)=\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}
+\]</span> 两个式子可以合并成 <span class="math display">\[
+P(Y|X;\omega)=P(Y=1|X;\omega)^y[1-P(Y=1|X;\omega)]^{1-y}
+\]</span> 那么接下来的问题就是，该如何计算出参数 <span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span> 呢？</p>
+<h4 id="最大化目标函数">2.3 最大化目标函数</h4>
+<p>我们要最大化目标函数，从而求出 <span class="math inline">\(\omega^T\)</span>和<span class="math inline">\(b\)</span> ，即 <span class="math display">\[
+\hat{\omega},\hat{b}=argmax_{\omega,b}\prod_{i=1}^n p(y_i|x_i,w,b)
+\]</span> 两边取对数 <span class="math display">\[
+=argmax_{\omega,b}log(\prod_{i=1}^n p(y_i|x_i,w,b))\\
+=argmax_{\omega,b}\sum_{i=1}^nlog( p(y_i|x_i,w,b))
+\]</span> 取负号，即最小化目标函数 <span class="math display">\[
+=argmin_{\omega,b}-\sum_{i=1}^nlog( p(y_i|x_i,w,b))\\
+=argmin_{\omega,b}-\sum_{i=1}^nlog[p(y_i=1|x_i;\omega,b)^{y_i}[1-p(y_i=1|x_i;\omega,b]^{1-{y_i}}]\\
+=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]
+\]</span> 接下来就是通过优化算法把目标函数的最优解计算出来。</p>
+<p>如何寻找一个函数最大化或者最小化的最优解？</p>
+<h4 id="优化算法">2.4 优化算法</h4>
+<p>对于凸函数来说，对函数求出的最优解一般就算全局最优解。</p>
+<p>对于非凸函数来说，求出的最优解一般是局部最优解，不一定是全局最优解。</p>
+<p>该如何选择优化算法呢？</p>
+<p>对于简单的函数，直接求导，令导数为0，就能把参数解出来。但是对于复杂的函数，无法直接求出参数，因此我们要采用数值优化的思路，通过循环迭代的方式找到最优的参数。</p>
+<p>最常用的优化算法就是梯度下降法（ Gradient Descent ）</p>
+<h3 id="梯度下降法">3. 梯度下降法</h3>
+<p>求使得<span class="math inline">\(f(w)\)</span>值最小的参数<span class="math inline">\(w\)</span></p>
+<p><img src="https://i.loli.net/2020/01/10/4pocyFSPRbMlBVN.png" /></p>
+<p><span class="math inline">\(\eta\)</span>为学习率，也就是梯度下降的步长。</p>
+<p>对于上面具体的例子，我们知道 <span class="math display">\[
+P(y=1|x;\omega)=\sigma(\omega^Tx+b)=\frac{1}{1+e^{-(\omega^Tx+b)}}
+\]</span> 以及目标函数 <span class="math display">\[
+=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(p(y_i=1|x_i;\omega,b))+(1-y_i)log(1-p(y_i=1|x_i;\omega,b))]\\
+=argmin_{\omega,b}-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]
+\]</span> 令 <span class="math display">\[
+L(w,b)=-\sum_{i=1}^n[y_ilog(\sigma(\omega^Tx_i+b))+(1-y_i)log(1-\sigma(\omega^Tx_i+b))]
+\]</span> 又 <span class="math display">\[
+\frac{\partial \sigma(x)}{\partial x}=\sigma(x)\cdot[1-\sigma(x)]
+\]</span> 则 <span class="math display">\[
+\frac{\partial L(w,b)}{\partial w}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]\cdot{x_i}
+\]</span></p>
+<p><span class="math display">\[
+\frac{\partial L(w,b)}{\partial b}=\sum_{i=1}^n[\sigma(\omega^Tx_i+b)-y_i]
+\]</span></p>
+<p>观察求导后的式子，可以发现<span class="math inline">\(\sigma(\omega^Tx_i+b)\)</span>是当前的参数计算出的预测值，<span class="math inline">\(y_i\)</span>是真实值，所以就是通过当前的预测值与真实值的差来调整新的参数。</p>
+<h4 id="梯度下降法的流程">3.1 梯度下降法的流程</h4>
+<p>因此最终的梯度下降法的流程为</p>
+<p><img src="https://i.loli.net/2020/01/10/ZcDiI8KamQG3S2P.png" /></p>
+<h4 id="迭代的终止条件">3.2 迭代的终止条件</h4>
+<p>有一个问题，这个循环的终止条件是什么？</p>
+<ol type="1">
+<li>计算目标函数<span class="math inline">\(L(w,b)\)</span>的值，如果变化幅度很小很小，就可以停止迭代了</li>
+<li>计算<span class="math inline">\(|w^{t+1}-w^{t}|\)</span>，如果基本不变了，就可以停止</li>
+<li>通过计算验证集的正确率</li>
+<li>直接迭代1w次或者更多次，如果学习率设置合理，那么最终一定会收敛</li>
+</ol>
+<h3 id="题外话">4.题外话</h3>
+<p>逻辑回归是线性分类器吗？如何判断一个分类器是不是线性分类器呢？</p>
+<p>判断是不是线性分类器根本是判断模型的决策边界是不是线性的。</p>
+<p>对于二分类的问题，我们知道决策边界有个性质，就是落在决策边界上的点被分成1或者0的概率是相等的。</p>
+<p>因此可以得到决策边界的方程 <span class="math display">\[
+\frac {P(Y=1|X;\omega)}{P(Y=0|X;\omega)}=1
+\]</span> 化简为</p>
+<p><span class="math display">\[
+\frac{\frac{1}{1+e^{-(\omega^Tx+b)}}}{\frac{e^{-(\omega^Tx+b)}}{1+e^{-(\omega^Tx+b)}}}=1\\
+e^{-(\omega^Tx+b)}=1
+\]</span></p>
+<p>即</p>
+<p><span class="math display">\[
+\omega^Tx+b=0
+\]</span></p>
+<p>因为决策边界是线性的，所以逻辑回归也是线性的分类器。</p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>逻辑回归</tag>
       </tags>
   </entry>
 </search>
