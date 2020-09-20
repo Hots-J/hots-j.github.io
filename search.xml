@@ -351,6 +351,34 @@
       </tags>
   </entry>
   <entry>
+    <title>LeetCode 17. 电话号码的字母组合</title>
+    <url>/posts/39fb19.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">17. 电话号码的字母组合</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>给定一个仅包含数字 <code>2-9</code> 的字符串，返回所有它能表示的字母组合。</p>
+<p>给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/original_images/17_telephone_keypad.png" /></p>
+<p>示例:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：&quot;23&quot;</span><br><span class="line">输出：[&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].</span><br></pre></td></tr></table></figure>
+<p>说明: 尽管上面的答案是按字典序排列的，但是你可以任意选择答案输出的顺序。</p>
+<h3 id="思路">3. 思路</h3>
+<p>这道题可以通过回溯法暴力遍历每个数字对应的所有字母的所有组合情况</p>
+<p>首先需要定义一个数字和字母对应的映射表，通过数字可以得到对应的字母串，然后遍历串里的每一个字符</p>
+<p>维护一个字符串str，用来拼接每次访问到的字符，当str的长度等于包含数字字符串的长度时，表示已经得到一个解，add到结果列表中。然后返回出来，相当于回溯，继续遍历下一种情况。</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">	<span class="comment">//结果列表</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="comment">//数字和字母映射表</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;Character, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;() &#123;&#123;</span><br><span class="line">            put(<span class="string">&#x27;2&#x27;</span>, <span class="string">&quot;abc&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;3&#x27;</span>, <span class="string">&quot;def&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;4&#x27;</span>, <span class="string">&quot;ghi&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;5&#x27;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;6&#x27;</span>, <span class="string">&quot;mno&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;7&#x27;</span>, <span class="string">&quot;pqrs&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;8&#x27;</span>, <span class="string">&quot;tuv&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;9&#x27;</span>, <span class="string">&quot;wxyz&quot;</span>);</span><br><span class="line">        &#125;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(String digits, <span class="keyword">int</span> index, String str)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//得到一种解</span></span><br><span class="line">        <span class="keyword">if</span>(str.length() == digits.length()) &#123;</span><br><span class="line">            ans.add(str);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//得到当前数字</span></span><br><span class="line">        <span class="keyword">char</span> c = digits.charAt(index);</span><br><span class="line">        <span class="comment">//获取数字对应的字母串</span></span><br><span class="line">        String s = map.get(c);</span><br><span class="line">        <span class="comment">//遍历字母串</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> ch : s.toCharArray()) &#123;</span><br><span class="line">            <span class="comment">//str加上当前字符，递归到下一个数字</span></span><br><span class="line">            dfs(digits, index + <span class="number">1</span>, str + ch);</span><br><span class="line">            <span class="comment">//递归结束返回，继续循环，遍历该串的下一个字符</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">letterCombinations</span><span class="params">(String digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(digits.length() == <span class="number">0</span>) <span class="keyword">return</span> ans;</span><br><span class="line">        dfs(digits, <span class="number">0</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>字符串</tag>
+        <tag>回溯法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LeetCode 47. 全排列II</title>
     <url>/posts/c66c6402.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -378,31 +406,40 @@
       </tags>
   </entry>
   <entry>
-    <title>LeetCode 17. 电话号码的字母组合</title>
-    <url>/posts/39fb19.html</url>
+    <title>LeetCode 560. 和为K的子数组</title>
+    <url>/posts/5c7b75ba.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">17. 电话号码的字母组合</a></p>
+<p><a href="https://leetcode-cn.com/problems/subarray-sum-equals-k/">560. 和为K的子数组</a></p>
 <a id="more"></a>
 <h3 id="题目描述">2. 题目描述</h3>
-<p>给定一个仅包含数字 <code>2-9</code> 的字符串，返回所有它能表示的字母组合。</p>
-<p>给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/original_images/17_telephone_keypad.png" /></p>
-<p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：&quot;23&quot;</span><br><span class="line">输出：[&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].</span><br></pre></td></tr></table></figure>
-<p>说明: 尽管上面的答案是按字典序排列的，但是你可以任意选择答案输出的顺序。</p>
+<p>给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。</p>
+<p>示例 1 :</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入:nums &#x3D; [1,1,1], k &#x3D; 2</span><br><span class="line">输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。</span><br></pre></td></tr></table></figure>
+<p>说明 :</p>
+<ul>
+<li>数组的长度为 [1, 20,000]</li>
+<li>数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]</li>
+</ul>
 <h3 id="思路">3. 思路</h3>
-<p>这道题可以通过回溯法暴力遍历每个数字对应的所有字母的所有组合情况</p>
-<p>首先需要定义一个数字和字母对应的映射表，通过数字可以得到对应的字母串，然后遍历串里的每一个字符</p>
-<p>维护一个字符串str，用来拼接每次访问到的字符，当str的长度等于包含数字字符串的长度时，表示已经得到一个解，add到结果列表中。然后返回出来，相当于回溯，继续遍历下一种情况。</p>
+<p>这道题可以通过前缀和的思路来做</p>
+<p>即定义数组sum[i]代表数组nums[0...i]的和</p>
+<p>我们就可以遍历一遍数组，得到所有的前缀和</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sum[i] &#x3D; sum[i - 1] + nums[i]</span><br></pre></td></tr></table></figure>
+<p>对于任意一个区间[i, j]，若判断对于这个区间内的数组和是否为K，则可以转化为</p>
+<p>也就是前 j 项和减去前 i - 1项和，得到的就是 i 到 j 的和</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sum[j] - sum[i - 1] &#x3D;&#x3D; k</span><br><span class="line">移项得</span><br><span class="line">sum[i - 1] &#x3D; sum[j] - k</span><br></pre></td></tr></table></figure>
+<p>因此对于这道题，我们只要统计有多少个前缀和为 sum[j] - k 的个数即可</p>
+<p>我们可以建立哈希表，存储sum[j]出现的频率，最后对于每个j，查看一下sum[j] - k 的次数，把次数累加起来，就是最终的结果。</p>
+<p>由于我们只需要存储当前j下的sum[j]的频率，因此我们不需要单独开辟一个数组来存储前缀和，只要一个临时变量preSum即可</p>
 <h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">	<span class="comment">//结果列表</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="comment">//数字和字母映射表</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;Character, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;() &#123;&#123;</span><br><span class="line">            put(<span class="string">&#x27;2&#x27;</span>, <span class="string">&quot;abc&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;3&#x27;</span>, <span class="string">&quot;def&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;4&#x27;</span>, <span class="string">&quot;ghi&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;5&#x27;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;6&#x27;</span>, <span class="string">&quot;mno&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;7&#x27;</span>, <span class="string">&quot;pqrs&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;8&#x27;</span>, <span class="string">&quot;tuv&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;9&#x27;</span>, <span class="string">&quot;wxyz&quot;</span>);</span><br><span class="line">        &#125;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(String digits, <span class="keyword">int</span> index, String str)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//得到一种解</span></span><br><span class="line">        <span class="keyword">if</span>(str.length() == digits.length()) &#123;</span><br><span class="line">            ans.add(str);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//得到当前数字</span></span><br><span class="line">        <span class="keyword">char</span> c = digits.charAt(index);</span><br><span class="line">        <span class="comment">//获取数字对应的字母串</span></span><br><span class="line">        String s = map.get(c);</span><br><span class="line">        <span class="comment">//遍历字母串</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> ch : s.toCharArray()) &#123;</span><br><span class="line">            <span class="comment">//str加上当前字符，递归到下一个数字</span></span><br><span class="line">            dfs(digits, index + <span class="number">1</span>, str + ch);</span><br><span class="line">            <span class="comment">//递归结束返回，继续循环，遍历该串的下一个字符</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">letterCombinations</span><span class="params">(String digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(digits.length() == <span class="number">0</span>) <span class="keyword">return</span> ans;</span><br><span class="line">        dfs(digits, <span class="number">0</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">subarraySum</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//存储当前前缀和</span></span><br><span class="line">        <span class="keyword">int</span> preSum = <span class="number">0</span>;</span><br><span class="line">        Map&lt;Integer, Integer&gt; fre = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        fre.put(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            preSum = preSum + nums[j];</span><br><span class="line">            <span class="comment">//判断当前的preSum-k是否存在</span></span><br><span class="line">            <span class="comment">//若preSum-k等于0，也属于1次，所以初始化时需要fre.put(0,1)</span></span><br><span class="line">            <span class="keyword">if</span>(fre.containsKey(preSum - k)) &#123;</span><br><span class="line">                cnt += fre.get(preSum - k);</span><br><span class="line">            &#125;</span><br><span class="line">            fre.put(preSum, fre.getOrDefault(preSum, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>LeetCode</category>
       </categories>
       <tags>
-        <tag>字符串</tag>
-        <tag>回溯法</tag>
+        <tag>数组</tag>
+        <tag>哈希表</tag>
       </tags>
   </entry>
   <entry>
@@ -637,8 +674,8 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
         <category>剑指offer</category>
       </categories>
       <tags>
-        <tag>哈希表</tag>
         <tag>数组</tag>
+        <tag>哈希表</tag>
       </tags>
   </entry>
   <entry>
@@ -669,6 +706,32 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       <tags>
         <tag>数组</tag>
         <tag>双指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指offer 05. 替换空格</title>
+    <url>/posts/7768bbe3.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">剑指 Offer 05. 替换空格</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>请实现一个函数，把字符串 s 中的每个空格替换成&quot;%20&quot;</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：s &#x3D; &quot;We are happy.&quot;</span><br><span class="line">输出：&quot;We%20are%20happy.&quot;</span><br></pre></td></tr></table></figure>
+<p>限制：</p>
+<p>0 &lt;= s 的长度 &lt;= 10000</p>
+<h3 id="思路">3. 思路</h3>
+<p>直接string的库函数，一行代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">return s.replace(&quot; &quot;, &quot;%20&quot;);</span><br></pre></td></tr></table></figure>
+<p>当然也可以遍历整个字符串，用StringBuilder进行拼接，遍历到空格的话，就append一个&quot;%20&quot;</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i++)&#123;</span><br><span class="line">            <span class="keyword">char</span> c = s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span>(c == <span class="string">&#x27; &#x27;</span>) sb.append(<span class="string">&quot;%20&quot;</span>);</span><br><span class="line">            <span class="keyword">else</span> sb.append(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -794,32 +857,6 @@ e^{-(\omega^Tx+b)}=1
       </categories>
       <tags>
         <tag>逻辑回归</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指offer 05. 替换空格</title>
-    <url>/posts/7768bbe3.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">剑指 Offer 05. 替换空格</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>请实现一个函数，把字符串 s 中的每个空格替换成&quot;%20&quot;</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：s &#x3D; &quot;We are happy.&quot;</span><br><span class="line">输出：&quot;We%20are%20happy.&quot;</span><br></pre></td></tr></table></figure>
-<p>限制：</p>
-<p>0 &lt;= s 的长度 &lt;= 10000</p>
-<h3 id="思路">3. 思路</h3>
-<p>直接string的库函数，一行代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">return s.replace(&quot; &quot;, &quot;%20&quot;);</span><br></pre></td></tr></table></figure>
-<p>当然也可以遍历整个字符串，用StringBuilder进行拼接，遍历到空格的话，就append一个&quot;%20&quot;</p>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i++)&#123;</span><br><span class="line">            <span class="keyword">char</span> c = s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span>(c == <span class="string">&#x27; &#x27;</span>) sb.append(<span class="string">&quot;%20&quot;</span>);</span><br><span class="line">            <span class="keyword">else</span> sb.append(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指offer</category>
-      </categories>
-      <tags>
-        <tag>字符串</tag>
       </tags>
   </entry>
 </search>
