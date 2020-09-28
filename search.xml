@@ -1,6 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Java实现二分搜索树</title>
+    <url>/posts/2d27453e.html</url>
+    <content><![CDATA[<h3 id="二分搜索树的定义">1. 二分搜索树的定义</h3>
+<p>二分搜索树是一颗二叉树</p>
+<p>二分搜索树每个节点的左子树的值都小于该节点的值，每个节点右子树的值都大于该节点的值</p>
+<p>任意一个节点的每棵子树都满足二分搜索树的定义</p>
+<a id="more"></a>
+<p>对于这些分类问题，我们可以采用逻辑回归的模型来进行比较好的分类。那么原理是什么呢？</p>
+<h3 id="二分搜索树的实现">2. 二分搜索树的实现</h3>
+<h4 id="定义主类">2.1 定义主类</h4>
+<p>这里的二分搜索树支持泛型，由于需要比较节点的值，所以需要泛型必须实现Comparable接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span>&lt;<span class="title">E</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">E</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="定义节点类">2.2 定义节点类</h4>
+<p>用于存储节点的值和左右子节点</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> E e;</span><br><span class="line">    <span class="keyword">public</span> Node left;</span><br><span class="line">    <span class="keyword">public</span> Node right;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.e = e;</span><br><span class="line">        left = <span class="keyword">null</span>;</span><br><span class="line">        right = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="成员变量和构造函数">2.3 成员变量和构造函数</h4>
+<p>二分搜索树只需两个成员变量，根节点root和树中存储元素的数目</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Node root;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BinarySearchTree</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    root = <span class="keyword">null</span>;</span><br><span class="line">    size = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="简单基础方法">2.4 简单基础方法</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> size == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="增加元素和查找元素">2.5 增加元素和查找元素</h4>
+<p>增加元素的逻辑是，如果当前节点为<code>null</code>，则以增加的<code>val</code>去<code>new</code>一个新节点，并且维护一下<code>size</code></p>
+<p>如果当前存在节点，那么判断当前节点的值和增加元素的值的大小，如果小于当前节点，则递归到当前节点的左孩子，递归调用增加函数，大于当前节点，同理。</p>
+<p>查找元素和增加元素也同理，当找到当前节点为<code>null</code>时，则说明树中不存在要找的值</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    root = add(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回插入新元素e后的二分搜索树的根，递归实现</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">add</span><span class="params">(Node node, E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        size++;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Node(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(node.e) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.left = add(node.left, e);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.right = add(node.right, e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> contains(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 以node的为根的二分搜索树中是否包含元素e，递归实现</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Node node, E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (e.equals(node.e)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> contains(node.left, e);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> contains(node.right, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="遍历二分搜索树">2.6 遍历二分搜索树</h4>
+<p>遍历分为递归实现和非递归实现，非递归实现时，需要借助辅助数据结构栈</p>
+<p>层序遍历需要借助队列来实现</p>
+<p>输出当前节点的值</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    preOrder(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 前序遍历以node为根的二分搜索树，递归实现</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//访问该结点</span></span><br><span class="line">    System.out.println(node.e);</span><br><span class="line"></span><br><span class="line">    preOrder(node.left);</span><br><span class="line">    preOrder(node.right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 二分搜索树的前序遍历，非递归实现</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrderNR</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Stack&lt;Node&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    stack.push(root);</span><br><span class="line">    <span class="keyword">while</span> (!stack.isEmpty()) &#123;</span><br><span class="line">        Node cur = stack.pop();</span><br><span class="line">        System.out.println(cur.e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">            stack.push(cur.right);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            stack.push(cur.left);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 二分搜索树的层序遍历</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">levelOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Queue&lt;Node&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    queue.add(root);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">        Node cur = queue.remove();</span><br><span class="line">        System.out.println(cur.e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            queue.add(cur.left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">            queue.add(cur.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="最值相关操作">2.7 最值相关操作</h4>
+<p>查找最小值，由二分搜索树的性质可知，只需不停的递归遍历二分搜索树的左子树，如果当前节点的左子树存在，递归查找，直到左子树不存在时，那么当前节点的值就是整棵树中节点最小的值</p>
+<p>查找最大值同理，只需递归查找右子树即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 寻找二分搜索树中元素的最小值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">minimum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;BST is empty!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minimum(root).e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">minimum</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node.left == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minimum(node.left);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 寻找二分搜索树中元素的最大值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">maximum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;BST is empty!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maximum(root).e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">maximum</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maximum(node.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除一个节点">2.8 删除一个节点</h4>
+<p>删除节点是二分搜索树中最复杂的操作</p>
+<p>删除节点分三种情况分析</p>
+<ul>
+<li>删除树中的最小值的节点</li>
+<li>删除树中的最大值的节点</li>
+<li>删除树中的指定值的节点</li>
+</ul>
+<h5 id="删除树中的最小值的节点">2.8.1 删除树中的最小值的节点</h5>
+<p>首先通过上面写过的minimum()方法得到要删除节点的值</p>
+<p>然后递归找到最左边的节点，如果该结点存在右子树，则将该右子树的根节点接上当前删除节点的父节点</p>
+<p>即<code>node.left = 返回的右子树的根节点</code>，此时的node是递归返回到上一层的node，也就是删除节点的父节点</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除二分搜索树中的最小值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    E ret = minimum();</span><br><span class="line">    root = removeMin(root);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">removeMin</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (node.left == <span class="keyword">null</span>) &#123;</span><br><span class="line">        Node rightNode = node.right;</span><br><span class="line">        node.right = <span class="keyword">null</span>;</span><br><span class="line">        size--;</span><br><span class="line">        <span class="keyword">return</span> rightNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.left = removeMin(node.left);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="删除树中的最大值的节点">2.8.2 删除树中的最大值的节点</h5>
+<p>与删除最小值同理，将删除节点的左子树挂接到删除节点的父节点上</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除二分搜索树中的最大值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeMax</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    E ret = maximum();</span><br><span class="line">    root = removeMax(root);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回删除节点后新的二分搜索树的根</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">removeMax</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">        Node leftNode = node.left;</span><br><span class="line">        node.left = <span class="keyword">null</span>;</span><br><span class="line">        size--;</span><br><span class="line">        <span class="keyword">return</span> leftNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.right = removeMax(node.right);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="删除树中指定值的节点">2.8.3 删除树中指定值的节点</h5>
+<p>删除指定值，首先要找到递归找到指定值，找到该节点后，又要分三种情况，分别是</p>
+<ul>
+<li>待删除节点的左子树为空</li>
+<li>待删除节点的右子树为空</li>
+<li>待删除节点的左右子树都不为空</li>
+</ul>
+<p>如果待删除节点的左子树为空，那么删除的过程就如同删除最小值的节点，即挂接该节点的右子树</p>
+<p>如果待删除节点的右子树为空，那么删除的过程就如同删除最大值的节点，即挂接该节点的左子树</p>
+<p>如果待删除节点的左右子树都不为空，那么根据二分搜索树的性质，我们需要找到待删除节点的右子树中的最小节点，用这个节点来顶替要删除的节点的位置，也就是把这个节点挂接到删除节点的父节点上。</p>
+<p>其中待删除节点的右子树中的最小节点，我们可以通过上面写过的minimum()方法找到，找到后称该节点为后继节点，那么后继节点的左子树就应该是待删除节点的左子树，后继节点的右子树就应该是，待删除节点的右子树中删除后继节点后的子树，可以通过上面写过的removeMin()方法实现。最后就return 后继节点挂接到删除节点的父节点上就可以了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除二分搜索树中元素为e的节点</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    root = remove(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">remove</span><span class="params">(Node node, E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(node.e) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.left = remove(node.left, e);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.right = remove(node.right, e);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//待删除节点左子树为空</span></span><br><span class="line">        <span class="keyword">if</span> (node.left == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Node rightNode = node.right;</span><br><span class="line">            node.right = <span class="keyword">null</span>;</span><br><span class="line">            size--;</span><br><span class="line">            <span class="keyword">return</span> rightNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//待删除节点右子树为空</span></span><br><span class="line">        <span class="keyword">if</span> (node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Node leftNode = node.left;</span><br><span class="line">            node.left = <span class="keyword">null</span>;</span><br><span class="line">            size--;</span><br><span class="line">            <span class="keyword">return</span> leftNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//待删除节点左右都不为空</span></span><br><span class="line">        <span class="comment">//找到待删除节点的右子树中的最小节点，用这个节点来顶替要删除的节点的位置</span></span><br><span class="line">        Node successor = minimum(node.right);</span><br><span class="line">        successor.right = removeMin(node.right);</span><br><span class="line">        successor.left = node.left;</span><br><span class="line">        node.right = <span class="keyword">null</span>;</span><br><span class="line">        node.left = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> successor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二分搜索树的存在的问题">3. 二分搜索树的存在的问题</h3>
+<p>本次实现的这棵二分搜索树在极端情况下会退化成一条链表，如数据是<code>[1,2,3,4,5,6]</code>，此时就失去了二分查找的特性</p>
+<p>对此我们可以将这棵二叉树维护成平衡二叉树，从而避免这种极端情况。</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>二分搜索树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo+Github搭建自己的博客(一)</title>
+    <url>/posts/3e596dd.html</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+如果一件事情你不能讲清楚，十有八九你还没有完全理解
+</blockquote>
+<a id="more"></a>
+<p>很早之前就想自己动手搭建一个博客，搭建一个属于自己的小天地，在这里可以写写心情，写写总结，也能写写自己在学习过程中碰见的坑与收获。在实验室折腾了两天，最终用Hexo+Github搭建完了博客，虽然过程十分简单，但是由于对于很多知识的不了解，还是碰见很多坑，折腾了好久。</p>
+<h3 id="背景介绍">0. 背景介绍</h3>
+<h4 id="什么是hexo">0.1 什么是Hexo</h4>
+<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+<h4 id="什么是github">0.2 什么是Github</h4>
+<p>Github是什么，是的，没错，世界最大的同性交友平台。2333......而我们写好的文章就可以部署在这个平台上。</p>
+<p><img src="https://pic2.zhimg.com/80/7c9d3403bf922b1663f56975869c829b_hd.jpg" /></p>
+<p>接下来便是安装、配置、美化、进阶的过程。</p>
+<h3 id="环境的安装">1. 环境的安装</h3>
+<h4 id="安装git">1.1 安装Git</h4>
+<p>可以直接去官网下载，也可以直接点击这 <a href="https://gitforwindows.org/">Git</a> 一路next就可安装完毕，安装完成后，可以通过<code>git --version</code>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/hBsy2GLgRuVNc9r.png"  /></p>
+<h4 id="安装node.js">1.2 安装Node.js</h4>
+<p>可以直接去官网下载，也可以直接点击这 <a href="https://nodejs.org/en/download/">Node.js</a> 一路next就可安装完毕，安装完成后，可以通过</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<p>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/W3miTkNjJv6GAIl.png"  /></p>
+<h4 id="安装hexo">1.3 安装Hexo</h4>
+<p>先在任意路径创建一个空文件夹，在文件夹内，右击，选择<code>git bash here</code>，然后输入</p>
+<p><code>npm install -g hexo-cil</code>安装完成后，可以通过<code>hexo -v</code>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/phdUTLr86l5W94N.png"  /></p>
+<p>然后在bash里输入<code>hexo init myblog(任意名字)</code> 进入生成的这个文件夹，输入<code>npm install</code></p>
+<p>就完成了环境的配置。此时本地的文件夹应该像这样（可能没有public文件夹）</p>
+<p><img src="https://i.loli.net/2019/10/19/QfE6qb3d912PDCL.png" style="zoom:;" /></p>
+<h3 id="部署到github">2. 部署到Github</h3>
+<h5 id="创建github账号这个自己创一下就好">2.1 创建github账号，这个自己创一下就好。</h5>
+<h5 id="创建一个-repository-仓库名称必须为-你的github的用户名.github.io">2.2 创建一个 repository， 仓库名称必须为 <strong>你的GitHub的用户名.github.io</strong></h5>
+<h5 id="生成ssh">2.3 生成SSH</h5>
+<p>任意位置右键打开git bash，输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;GitHub用户名&quot;</span><br><span class="line">git config --global user.email &quot;GitHub的邮箱&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;GitHub用户名&quot;</span><br></pre></td></tr></table></figure>
+<p>然后一路回车，就创建好了SSH，此时终端上会显示存放SSH的路径，打开此路径，<strong>注意需要设置显示隐藏的文件才能看见.ssh文件夹</strong>。打开 id_rsa.pub ，复制其中的公共密钥。然后打开自己的github主页，点击自己头像下的setting，然后点击<code>new SSH key</code>，粘贴复制的密钥。</p>
+<p><img src="https://i.loli.net/2019/10/19/DLYgURZdonw4Fm6.png"  /></p>
+<p>完成后，在git bash中，输入<code>ssh -T git@github.com</code>，查看是否配置成功。成功后应该像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/5LWYutIsUGbme9T.png"  /></p>
+<p>但是我注意到终端反馈了一个问题，就是那个<code>The authenticity of ... can't be established</code>，随便百度了一波，发现没太大问题</p>
+<p><img src="https://i.loli.net/2019/10/19/T7iEIdp3b9rCqxk.png"  /></p>
+<h5 id="将hexo部署到github上">2.4 将Hexo部署到Github上</h5>
+<p>打开初始化hexo后生成的那个文件夹，打开<code>_config.yml</code>配置文件，在这个文件中，找到，并设置为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;GitHub的用户名&#x2F;GitHub的用户名.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>然后右键 git bash输入 <code>npm install hexo-deployer-git --save</code>来安装部署的指令，安装完毕后，在当前文件夹内依次输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
+<p>其中</p>
+<ul>
+<li><code>hexo clean</code>清除了你之前生成的东西。</li>
+<li><code>hexo generate</code> 生成静态文章。</li>
+<li><code>hexo deploy</code> 部署文章。</li>
+</ul>
+<p>在第一次执行<code>hexo deploy</code>时，会输入一次github的 username和password。</p>
+<p>稍等片刻（大概1-2分钟），就能通过网址 <code>http://GitHub的用户名.github.io</code>访问你的博客啦。不出问题就像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/TS8xLfcrqayJGp6.png"  /></p>
+<p><strong>此时Hexo博客的搭建就基本完成了</strong>，这时可以有两种选择，一种是一直用那个github默认的网址去访问自己的博客，还有一种就是绑定自己的域名。</p>
+<h4 id="绑定自己的域名">3. 绑定自己的域名</h4>
+<h5 id="购买域名">3.1 购买域名</h5>
+<p>我自己呢，就在阿里云上买了一个.top的域名（别问，问就是因为便宜...买了3年60多RMB）。在实名认证等一系列操作都弄完后，进入自己的域名控制台，然后点击操作下面的<strong>解析</strong>，然后点击<strong>添加记录</strong>，添加记录的配置如下</p>
+<p><img src="https://i.loli.net/2019/10/19/EukCUvpty2TM6GW.png"  /></p>
+<p><strong>注意：其中的记录值设置为自己github提供的访问博客的域名。</strong></p>
+<p>然后在添加一条同样的记录，其中主机记录不填。最后的结果应该像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/huHGNRX5439sKPO.png" /></p>
+<p>然后进入github之前创建的那个存放博客的仓库，点击settings，设置Custom domain，输入自己的域名，点击<code>save</code>. 然后在你的博客文件夹的source中创建一个名为CNAME文件，不要后缀。写上你的域名。 最后在git bash中输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
+<p>稍等片刻，就能通过自己的域名访问自己的博客了。奈斯！！！</p>
+<p><strong>参考教程</strong></p>
+<blockquote>
+<p><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexo史上最全搭建教程</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo+Github搭建自己的博客(二)</title>
     <url>/posts/acd40dbf.html</url>
     <content><![CDATA[<h3 id="hexo主题的配置">1.Hexo主题的配置</h3>
@@ -165,197 +320,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo+Github搭建自己的博客(一)</title>
-    <url>/posts/3e596dd.html</url>
-    <content><![CDATA[<blockquote class="blockquote-center">
-如果一件事情你不能讲清楚，十有八九你还没有完全理解
-</blockquote>
-<a id="more"></a>
-<p>很早之前就想自己动手搭建一个博客，搭建一个属于自己的小天地，在这里可以写写心情，写写总结，也能写写自己在学习过程中碰见的坑与收获。在实验室折腾了两天，最终用Hexo+Github搭建完了博客，虽然过程十分简单，但是由于对于很多知识的不了解，还是碰见很多坑，折腾了好久。</p>
-<h3 id="背景介绍">0. 背景介绍</h3>
-<h4 id="什么是hexo">0.1 什么是Hexo</h4>
-<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
-<h4 id="什么是github">0.2 什么是Github</h4>
-<p>Github是什么，是的，没错，世界最大的同性交友平台。2333......而我们写好的文章就可以部署在这个平台上。</p>
-<p><img src="https://pic2.zhimg.com/80/7c9d3403bf922b1663f56975869c829b_hd.jpg" /></p>
-<p>接下来便是安装、配置、美化、进阶的过程。</p>
-<h3 id="环境的安装">1. 环境的安装</h3>
-<h4 id="安装git">1.1 安装Git</h4>
-<p>可以直接去官网下载，也可以直接点击这 <a href="https://gitforwindows.org/">Git</a> 一路next就可安装完毕，安装完成后，可以通过<code>git --version</code>来查看是否安装成功。</p>
-<p><img src="https://i.loli.net/2019/10/19/hBsy2GLgRuVNc9r.png"  /></p>
-<h4 id="安装node.js">1.2 安装Node.js</h4>
-<p>可以直接去官网下载，也可以直接点击这 <a href="https://nodejs.org/en/download/">Node.js</a> 一路next就可安装完毕，安装完成后，可以通过</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
-<p>来查看是否安装成功。</p>
-<p><img src="https://i.loli.net/2019/10/19/W3miTkNjJv6GAIl.png"  /></p>
-<h4 id="安装hexo">1.3 安装Hexo</h4>
-<p>先在任意路径创建一个空文件夹，在文件夹内，右击，选择<code>git bash here</code>，然后输入</p>
-<p><code>npm install -g hexo-cil</code>安装完成后，可以通过<code>hexo -v</code>来查看是否安装成功。</p>
-<p><img src="https://i.loli.net/2019/10/19/phdUTLr86l5W94N.png"  /></p>
-<p>然后在bash里输入<code>hexo init myblog(任意名字)</code> 进入生成的这个文件夹，输入<code>npm install</code></p>
-<p>就完成了环境的配置。此时本地的文件夹应该像这样（可能没有public文件夹）</p>
-<p><img src="https://i.loli.net/2019/10/19/QfE6qb3d912PDCL.png" style="zoom:;" /></p>
-<h3 id="部署到github">2. 部署到Github</h3>
-<h5 id="创建github账号这个自己创一下就好">2.1 创建github账号，这个自己创一下就好。</h5>
-<h5 id="创建一个-repository-仓库名称必须为-你的github的用户名.github.io">2.2 创建一个 repository， 仓库名称必须为 <strong>你的GitHub的用户名.github.io</strong></h5>
-<h5 id="生成ssh">2.3 生成SSH</h5>
-<p>任意位置右键打开git bash，输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;GitHub用户名&quot;</span><br><span class="line">git config --global user.email &quot;GitHub的邮箱&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;GitHub用户名&quot;</span><br></pre></td></tr></table></figure>
-<p>然后一路回车，就创建好了SSH，此时终端上会显示存放SSH的路径，打开此路径，<strong>注意需要设置显示隐藏的文件才能看见.ssh文件夹</strong>。打开 id_rsa.pub ，复制其中的公共密钥。然后打开自己的github主页，点击自己头像下的setting，然后点击<code>new SSH key</code>，粘贴复制的密钥。</p>
-<p><img src="https://i.loli.net/2019/10/19/DLYgURZdonw4Fm6.png"  /></p>
-<p>完成后，在git bash中，输入<code>ssh -T git@github.com</code>，查看是否配置成功。成功后应该像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/5LWYutIsUGbme9T.png"  /></p>
-<p>但是我注意到终端反馈了一个问题，就是那个<code>The authenticity of ... can't be established</code>，随便百度了一波，发现没太大问题</p>
-<p><img src="https://i.loli.net/2019/10/19/T7iEIdp3b9rCqxk.png"  /></p>
-<h5 id="将hexo部署到github上">2.4 将Hexo部署到Github上</h5>
-<p>打开初始化hexo后生成的那个文件夹，打开<code>_config.yml</code>配置文件，在这个文件中，找到，并设置为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;GitHub的用户名&#x2F;GitHub的用户名.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<p>然后右键 git bash输入 <code>npm install hexo-deployer-git --save</code>来安装部署的指令，安装完毕后，在当前文件夹内依次输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
-<p>其中</p>
-<ul>
-<li><code>hexo clean</code>清除了你之前生成的东西。</li>
-<li><code>hexo generate</code> 生成静态文章。</li>
-<li><code>hexo deploy</code> 部署文章。</li>
-</ul>
-<p>在第一次执行<code>hexo deploy</code>时，会输入一次github的 username和password。</p>
-<p>稍等片刻（大概1-2分钟），就能通过网址 <code>http://GitHub的用户名.github.io</code>访问你的博客啦。不出问题就像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/TS8xLfcrqayJGp6.png"  /></p>
-<p><strong>此时Hexo博客的搭建就基本完成了</strong>，这时可以有两种选择，一种是一直用那个github默认的网址去访问自己的博客，还有一种就是绑定自己的域名。</p>
-<h4 id="绑定自己的域名">3. 绑定自己的域名</h4>
-<h5 id="购买域名">3.1 购买域名</h5>
-<p>我自己呢，就在阿里云上买了一个.top的域名（别问，问就是因为便宜...买了3年60多RMB）。在实名认证等一系列操作都弄完后，进入自己的域名控制台，然后点击操作下面的<strong>解析</strong>，然后点击<strong>添加记录</strong>，添加记录的配置如下</p>
-<p><img src="https://i.loli.net/2019/10/19/EukCUvpty2TM6GW.png"  /></p>
-<p><strong>注意：其中的记录值设置为自己github提供的访问博客的域名。</strong></p>
-<p>然后在添加一条同样的记录，其中主机记录不填。最后的结果应该像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/huHGNRX5439sKPO.png" /></p>
-<p>然后进入github之前创建的那个存放博客的仓库，点击settings，设置Custom domain，输入自己的域名，点击<code>save</code>. 然后在你的博客文件夹的source中创建一个名为CNAME文件，不要后缀。写上你的域名。 最后在git bash中输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
-<p>稍等片刻，就能通过自己的域名访问自己的博客了。奈斯！！！</p>
-<p><strong>参考教程</strong></p>
-<blockquote>
-<p><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexo史上最全搭建教程</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java实现二分搜索树</title>
-    <url>/posts/2d27453e.html</url>
-    <content><![CDATA[<h3 id="二分搜索树的定义">1. 二分搜索树的定义</h3>
-<p>二分搜索树是一颗二叉树</p>
-<p>二分搜索树每个节点的左子树的值都小于该节点的值，每个节点右子树的值都大于该节点的值</p>
-<p>任意一个节点的每棵子树都满足二分搜索树的定义</p>
-<a id="more"></a>
-<p>对于这些分类问题，我们可以采用逻辑回归的模型来进行比较好的分类。那么原理是什么呢？</p>
-<h3 id="二分搜索树的实现">2. 二分搜索树的实现</h3>
-<h4 id="定义主类">2.1 定义主类</h4>
-<p>这里的二分搜索树支持泛型，由于需要比较节点的值，所以需要泛型必须实现Comparable接口</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinarySearchTree</span>&lt;<span class="title">E</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">E</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="定义节点类">2.2 定义节点类</h4>
-<p>用于存储节点的值和左右子节点</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> E e;</span><br><span class="line">    <span class="keyword">public</span> Node left;</span><br><span class="line">    <span class="keyword">public</span> Node right;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.e = e;</span><br><span class="line">        left = <span class="keyword">null</span>;</span><br><span class="line">        right = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="成员变量和构造函数">2.3 成员变量和构造函数</h4>
-<p>二分搜索树只需两个成员变量，根节点root和树中存储元素的数目</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Node root;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BinarySearchTree</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    root = <span class="keyword">null</span>;</span><br><span class="line">    size = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="简单基础方法">2.4 简单基础方法</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> size == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="增加元素和查找元素">2.5 增加元素和查找元素</h4>
-<p>增加元素的逻辑是，如果当前节点为<code>null</code>，则以增加的<code>val</code>去<code>new</code>一个新节点，并且维护一下<code>size</code></p>
-<p>如果当前存在节点，那么判断当前节点的值和增加元素的值的大小，如果小于当前节点，则递归到当前节点的左孩子，递归调用增加函数，大于当前节点，同理。</p>
-<p>查找元素和增加元素也同理，当找到当前节点为<code>null</code>时，则说明树中不存在要找的值</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    root = add(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回插入新元素e后的二分搜索树的根，递归实现</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">add</span><span class="params">(Node node, E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        size++;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Node(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(node.e) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.left = add(node.left, e);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.right = add(node.right, e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> contains(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 以node的为根的二分搜索树中是否包含元素e，递归实现</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Node node, E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (e.equals(node.e)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> contains(node.left, e);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> contains(node.right, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="遍历二分搜索树">2.6 遍历二分搜索树</h4>
-<p>遍历分为递归实现和非递归实现，非递归实现时，需要借助辅助数据结构栈</p>
-<p>层序遍历需要借助队列来实现</p>
-<p>输出当前节点的值</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    preOrder(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 前序遍历以node为根的二分搜索树，递归实现</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//访问该结点</span></span><br><span class="line">    System.out.println(node.e);</span><br><span class="line"></span><br><span class="line">    preOrder(node.left);</span><br><span class="line">    preOrder(node.right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 二分搜索树的前序遍历，非递归实现</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrderNR</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Stack&lt;Node&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    stack.push(root);</span><br><span class="line">    <span class="keyword">while</span> (!stack.isEmpty()) &#123;</span><br><span class="line">        Node cur = stack.pop();</span><br><span class="line">        System.out.println(cur.e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">            stack.push(cur.right);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            stack.push(cur.left);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 二分搜索树的层序遍历</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">levelOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Queue&lt;Node&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    queue.add(root);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!queue.isEmpty()) &#123;</span><br><span class="line">        Node cur = queue.remove();</span><br><span class="line">        System.out.println(cur.e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            queue.add(cur.left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">            queue.add(cur.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="最值相关操作">2.7 最值相关操作</h4>
-<p>查找最小值，由二分搜索树的性质可知，只需不停的递归遍历二分搜索树的左子树，如果当前节点的左子树存在，递归查找，直到左子树不存在时，那么当前节点的值就是整棵树中节点最小的值</p>
-<p>查找最大值同理，只需递归查找右子树即可</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 寻找二分搜索树中元素的最小值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">minimum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;BST is empty!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minimum(root).e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">minimum</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node.left == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> minimum(node.left);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 寻找二分搜索树中元素的最大值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">maximum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isEmpty()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;BST is empty!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maximum(root).e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">maximum</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maximum(node.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="删除一个节点">2.8 删除一个节点</h4>
-<p>删除节点是二分搜索树中最复杂的操作</p>
-<p>删除节点分三种情况分析</p>
-<ul>
-<li>删除树中的最小值的节点</li>
-<li>删除树中的最大值的节点</li>
-<li>删除树中的指定值的节点</li>
-</ul>
-<h5 id="删除树中的最小值的节点">2.8.1 删除树中的最小值的节点</h5>
-<p>首先通过上面写过的minimum()方法得到要删除节点的值</p>
-<p>然后递归找到最左边的节点，如果该结点存在右子树，则将该右子树的根节点接上当前删除节点的父节点</p>
-<p>即<code>node.left = 返回的右子树的根节点</code>，此时的node是递归返回到上一层的node，也就是删除节点的父节点</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除二分搜索树中的最小值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    E ret = minimum();</span><br><span class="line">    root = removeMin(root);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">removeMin</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (node.left == <span class="keyword">null</span>) &#123;</span><br><span class="line">        Node rightNode = node.right;</span><br><span class="line">        node.right = <span class="keyword">null</span>;</span><br><span class="line">        size--;</span><br><span class="line">        <span class="keyword">return</span> rightNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.left = removeMin(node.left);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="删除树中的最大值的节点">2.8.2 删除树中的最大值的节点</h5>
-<p>与删除最小值同理，将删除节点的左子树挂接到删除节点的父节点上</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除二分搜索树中的最大值</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeMax</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    E ret = maximum();</span><br><span class="line">    root = removeMax(root);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回删除节点后新的二分搜索树的根</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">removeMax</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">        Node leftNode = node.left;</span><br><span class="line">        node.left = <span class="keyword">null</span>;</span><br><span class="line">        size--;</span><br><span class="line">        <span class="keyword">return</span> leftNode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    node.right = removeMax(node.right);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="删除树中指定值的节点">2.8.3 删除树中指定值的节点</h5>
-<p>删除指定值，首先要找到递归找到指定值，找到该节点后，又要分三种情况，分别是</p>
-<ul>
-<li>待删除节点的左子树为空</li>
-<li>待删除节点的右子树为空</li>
-<li>待删除节点的左右子树都不为空</li>
-</ul>
-<p>如果待删除节点的左子树为空，那么删除的过程就如同删除最小值的节点，即挂接该节点的右子树</p>
-<p>如果待删除节点的右子树为空，那么删除的过程就如同删除最大值的节点，即挂接该节点的左子树</p>
-<p>如果待删除节点的左右子树都不为空，那么根据二分搜索树的性质，我们需要找到待删除节点的右子树中的最小节点，用这个节点来顶替要删除的节点的位置，也就是把这个节点挂接到删除节点的父节点上。</p>
-<p>其中待删除节点的右子树中的最小节点，我们可以通过上面写过的minimum()方法找到，找到后称该节点为后继节点，那么后继节点的左子树就应该是待删除节点的左子树，后继节点的右子树就应该是，待删除节点的右子树中删除后继节点后的子树，可以通过上面写过的removeMin()方法实现。最后就return 后继节点挂接到删除节点的父节点上就可以了。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 删除二分搜索树中元素为e的节点</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    root = remove(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Node <span class="title">remove</span><span class="params">(Node node, E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(node.e) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.left = remove(node.left, e);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        node.right = remove(node.right, e);</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//待删除节点左子树为空</span></span><br><span class="line">        <span class="keyword">if</span> (node.left == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Node rightNode = node.right;</span><br><span class="line">            node.right = <span class="keyword">null</span>;</span><br><span class="line">            size--;</span><br><span class="line">            <span class="keyword">return</span> rightNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//待删除节点右子树为空</span></span><br><span class="line">        <span class="keyword">if</span> (node.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Node leftNode = node.left;</span><br><span class="line">            node.left = <span class="keyword">null</span>;</span><br><span class="line">            size--;</span><br><span class="line">            <span class="keyword">return</span> leftNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//待删除节点左右都不为空</span></span><br><span class="line">        <span class="comment">//找到待删除节点的右子树中的最小节点，用这个节点来顶替要删除的节点的位置</span></span><br><span class="line">        Node successor = minimum(node.right);</span><br><span class="line">        successor.right = removeMin(node.right);</span><br><span class="line">        successor.left = node.left;</span><br><span class="line">        node.right = <span class="keyword">null</span>;</span><br><span class="line">        node.left = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> successor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="二分搜索树的存在的问题">3. 二分搜索树的存在的问题</h3>
-<p>本次实现的这棵二分搜索树在极端情况下会退化成一条链表，如数据是<code>[1,2,3,4,5,6]</code>，此时就失去了二分查找的特性</p>
-<p>对此我们可以将这棵二叉树维护成平衡二叉树，从而避免这种极端情况。</p>
-]]></content>
-      <categories>
-        <category>数据结构</category>
-      </categories>
-      <tags>
-        <tag>二分搜索树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LeetCode 116. 填充每个节点的下一个右侧节点指针</title>
-    <url>/posts/33b5a27e.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/">116. 填充每个节点的下一个右侧节点指针</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>给定一个完美二叉树，其所有叶子节点都在同一层，每个父节点都有两个子节点。二叉树定义如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">struct Node &#123;</span><br><span class="line">  <span class="keyword">int</span> val;</span><br><span class="line">  Node *left;</span><br><span class="line">  Node *right;</span><br><span class="line">  Node *next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>填充它的每个 next 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 next 指针设置为 NULL。</p>
-<p>初始状态下，所有 next 指针都被设置为 NULL。</p>
-<p>示例：</p>
-<p><img src="https://i.loli.net/2020/09/22/giVD6jMItQrNSmq.png" /></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：&#123;&quot;$id&quot;:&quot;1&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;2&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;3&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:4&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$id&quot;:&quot;4&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:5&#125;,&quot;val&quot;:2&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$id&quot;:&quot;5&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;6&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:6&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$id&quot;:&quot;7&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:7&#125;,&quot;val&quot;:3&#125;,&quot;val&quot;:1&#125;</span><br><span class="line"></span><br><span class="line">输出：&#123;&quot;$id&quot;:&quot;1&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;2&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;3&quot;,&quot;left&quot;:null,&quot;next&quot;:&#123;&quot;$id&quot;:&quot;4&quot;,&quot;left&quot;:null,&quot;next&quot;:&#123;&quot;$id&quot;:&quot;5&quot;,&quot;left&quot;:null,&quot;next&quot;:&#123;&quot;$id&quot;:&quot;6&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:7&#125;,&quot;right&quot;:null,&quot;val&quot;:6&#125;,&quot;right&quot;:null,&quot;val&quot;:5&#125;,&quot;right&quot;:null,&quot;val&quot;:4&#125;,&quot;next&quot;:&#123;&quot;$id&quot;:&quot;7&quot;,&quot;left&quot;:&#123;&quot;$ref&quot;:&quot;5&quot;&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$ref&quot;:&quot;6&quot;&#125;,&quot;val&quot;:3&#125;,&quot;right&quot;:&#123;&quot;$ref&quot;:&quot;4&quot;&#125;,&quot;val&quot;:2&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$ref&quot;:&quot;7&quot;&#125;,&quot;val&quot;:1&#125;</span><br><span class="line"></span><br><span class="line">解释：给定二叉树如图 A 所示，你的函数应该填充它的每个 next 指针，以指向其下一个右侧节点，如图 B 所示。</span><br></pre></td></tr></table></figure>
-<p>提示：</p>
-<p>你只能使用常量级额外空间。 使用递归解题也符合要求，本题中递归程序占用的栈空间不算做额外的空间复杂度。</p>
-<h3 id="思路i">3. 思路I</h3>
-<p>我们可以通过递归实现，即对于传过来的节点node，我们只要将<code>node.left.next == node.right</code>，但是对于跨父节点的两个相邻节点，只传一个node节点不够，因为在传入一个node的兄弟节点，因此对于跨父节点的相邻节点就是<code>node1.left.next = node2.right</code></p>
-<h3 id="代码实现i">4. 代码实现I</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">connectRight</span><span class="params">(Node leftNode, Node rightNode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(leftNode == <span class="keyword">null</span> &amp;&amp; rightNode == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">//next指针指向右兄弟节点</span></span><br><span class="line">        leftNode.next = rightNode;</span><br><span class="line">        <span class="comment">//左子树的兄弟节点</span></span><br><span class="line">        connectRight(leftNode.left, leftNode.right);</span><br><span class="line">        <span class="comment">//右子树的兄弟节点</span></span><br><span class="line">        connectRight(rightNode.left, rightNode.right);</span><br><span class="line">        <span class="comment">//非同一个父节点的右节点和相邻左节点</span></span><br><span class="line">        connectRight(leftNode.right, rightNode.left);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">connect</span><span class="params">(Node root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) <span class="keyword">return</span> root;</span><br><span class="line">        connectRight(root.left, root.right);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="思路ii">5. 思路II</h3>
-<p>也可以通过非递归来实现</p>
-<p>对于有共同父节点的两个相邻节点，通过父节点就可以将这两个子节点串联起来</p>
-<p>对于跨父节点的两个相邻节点，可以通过父节点的next找到邻居，然后要传联的就是next的左节点，即<code>root.right.next = root.next.left</code>，此时需要保证root.next不为空</p>
-<p>核心就是这是一颗完美二叉树，且通过next指针将当前层连接起来，所以可以直接层序遍历</p>
-<h3 id="代码实现ii">6. 代码实现II</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">connect</span><span class="params">(Node root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">        Node pre = root;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//pre.left为空时，没有下一层了，此时的Pre为叶子节点</span></span><br><span class="line">        <span class="keyword">while</span> (pre.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            Node tmp = pre;</span><br><span class="line">            <span class="keyword">while</span> (tmp != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//将tmp的左右节点都串联起来</span></span><br><span class="line">                <span class="comment">//同一个父节点的串联</span></span><br><span class="line">                tmp.left.next = tmp.right;</span><br><span class="line">                <span class="comment">//下一个不为空说明上一层已经帮我们完成串联了</span></span><br><span class="line">                <span class="keyword">if</span> (tmp.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    tmp.right.next = tmp.next.left;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//继续往右边遍历</span></span><br><span class="line">                tmp = tmp.next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//从下一层的最左边开始遍历</span></span><br><span class="line">            pre = pre.left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>LeetCode</category>
-      </categories>
-      <tags>
-        <tag>深度优先搜索</tag>
-        <tag>树</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>LeetCode 131. 分割回文串</title>
     <url>/posts/eeb65480.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -490,43 +454,6 @@
       </tags>
   </entry>
   <entry>
-    <title>LeetCode 560. 和为K的子数组</title>
-    <url>/posts/5c7b75ba.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/subarray-sum-equals-k/">560. 和为K的子数组</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。</p>
-<p>示例 1 :</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入:nums &#x3D; [1,1,1], k &#x3D; 2</span><br><span class="line">输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。</span><br></pre></td></tr></table></figure>
-<p>说明 :</p>
-<ul>
-<li>数组的长度为 [1, 20,000]</li>
-<li>数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]</li>
-</ul>
-<h3 id="思路">3. 思路</h3>
-<p>这道题可以通过前缀和的思路来做</p>
-<p>即定义数组sum[i]代表数组nums[0...i]的和</p>
-<p>我们就可以遍历一遍数组，得到所有的前缀和</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sum[i] &#x3D; sum[i - 1] + nums[i]</span><br></pre></td></tr></table></figure>
-<p>对于任意一个区间[i, j]，若判断对于这个区间内的数组和是否为K，则可以转化为</p>
-<p>也就是前 j 项和减去前 i - 1项和，得到的就是 i 到 j 的和</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sum[j] - sum[i - 1] &#x3D;&#x3D; k</span><br><span class="line">移项得</span><br><span class="line">sum[i - 1] &#x3D; sum[j] - k</span><br></pre></td></tr></table></figure>
-<p>因此对于这道题，我们只要统计有多少个前缀和为 sum[j] - k 的个数即可</p>
-<p>我们可以建立哈希表，存储sum[j]出现的频率，最后对于每个j，查看一下sum[j] - k 的次数，把次数累加起来，就是最终的结果。</p>
-<p>由于我们只需要存储当前j下的sum[j]的频率，因此我们不需要单独开辟一个数组来存储前缀和，只要一个临时变量preSum即可</p>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">subarraySum</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//存储当前前缀和</span></span><br><span class="line">        <span class="keyword">int</span> preSum = <span class="number">0</span>;</span><br><span class="line">        Map&lt;Integer, Integer&gt; fre = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        fre.put(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            preSum = preSum + nums[j];</span><br><span class="line">            <span class="comment">//判断当前的preSum-k是否存在</span></span><br><span class="line">            <span class="comment">//若preSum-k等于0，也属于1次，所以初始化时需要fre.put(0,1)</span></span><br><span class="line">            <span class="keyword">if</span>(fre.containsKey(preSum - k)) &#123;</span><br><span class="line">                cnt += fre.get(preSum - k);</span><br><span class="line">            &#125;</span><br><span class="line">            fre.put(preSum, fre.getOrDefault(preSum, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>LeetCode</category>
-      </categories>
-      <tags>
-        <tag>数组</tag>
-        <tag>哈希表</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>LeetCode 617. 合并二叉树</title>
     <url>/posts/113bbac.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -553,42 +480,6 @@
       </categories>
       <tags>
         <tag>树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LeetCode 7. 整数翻转</title>
-    <url>/posts/419b1c83.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/reverse-integer/">7. 整数反转</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 123</span><br><span class="line">输出: 321</span><br></pre></td></tr></table></figure>
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: -123</span><br><span class="line">输出: -321</span><br></pre></td></tr></table></figure>
-<p>示例 3:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 120</span><br><span class="line">输出: 21</span><br></pre></td></tr></table></figure>
-<p>注意:</p>
-<p>假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231, 231 − 1]。请根据这个假设，如果反转后整数溢出那么就返回 0。</p>
-<h3 id="思路">3. 思路</h3>
-<ul>
-<li>初始化反转后的整数res为0</li>
-<li>记录temp=res * 10 + x % 10，此时temp即为遍历到当前位之前的反转整数（x % 10）是取x的最后一位数</li>
-<li><p>然后比较temp/10与res是否相等，如果整数不溢出显然相等，否则说明反转后的整数溢出，直接返回0</p></li>
-<li>如果相等，就将temp赋值给res，表示完成一次反转，最后x去掉最后已经反转的一位</li>
-<li><p>最后循环直到x等于0</p></li>
-</ul>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">     <span class="keyword">while</span> (x != <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">int</span> temp = res * <span class="number">10</span> + x % <span class="number">10</span>;</span><br><span class="line">         <span class="keyword">if</span> (temp / <span class="number">10</span> != res)</span><br><span class="line">             <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">         res = temp;</span><br><span class="line">         x /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="运行流程">5.运行流程</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">以x = <span class="number">123456</span> 为例</span><br><span class="line"></span><br><span class="line">x = <span class="number">123456</span> res = <span class="number">0</span>      temp = <span class="number">6</span></span><br><span class="line">x = <span class="number">12345</span>  res = <span class="number">6</span>      temp = <span class="number">65</span></span><br><span class="line">x = <span class="number">1234</span>   res = <span class="number">65</span>     temp = <span class="number">654</span></span><br><span class="line">x = <span class="number">123</span>    res = <span class="number">654</span>    temp = <span class="number">6543</span></span><br><span class="line">x = <span class="number">12</span>     res = <span class="number">6543</span>   temp = <span class="number">65432</span></span><br><span class="line">x = <span class="number">1</span>      res = <span class="number">65432</span>  temp = <span class="number">654321</span></span><br><span class="line">x = <span class="number">0</span>      res = <span class="number">654321</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>LeetCode</category>
-      </categories>
-      <tags>
-        <tag>数学</tag>
       </tags>
   </entry>
   <entry>
@@ -765,127 +656,76 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
-    <title>Spring MVC基础相关</title>
-    <url>/posts/447c970d.html</url>
-    <content><![CDATA[<h3 id="什么是spring-mvc">1. 什么是Spring MVC</h3>
-<ul>
-<li>Spring MVC是Spring体系的轻量级Web MVC框架</li>
-<li>Spring MVC的核心是Controller控制器，用于处理请求，产生响应</li>
-<li>Spring MVC基于Spring IOC容器运行，所有对象被IOC管理</li>
-</ul>
+    <title>LeetCode 7. 整数翻转</title>
+    <url>/posts/419b1c83.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/reverse-integer/">7. 整数反转</a></p>
 <a id="more"></a>
-<h3 id="springmvc环境配置">2. SpringMVC环境配置</h3>
-<h4 id="maven配置依赖spring-webmvc">2.1 Maven配置依赖spring-webmvc</h4>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="web.xml配置dispatcherservlet">2.2 web.xml配置DispatcherServlet</h4>
-<p>DispatcherServlet 是Spring MVC最核心的对象，用于拦截http请求，并根据请求的url调用与之对应的Controller方法，来完成http请求的处理</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">      </span><br><span class="line">      <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        在web应用启动时自动创建Spring IOC容器--&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        并初始化DispatcherServlet--&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        若不配置则会在第一次访问url时创建IOC容器--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>0<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        &#x27;/&#x27;代表拦截所有请求--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="配置applicationcontext的mvc标记">2.3 配置applicationContext的mvc标记</h4>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--    开启com.imooc.springmvc包下所有子包的注解扫描--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.imooc.springmvc&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    启用SpringMVC的注解开发模式--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    将图片/js/css等静态资源排除，提高执行效率--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="开发controller控制器">2.4 开发Controller控制器</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.imooc.springmvc.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">//直接向响应输出字符串数据，不跳转页面</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello mvc&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时运行tomcat，访问localhost:8080/test，就会显示<code>hello mvc</code></p>
-<h3 id="springmvc流程图">3. SpringMVC流程图</h3>
-<p><img src="https://i.loli.net/2020/09/22/gSpjYb9ytsendCK.png" /></p>
-<h3 id="springmvc数据绑定">4. SpringMVC数据绑定</h3>
-<h4 id="url-mapping">4.1 URL Mapping</h4>
-<p>URL Mapping是将URL与Controller方法绑定</p>
-<p>从而使得SpringMVC可通过Tomcat对外暴露服务</p>
-<h4 id="url-mapping注解">4.2 URL Mapping注解</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/test&quot;)</span> <span class="comment">//对URL进行全局配置</span></span><br><span class="line">						 <span class="comment">//表示所有的url前缀前都有/test</span></span><br><span class="line">						 <span class="comment">//在类上使用表示全局配置，在方法上，表示不区分get/post请求</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/testget&quot;)</span>	<span class="comment">//绑定Get请求</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">//直接向响应输出字符串数据，不跳转页面</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testGet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello GetMapping&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@PostMapping(&quot;/testget&quot;)</span> <span class="comment">//绑定Post请求</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello PostMapping&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="接收请求参数">5. 接收请求参数</h3>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 123</span><br><span class="line">输出: 321</span><br></pre></td></tr></table></figure>
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: -123</span><br><span class="line">输出: -321</span><br></pre></td></tr></table></figure>
+<p>示例 3:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 120</span><br><span class="line">输出: 21</span><br></pre></td></tr></table></figure>
+<p>注意:</p>
+<p>假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231, 231 − 1]。请根据这个假设，如果反转后整数溢出那么就返回 0。</p>
+<h3 id="思路">3. 思路</h3>
 <ul>
-<li>使用Controller方法参数接收</li>
-<li>使用Java Bean接收数据</li>
+<li>初始化反转后的整数res为0</li>
+<li>记录temp=res * 10 + x % 10，此时temp即为遍历到当前位之前的反转整数（x % 10）是取x的最后一位数</li>
+<li><p>然后比较temp/10与res是否相等，如果整数不溢出显然相等，否则说明反转后的整数溢出，直接返回0</p></li>
+<li>如果相等，就将temp赋值给res，表示完成一次反转，最后x去掉最后已经反转的一位</li>
+<li><p>最后循环直到x等于0</p></li>
 </ul>
-<h4 id="controller方法参数">5.1 Controller方法参数</h4>
-<p>如，在某个html中，存在表单</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/form1&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span> = <span class="string">&quot;username&quot;</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span> = <span class="string">&quot;passwd&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">&quot;submit&quot;</span> <span class="attr">value</span> = <span class="string">&quot;提交&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>则在对应的controller中，就可以接收参数</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/form1&quot;)</span> <span class="comment">//绑定Post请求</span></span><br><span class="line"><span class="meta">@ResponseBody</span> </span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(String username, Long passwd)</span> </span>&#123;</span><br><span class="line">	System.out.println(username + <span class="string">&quot;:&quot;</span> + passwd);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>还有另一种形式</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/testget&quot;)</span>	<span class="comment">//绑定Get请求</span></span><br><span class="line"><span class="meta">@ResponseBody</span> </span><br><span class="line"><span class="comment">//@RequestParam(&quot;manager_name&quot;)通过注解显示声明，则方法参数名可以任取</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testGet</span><span class="params">(<span class="meta">@RequestParam(&quot;manager_name&quot;)</span> String ManagerName)</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> ManagerName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="使用java-bean">5.2 使用Java Bean</h4>
-<p>新建一个实体类User，对应的属性即为请求过来的参数</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//变量名要与前端表单一致</span></span><br><span class="line">    String username;</span><br><span class="line">    Long passwd;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getPasswd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> passwd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPasswd</span><span class="params">(Long passwd)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.passwd = passwd;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>配置对应的Controller，此时通过user就能接收对应的参数</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/post&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">	System.out.println(user.getUsername() + <span class="string">&quot;:&quot;</span> + user.getPasswd());</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>若同时使用实体类和方法参数，则都会被注入对应的值</p>
-<h4 id="日期类型转换">5.3 日期类型转换</h4>
-<h5 id="方法参数中使用注解datetimeformat">5.3.1 方法参数中使用注解@DateTimeFormat</h5>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/post&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(<span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span> Date createTime)</span> </span>&#123;</span><br><span class="line">    System.out.println(createTime);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="实体类中使用注解">5.3.2 实体类中使用注解</h5>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    String username;</span><br><span class="line">    Long passwd;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span></span><br><span class="line">    Data createTime;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="新建转换类进行全局配置">5.3.3 新建转换类，进行全局配置</h5>
-<p>转换类需要实现Converter&lt;S,T&gt;接口</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.imooc.springmvc.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateConverter</span> <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">String</span>, <span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">convert</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> sdf.parse(s);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在<code>applicationContext.xml</code>中进行配置</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--    开启com.imooc.springmvc包下所有子包的注解扫描--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.imooc.springmvc&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    启用SpringMVC的注解开发模式--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span> <span class="attr">conversion-service</span>=<span class="string">&quot;conversionService&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    将图片/js/css等静态资源排除，提高执行效率--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;conversionService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.format.support.FormattingConversionServiceFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;converters&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.imooc.springmvc.converter.DateConverter&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>当同时存在全局配置和方法参数注解时，以小范围的优先，所以注解可以用来做一些特例的格式转换</p>
-<h3 id="web应用中文乱码相关">6. Web应用中文乱码相关</h3>
-<p>原因：Tomcat默认使用ISO-8859-1字符集，不包含中文</p>
-<p>解决：将ISO-8859-1字符集转化为UTF-8</p>
-<p>具体方案：</p>
-<ul>
-<li>Get请求乱码：server.xml增加URIEncoding属性</li>
-<li>Post请求乱码：web.xml配置CharacterEncodingFilter</li>
-<li>Response响应乱码：Spring配置StringHttpMessageConverter</li>
-</ul>
-<h4 id="get请求乱码">6.1 Get请求乱码</h4>
-<p>在tomcat的安装路径<code>D:\Java\apache-tomcat-8.5.58\conf</code>中，找到server.xml文件</p>
-<p>打开，找到Connector port=&quot;8080&quot;这部分，在最后添加<code>URIEncoding=&quot;UTF-8&quot;</code></p>
-<p>Tomcat 8.0以后的版本可以不用配置，默认就是UTF-8</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">&quot;8080&quot;</span> <span class="attr">protocol</span>=<span class="string">&quot;HTTP/1.1&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">connectionTimeout</span>=<span class="string">&quot;20000&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">redirectPort</span>=<span class="string">&quot;8443&quot;</span> <span class="attr">URIEncoding</span>=<span class="string">&quot;UTF-8&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="post请求乱码">6.2 Post请求乱码</h4>
-<p>在web.xml中添加如下配置</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--要转换的字符集--&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--对所有url都进行拦截--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="response响应乱码">6.3 Response响应乱码</h4>
-<p>在<code>applicationContext.xml</code>，修改<code>mvc:annotation-driven</code>为如下格式</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span> <span class="attr">conversion-service</span>=<span class="string">&quot;conversionService&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.http.converter.StringHttpMessageConverter&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;supportedMediaTypes&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">value</span>&gt;</span>text/html;charset=utf-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="响应输出结果">7. 响应输出结果</h3>
-<ul>
-<li><span class="citation" data-cites="ResponseBody">@ResponseBody</span> 产生响应文本</li>
-<li>ModelAndView 利用模板引擎渲染输出</li>
-</ul>
-<h4 id="responsebody">7.1 <span class="citation" data-cites="ResponseBody">@ResponseBody</span></h4>
-<p>直接产生相应体的数据，过程不设计任何视图</p>
-<p>可产生标准字符串/JSON/XML等格式数据</p>
-<p>可被StringHttpMessageConverter所影响</p>
-<h4 id="modelandview对象输出">7.2 ModelAndView对象输出</h4>
-<ul>
-<li>ModelAndView对象是指”模型（数据）与视图（界面）“对象</li>
-<li>通过ModelAndView可将包含数据对象与模板引擎进行绑定</li>
-<li>SpringMVC中默认的View是JSP也可以配置其他模板引擎</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//跳转页面的方法</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/view&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">showView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/view.jsp&quot;</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setUsername(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        mav.addObject(<span class="string">&quot;name&quot;</span>, user);</span><br><span class="line">        <span class="keyword">return</span> mav;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>添加要跳转的view.jsp页面</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h3&gt;Username: $&#123;name.username&#125;&lt;/h3&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<p>访问<code>localhost:8080/view</code>就能看到显示效果</p>
-<h3 id="modelandview">8. ModelAndView</h3>
-<p><code>mav.addObject()</code>方法设置的属性默认存放在<strong>当前请求</strong>中</p>
-<p>默认ModelAndView使用请求转发(forward)至页面</p>
-<p>重定向使用<code>new ModelAndView(&quot;redirect:/index.jsp&quot;)</code>，当controller和view的联系不太紧密时，一般使用页面重定向</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/view.jsp&quot;</span>);</span><br><span class="line"><span class="comment">//也可以写成</span></span><br><span class="line">ModelAndView mav = <span class="keyword">new</span> ModelAndView();</span><br><span class="line">mav.setViewName(<span class="string">&quot;/view.jsp&quot;</span>); </span><br><span class="line"><span class="comment">//若不包含/则是相对路径</span></span><br></pre></td></tr></table></figure>
-<h3 id="整合freemarker">9. 整合Freemarker</h3>
-<h4 id="引入依赖">9.1 引入依赖</h4>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.freemarker<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>freemarker<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.19<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="启用freemarker模板引擎">9.2 启用Freemarker模板引擎</h4>
-<p>在<code>applicationContext.xml</code>中添加bean</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;ViewResolver&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        设置响应输出，并解决中文乱码--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;contentType&quot;</span> <span class="attr">value</span>=<span class="string">&quot;text/html;charset=utf-8&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        指定Freemarker模板文件拓展名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;suffix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;.ftl&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="配置freemarker参数">9.3 配置Freemarker参数</h4>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;freemarkerConfig&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        设置模板保存目录--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;templateLoaderPath&quot;</span> <span class="attr">value</span>=<span class="string">&quot;/WEB-INF/ftl&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        其他模板引擎设置--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;freemarkerSettings&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        设置脚本与数据渲染时的字符集--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;defaultEncoding&quot;</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="测试freemarker">9.4 测试Freemarker</h4>
-<p>新建FreemarkerController类</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/fm&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FreemarkerController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">showTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/test&quot;</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setUsername(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        mav.addObject(<span class="string">&quot;u&quot;</span>, user); <span class="comment">//u是别名</span></span><br><span class="line">        <span class="keyword">return</span> mav;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面配置的路径<code>WEB-INF/ftl</code>下新建test.ftl，添加</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;h2&gt;$&#123;u.username&#125;&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
-<p>最后启动Tomcat，访问<code>local:8080/fm/test</code>就能看到运行效果</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">     <span class="keyword">while</span> (x != <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">int</span> temp = res * <span class="number">10</span> + x % <span class="number">10</span>;</span><br><span class="line">         <span class="keyword">if</span> (temp / <span class="number">10</span> != res)</span><br><span class="line">             <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">         res = temp;</span><br><span class="line">         x /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="运行流程">5.运行流程</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">以x = <span class="number">123456</span> 为例</span><br><span class="line"></span><br><span class="line">x = <span class="number">123456</span> res = <span class="number">0</span>      temp = <span class="number">6</span></span><br><span class="line">x = <span class="number">12345</span>  res = <span class="number">6</span>      temp = <span class="number">65</span></span><br><span class="line">x = <span class="number">1234</span>   res = <span class="number">65</span>     temp = <span class="number">654</span></span><br><span class="line">x = <span class="number">123</span>    res = <span class="number">654</span>    temp = <span class="number">6543</span></span><br><span class="line">x = <span class="number">12</span>     res = <span class="number">6543</span>   temp = <span class="number">65432</span></span><br><span class="line">x = <span class="number">1</span>      res = <span class="number">65432</span>  temp = <span class="number">654321</span></span><br><span class="line">x = <span class="number">0</span>      res = <span class="number">654321</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Spring</category>
+        <category>LeetCode</category>
       </categories>
       <tags>
-        <tag>Spring MVC</tag>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 560. 和为K的子数组</title>
+    <url>/posts/5c7b75ba.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/subarray-sum-equals-k/">560. 和为K的子数组</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。</p>
+<p>示例 1 :</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入:nums &#x3D; [1,1,1], k &#x3D; 2</span><br><span class="line">输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。</span><br></pre></td></tr></table></figure>
+<p>说明 :</p>
+<ul>
+<li>数组的长度为 [1, 20,000]</li>
+<li>数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]</li>
+</ul>
+<h3 id="思路">3. 思路</h3>
+<p>这道题可以通过前缀和的思路来做</p>
+<p>即定义数组sum[i]代表数组nums[0...i]的和</p>
+<p>我们就可以遍历一遍数组，得到所有的前缀和</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sum[i] &#x3D; sum[i - 1] + nums[i]</span><br></pre></td></tr></table></figure>
+<p>对于任意一个区间[i, j]，若判断对于这个区间内的数组和是否为K，则可以转化为</p>
+<p>也就是前 j 项和减去前 i - 1项和，得到的就是 i 到 j 的和</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sum[j] - sum[i - 1] &#x3D;&#x3D; k</span><br><span class="line">移项得</span><br><span class="line">sum[i - 1] &#x3D; sum[j] - k</span><br></pre></td></tr></table></figure>
+<p>因此对于这道题，我们只要统计有多少个前缀和为 sum[j] - k 的个数即可</p>
+<p>我们可以建立哈希表，存储sum[j]出现的频率，最后对于每个j，查看一下sum[j] - k 的次数，把次数累加起来，就是最终的结果。</p>
+<p>由于我们只需要存储当前j下的sum[j]的频率，因此我们不需要单独开辟一个数组来存储前缀和，只要一个临时变量preSum即可</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">subarraySum</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//存储当前前缀和</span></span><br><span class="line">        <span class="keyword">int</span> preSum = <span class="number">0</span>;</span><br><span class="line">        Map&lt;Integer, Integer&gt; fre = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        fre.put(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            preSum = preSum + nums[j];</span><br><span class="line">            <span class="comment">//判断当前的preSum-k是否存在</span></span><br><span class="line">            <span class="comment">//若preSum-k等于0，也属于1次，所以初始化时需要fre.put(0,1)</span></span><br><span class="line">            <span class="keyword">if</span>(fre.containsKey(preSum - k)) &#123;</span><br><span class="line">                cnt += fre.get(preSum - k);</span><br><span class="line">            &#125;</span><br><span class="line">            fre.put(preSum, fre.getOrDefault(preSum, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>数组</tag>
+        <tag>哈希表</tag>
       </tags>
   </entry>
   <entry>
@@ -1023,76 +863,158 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
-    <title>记一次小爬虫</title>
-    <url>/posts/75177dc0.html</url>
-    <content><![CDATA[<p>这天突然收到师兄发的消息，想让我帮他爬一次中国联通的历史股票数据</p>
-<p>数据的链接在这 <a href="http://www.aigaogao.com/tools/history.html?s=600050">中国联通</a></p>
+    <title>剑指offer 10-I. 斐波那契数列</title>
+    <url>/posts/646bc0ca.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/">剑指 Offer 10- I. 斐波那契数列</a></p>
 <a id="more"></a>
-<p>打开F12可以看到网页内的数据是这样的</p>
-<p><img src="https://i.loli.net/2020/09/27/FQ5xJLNSAR9BOjk.png" /></p>
-<p>所以需要爬取的数据都在<code>&lt;tr&gt;</code>标签下的<code>&lt;td&gt;</code>标签内</p>
-<p>首先我们要爬取整个页面，此时<code>response.text</code>即为爬取整个网页文本</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&#x27;http://www.aigaogao.com/tools/history.html?s=600050&#x27;</span></span><br><span class="line">response = requests.get(url)</span><br><span class="line">response.raise_for_status()<span class="comment"># 如果HTTP请求返回了不成功的状态码,会抛出一个HTTPError异常</span></span><br><span class="line">response.encoding = response.apparent_encoding <span class="comment"># 从内容中分析出的响应内容编码方式</span></span><br><span class="line"></span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
-<p>接下来我们需要找到对应的标签，此时用一个贼好用的库 <code>xpath</code></p>
-<p>XPath，全称 XML Path Language，即 XML 路径语言，它是一门在 XML 文档中查找信息的语言。最初是用来搜寻 XML 文档的，但同样适用于 HTML 文档的搜索。所以在做爬虫时完全可以使用 XPath 做相应的信息抽取</p>
-<p>XPath 的选择功能十分强大，它提供了非常简洁明了的路径选择表达式。另外，它还提供了超过 100 个内建函数，用于字符串、数值、时间的匹配以及节点、序列的处理等，几乎所有想要定位的节点都可以用 XPath 来选择。</p>
-<p>这是官方文档 <a href="https://www.w3.org/TR/2017/REC-xpath-31-20170321/">xpath</a></p>
-<p>首先先定位到所有标签最近的父标签，如图中的<code>&lt;div&gt;</code>，右键选择<code>copy XPath</code></p>
-<p>得到此时的路径<code>//*[@id=&quot;ctl16_contentdiv&quot;]</code></p>
-<p><img src="https://i.loli.net/2020/09/27/4v3RbdZXQaAzho1.png" /></p>
-<h5 id="xpath-常用规则">XPath 常用规则</h5>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">表达式</th>
-<th style="text-align: left;">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">nodename</td>
-<td style="text-align: left;">选取此节点的所有子节点</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">/</td>
-<td style="text-align: left;">从当前节点选区直接子节点</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">//</td>
-<td style="text-align: left;">从当前节点选取子孙节点</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">选取当前节点</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">..</td>
-<td style="text-align: left;">选取当前节点的父节点</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">@</td>
-<td style="text-align: left;">选取属性</td>
-</tr>
-</tbody>
-</table>
-<p>*代表匹配所有节点，返回的结果是一个列表，每个元素都是一个 Element 类型，后跟节点名称。</p>
-<p>/text() 文本获取，表示获取当前节点中的文本</p>
-<p>因此</p>
-<p>在当前路径下<code>//*[@id=&quot;ctl16_contentdiv&quot;]</code></p>
-<p><code>/table/tr</code>表示div下面的tr节点</p>
-<p><code>//*/text()</code>表示tr下面的所有节点的所有文本</p>
-<p>即可获取想要爬取的所有信息</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line">tree = etree.HTML(response.text)</span><br><span class="line">res = tree.xpath(<span class="string">&#x27; // *[ @ id = &quot;ctl16_contentdiv&quot;]/table/tr//*/text()&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>最后附上所有的代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line"></span><br><span class="line">    url = <span class="string">&#x27;http://www.aigaogao.com/tools/history.html?s=600050&#x27;</span></span><br><span class="line"></span><br><span class="line">    response = requests.get(url)</span><br><span class="line">    response.raise_for_status()</span><br><span class="line">    response.encoding = response.apparent_encoding</span><br><span class="line">    tree = etree.HTML(response.text)</span><br><span class="line">    res = tree.xpath(<span class="string">&#x27; // *[ @ id = &quot;ctl16_contentdiv&quot;]/table/tr//*/text()&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    f = open(<span class="string">&#x27;test.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, newline=<span class="string">&#x27;&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    csv_writer = csv.writer(f)</span><br><span class="line">    cnt = <span class="number">0</span></span><br><span class="line">    list = []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> res:</span><br><span class="line">        <span class="keyword">if</span> item <span class="keyword">in</span> [<span class="string">&#x27;缩&#x27;</span>, <span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;6&#x27;</span>]:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        list.append(item)</span><br><span class="line">        cnt = cnt + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> cnt == <span class="number">12</span>:</span><br><span class="line">            csv_writer.writerow(list)</span><br><span class="line">            cnt = <span class="number">0</span></span><br><span class="line">            list = []</span><br><span class="line"></span><br><span class="line">    f.close()</span><br><span class="line">    print(<span class="string">&quot;done&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>这是最后爬取的数据结果</p>
-<p><img src="https://i.loli.net/2020/09/27/43YQ1bCqNjDfSWa.png" /></p>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项。斐波那契数列的定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">F(0) &#x3D; 0,   F(1) &#x3D; 1</span><br><span class="line">F(N) &#x3D; F(N - 1) + F(N - 2), 其中 N &gt; 1.</span><br></pre></td></tr></table></figure>
+<p>斐波那契数列由 0 和 1 开始，之后的斐波那契数就是由之前的两数相加而得出。</p>
+<p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：n &#x3D; 2</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：n &#x3D; 5</span><br><span class="line">输出：5</span><br></pre></td></tr></table></figure>
+<p>提示：</p>
+<p>0 &lt;= n &lt;= 100</p>
+<h3 id="思路">3. 思路</h3>
+<p>可以通过动态规划的思路来实现</p>
+<p>并且由于当前值只跟前一个值和前前一个值相关，所以可以无需开辟dp数组，直接用两个变量来存储</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fib</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> ppre = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> pre = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> cur = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            cur = (pre + ppre) % (<span class="number">1000000007</span>);</span><br><span class="line">            ppre = pre;</span><br><span class="line">            pre = cur;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cur;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>杂记</category>
+        <category>剑指offer</category>
       </categories>
       <tags>
-        <tag>爬虫</tag>
+        <tag>递归</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring MVC基础相关</title>
+    <url>/posts/447c970d.html</url>
+    <content><![CDATA[<h3 id="什么是spring-mvc">1. 什么是Spring MVC</h3>
+<ul>
+<li>Spring MVC是Spring体系的轻量级Web MVC框架</li>
+<li>Spring MVC的核心是Controller控制器，用于处理请求，产生响应</li>
+<li>Spring MVC基于Spring IOC容器运行，所有对象被IOC管理</li>
+</ul>
+<a id="more"></a>
+<h3 id="springmvc环境配置">2. SpringMVC环境配置</h3>
+<h4 id="maven配置依赖spring-webmvc">2.1 Maven配置依赖spring-webmvc</h4>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="web.xml配置dispatcherservlet">2.2 web.xml配置DispatcherServlet</h4>
+<p>DispatcherServlet 是Spring MVC最核心的对象，用于拦截http请求，并根据请求的url调用与之对应的Controller方法，来完成http请求的处理</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">      </span><br><span class="line">      <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        在web应用启动时自动创建Spring IOC容器--&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        并初始化DispatcherServlet--&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        若不配置则会在第一次访问url时创建IOC容器--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>0<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        &#x27;/&#x27;代表拦截所有请求--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置applicationcontext的mvc标记">2.3 配置applicationContext的mvc标记</h4>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--    开启com.imooc.springmvc包下所有子包的注解扫描--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.imooc.springmvc&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    启用SpringMVC的注解开发模式--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    将图片/js/css等静态资源排除，提高执行效率--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="开发controller控制器">2.4 开发Controller控制器</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.imooc.springmvc.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">//直接向响应输出字符串数据，不跳转页面</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello mvc&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时运行tomcat，访问localhost:8080/test，就会显示<code>hello mvc</code></p>
+<h3 id="springmvc流程图">3. SpringMVC流程图</h3>
+<p><img src="https://i.loli.net/2020/09/22/gSpjYb9ytsendCK.png" /></p>
+<h3 id="springmvc数据绑定">4. SpringMVC数据绑定</h3>
+<h4 id="url-mapping">4.1 URL Mapping</h4>
+<p>URL Mapping是将URL与Controller方法绑定</p>
+<p>从而使得SpringMVC可通过Tomcat对外暴露服务</p>
+<h4 id="url-mapping注解">4.2 URL Mapping注解</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/test&quot;)</span> <span class="comment">//对URL进行全局配置</span></span><br><span class="line">						 <span class="comment">//表示所有的url前缀前都有/test</span></span><br><span class="line">						 <span class="comment">//在类上使用表示全局配置，在方法上，表示不区分get/post请求</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/testget&quot;)</span>	<span class="comment">//绑定Get请求</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">//直接向响应输出字符串数据，不跳转页面</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testGet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello GetMapping&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@PostMapping(&quot;/testget&quot;)</span> <span class="comment">//绑定Post请求</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello PostMapping&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接收请求参数">5. 接收请求参数</h3>
+<ul>
+<li>使用Controller方法参数接收</li>
+<li>使用Java Bean接收数据</li>
+</ul>
+<h4 id="controller方法参数">5.1 Controller方法参数</h4>
+<p>如，在某个html中，存在表单</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/form1&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span> = <span class="string">&quot;username&quot;</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span> = <span class="string">&quot;passwd&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">&quot;submit&quot;</span> <span class="attr">value</span> = <span class="string">&quot;提交&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>则在对应的controller中，就可以接收参数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/form1&quot;)</span> <span class="comment">//绑定Post请求</span></span><br><span class="line"><span class="meta">@ResponseBody</span> </span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(String username, Long passwd)</span> </span>&#123;</span><br><span class="line">	System.out.println(username + <span class="string">&quot;:&quot;</span> + passwd);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有另一种形式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/testget&quot;)</span>	<span class="comment">//绑定Get请求</span></span><br><span class="line"><span class="meta">@ResponseBody</span> </span><br><span class="line"><span class="comment">//@RequestParam(&quot;manager_name&quot;)通过注解显示声明，则方法参数名可以任取</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testGet</span><span class="params">(<span class="meta">@RequestParam(&quot;manager_name&quot;)</span> String ManagerName)</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> ManagerName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用java-bean">5.2 使用Java Bean</h4>
+<p>新建一个实体类User，对应的属性即为请求过来的参数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//变量名要与前端表单一致</span></span><br><span class="line">    String username;</span><br><span class="line">    Long passwd;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getPasswd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> passwd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPasswd</span><span class="params">(Long passwd)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.passwd = passwd;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置对应的Controller，此时通过user就能接收对应的参数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/post&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">	System.out.println(user.getUsername() + <span class="string">&quot;:&quot;</span> + user.getPasswd());</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>若同时使用实体类和方法参数，则都会被注入对应的值</p>
+<h4 id="日期类型转换">5.3 日期类型转换</h4>
+<h5 id="方法参数中使用注解datetimeformat">5.3.1 方法参数中使用注解@DateTimeFormat</h5>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/post&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(<span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span> Date createTime)</span> </span>&#123;</span><br><span class="line">    System.out.println(createTime);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="实体类中使用注解">5.3.2 实体类中使用注解</h5>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    String username;</span><br><span class="line">    Long passwd;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span></span><br><span class="line">    Data createTime;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="新建转换类进行全局配置">5.3.3 新建转换类，进行全局配置</h5>
+<p>转换类需要实现Converter&lt;S,T&gt;接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.imooc.springmvc.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateConverter</span> <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">String</span>, <span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">convert</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> sdf.parse(s);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>applicationContext.xml</code>中进行配置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--    开启com.imooc.springmvc包下所有子包的注解扫描--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.imooc.springmvc&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    启用SpringMVC的注解开发模式--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span> <span class="attr">conversion-service</span>=<span class="string">&quot;conversionService&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    将图片/js/css等静态资源排除，提高执行效率--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;conversionService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.format.support.FormattingConversionServiceFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;converters&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.imooc.springmvc.converter.DateConverter&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当同时存在全局配置和方法参数注解时，以小范围的优先，所以注解可以用来做一些特例的格式转换</p>
+<h3 id="web应用中文乱码相关">6. Web应用中文乱码相关</h3>
+<p>原因：Tomcat默认使用ISO-8859-1字符集，不包含中文</p>
+<p>解决：将ISO-8859-1字符集转化为UTF-8</p>
+<p>具体方案：</p>
+<ul>
+<li>Get请求乱码：server.xml增加URIEncoding属性</li>
+<li>Post请求乱码：web.xml配置CharacterEncodingFilter</li>
+<li>Response响应乱码：Spring配置StringHttpMessageConverter</li>
+</ul>
+<h4 id="get请求乱码">6.1 Get请求乱码</h4>
+<p>在tomcat的安装路径<code>D:\Java\apache-tomcat-8.5.58\conf</code>中，找到server.xml文件</p>
+<p>打开，找到Connector port=&quot;8080&quot;这部分，在最后添加<code>URIEncoding=&quot;UTF-8&quot;</code></p>
+<p>Tomcat 8.0以后的版本可以不用配置，默认就是UTF-8</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">&quot;8080&quot;</span> <span class="attr">protocol</span>=<span class="string">&quot;HTTP/1.1&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">connectionTimeout</span>=<span class="string">&quot;20000&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">redirectPort</span>=<span class="string">&quot;8443&quot;</span> <span class="attr">URIEncoding</span>=<span class="string">&quot;UTF-8&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="post请求乱码">6.2 Post请求乱码</h4>
+<p>在web.xml中添加如下配置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--要转换的字符集--&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--对所有url都进行拦截--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="response响应乱码">6.3 Response响应乱码</h4>
+<p>在<code>applicationContext.xml</code>，修改<code>mvc:annotation-driven</code>为如下格式</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span> <span class="attr">conversion-service</span>=<span class="string">&quot;conversionService&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.http.converter.StringHttpMessageConverter&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;supportedMediaTypes&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">value</span>&gt;</span>text/html;charset=utf-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="响应输出结果">7. 响应输出结果</h3>
+<ul>
+<li><span class="citation" data-cites="ResponseBody">@ResponseBody</span> 产生响应文本</li>
+<li>ModelAndView 利用模板引擎渲染输出</li>
+</ul>
+<h4 id="responsebody">7.1 <span class="citation" data-cites="ResponseBody">@ResponseBody</span></h4>
+<p>直接产生相应体的数据，过程不设计任何视图</p>
+<p>可产生标准字符串/JSON/XML等格式数据</p>
+<p>可被StringHttpMessageConverter所影响</p>
+<h4 id="modelandview对象输出">7.2 ModelAndView对象输出</h4>
+<ul>
+<li>ModelAndView对象是指”模型（数据）与视图（界面）“对象</li>
+<li>通过ModelAndView可将包含数据对象与模板引擎进行绑定</li>
+<li>SpringMVC中默认的View是JSP也可以配置其他模板引擎</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//跳转页面的方法</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/view&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">showView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/view.jsp&quot;</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setUsername(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        mav.addObject(<span class="string">&quot;name&quot;</span>, user);</span><br><span class="line">        <span class="keyword">return</span> mav;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>添加要跳转的view.jsp页面</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h3&gt;Username: $&#123;name.username&#125;&lt;/h3&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>访问<code>localhost:8080/view</code>就能看到显示效果</p>
+<h3 id="modelandview">8. ModelAndView</h3>
+<p><code>mav.addObject()</code>方法设置的属性默认存放在<strong>当前请求</strong>中</p>
+<p>默认ModelAndView使用请求转发(forward)至页面</p>
+<p>重定向使用<code>new ModelAndView(&quot;redirect:/index.jsp&quot;)</code>，当controller和view的联系不太紧密时，一般使用页面重定向</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/view.jsp&quot;</span>);</span><br><span class="line"><span class="comment">//也可以写成</span></span><br><span class="line">ModelAndView mav = <span class="keyword">new</span> ModelAndView();</span><br><span class="line">mav.setViewName(<span class="string">&quot;/view.jsp&quot;</span>); </span><br><span class="line"><span class="comment">//若不包含/则是相对路径</span></span><br></pre></td></tr></table></figure>
+<h3 id="整合freemarker">9. 整合Freemarker</h3>
+<h4 id="引入依赖">9.1 引入依赖</h4>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.freemarker<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>freemarker<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.19<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="启用freemarker模板引擎">9.2 启用Freemarker模板引擎</h4>
+<p>在<code>applicationContext.xml</code>中添加bean</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;ViewResolver&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        设置响应输出，并解决中文乱码--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;contentType&quot;</span> <span class="attr">value</span>=<span class="string">&quot;text/html;charset=utf-8&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        指定Freemarker模板文件拓展名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;suffix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;.ftl&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置freemarker参数">9.3 配置Freemarker参数</h4>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;freemarkerConfig&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        设置模板保存目录--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;templateLoaderPath&quot;</span> <span class="attr">value</span>=<span class="string">&quot;/WEB-INF/ftl&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        其他模板引擎设置--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;freemarkerSettings&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        设置脚本与数据渲染时的字符集--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;defaultEncoding&quot;</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="测试freemarker">9.4 测试Freemarker</h4>
+<p>新建FreemarkerController类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/fm&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FreemarkerController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">showTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/test&quot;</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setUsername(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        mav.addObject(<span class="string">&quot;u&quot;</span>, user); <span class="comment">//u是别名</span></span><br><span class="line">        <span class="keyword">return</span> mav;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面配置的路径<code>WEB-INF/ftl</code>下新建test.ftl，添加</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;h2&gt;$&#123;u.username&#125;&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
+<p>最后启动Tomcat，访问<code>localhost:8080/fm/test</code>就能看到运行效果</p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring MVC</tag>
       </tags>
   </entry>
   <entry>
@@ -1218,6 +1140,147 @@ e^{-(\omega^Tx+b)}=1
       </categories>
       <tags>
         <tag>逻辑回归</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次小爬虫</title>
+    <url>/posts/75177dc0.html</url>
+    <content><![CDATA[<p>这天突然收到师兄发的消息，想让我帮他爬一次中国联通的历史股票数据</p>
+<p>数据的链接在这 <a href="http://www.aigaogao.com/tools/history.html?s=600050">中国联通</a></p>
+<a id="more"></a>
+<p>打开F12可以看到网页内的数据是这样的</p>
+<p><img src="https://i.loli.net/2020/09/27/FQ5xJLNSAR9BOjk.png" /></p>
+<p>所以需要爬取的数据都在<code>&lt;tr&gt;</code>标签下的<code>&lt;td&gt;</code>标签内</p>
+<p>首先我们要爬取整个页面，此时<code>response.text</code>即为爬取整个网页文本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&#x27;http://www.aigaogao.com/tools/history.html?s=600050&#x27;</span></span><br><span class="line">response = requests.get(url)</span><br><span class="line">response.raise_for_status()<span class="comment"># 如果HTTP请求返回了不成功的状态码,会抛出一个HTTPError异常</span></span><br><span class="line">response.encoding = response.apparent_encoding <span class="comment"># 从内容中分析出的响应内容编码方式</span></span><br><span class="line"></span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+<p>接下来我们需要找到对应的标签，此时用一个贼好用的库 <code>xpath</code></p>
+<p>XPath，全称 XML Path Language，即 XML 路径语言，它是一门在 XML 文档中查找信息的语言。最初是用来搜寻 XML 文档的，但同样适用于 HTML 文档的搜索。所以在做爬虫时完全可以使用 XPath 做相应的信息抽取</p>
+<p>XPath 的选择功能十分强大，它提供了非常简洁明了的路径选择表达式。另外，它还提供了超过 100 个内建函数，用于字符串、数值、时间的匹配以及节点、序列的处理等，几乎所有想要定位的节点都可以用 XPath 来选择。</p>
+<p>这是官方文档 <a href="https://www.w3.org/TR/2017/REC-xpath-31-20170321/">xpath</a></p>
+<p>首先先定位到所有标签最近的父标签，如图中的<code>&lt;div&gt;</code>，右键选择<code>copy XPath</code></p>
+<p>得到此时的路径<code>//*[@id=&quot;ctl16_contentdiv&quot;]</code></p>
+<p><img src="https://i.loli.net/2020/09/27/4v3RbdZXQaAzho1.png" /></p>
+<h5 id="xpath-常用规则">XPath 常用规则</h5>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">表达式</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nodename</td>
+<td style="text-align: left;">选取此节点的所有子节点</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/</td>
+<td style="text-align: left;">从当前节点选区直接子节点</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">//</td>
+<td style="text-align: left;">从当前节点选取子孙节点</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">选取当前节点</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">..</td>
+<td style="text-align: left;">选取当前节点的父节点</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">@</td>
+<td style="text-align: left;">选取属性</td>
+</tr>
+</tbody>
+</table>
+<p>*代表匹配所有节点，返回的结果是一个列表，每个元素都是一个 Element 类型，后跟节点名称。</p>
+<p>/text() 文本获取，表示获取当前节点中的文本</p>
+<p>因此</p>
+<p>在当前路径下<code>//*[@id=&quot;ctl16_contentdiv&quot;]</code></p>
+<p><code>/table/tr</code>表示div下面的tr节点</p>
+<p><code>//*/text()</code>表示tr下面的所有节点的所有文本</p>
+<p>即可获取想要爬取的所有信息</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line">tree = etree.HTML(response.text)</span><br><span class="line">res = tree.xpath(<span class="string">&#x27; // *[ @ id = &quot;ctl16_contentdiv&quot;]/table/tr//*/text()&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>最后附上所有的代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line"></span><br><span class="line">    url = <span class="string">&#x27;http://www.aigaogao.com/tools/history.html?s=600050&#x27;</span></span><br><span class="line"></span><br><span class="line">    response = requests.get(url)</span><br><span class="line">    response.raise_for_status()</span><br><span class="line">    response.encoding = response.apparent_encoding</span><br><span class="line">    tree = etree.HTML(response.text)</span><br><span class="line">    res = tree.xpath(<span class="string">&#x27; // *[ @ id = &quot;ctl16_contentdiv&quot;]/table/tr//*/text()&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    f = open(<span class="string">&#x27;test.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, newline=<span class="string">&#x27;&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    csv_writer = csv.writer(f)</span><br><span class="line">    cnt = <span class="number">0</span></span><br><span class="line">    list = []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> res:</span><br><span class="line">        <span class="keyword">if</span> item <span class="keyword">in</span> [<span class="string">&#x27;缩&#x27;</span>, <span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;6&#x27;</span>]:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        list.append(item)</span><br><span class="line">        cnt = cnt + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> cnt == <span class="number">12</span>:</span><br><span class="line">            csv_writer.writerow(list)</span><br><span class="line">            cnt = <span class="number">0</span></span><br><span class="line">            list = []</span><br><span class="line"></span><br><span class="line">    f.close()</span><br><span class="line">    print(<span class="string">&quot;done&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>这是最后爬取的数据结果</p>
+<p><img src="https://i.loli.net/2020/09/27/43YQ1bCqNjDfSWa.png" /></p>
+]]></content>
+      <categories>
+        <category>杂记</category>
+      </categories>
+      <tags>
+        <tag>爬虫</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指offer 10-II. 青蛙跳台阶问题</title>
+    <url>/posts/34501d57.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/">剑指 Offer 10- II. 青蛙跳台阶问题</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶。求该青蛙跳上一个 n 级的台阶总共有多少种跳法。</p>
+<p>答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：n &#x3D; 2</span><br><span class="line">输出：2</span><br></pre></td></tr></table></figure>
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：n &#x3D; 7</span><br><span class="line">输出：21</span><br></pre></td></tr></table></figure>
+<p>示例 3：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：n &#x3D; 0</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
+<p>提示：</p>
+<p>0 &lt;= n &lt;= 100</p>
+<h3 id="思路">3. 思路</h3>
+<p>这道题也可以通过动态规划的思路来实现</p>
+<p>这道题思路与上一道<a href="https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/">剑指 Offer 10- I. 斐波那契数列</a>思路一模一样，这里用开dp数组的做法，也可以不开</p>
+<p>dp[i]表示第i个台阶共有多少种跳法</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numWays</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n == <span class="number">0</span> || n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        dp[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            dp[i] = dp[i - <span class="number">1</span>] + dp[i - <span class="number">2</span>];</span><br><span class="line">            dp[i] = dp[i] % <span class="number">1000000007</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>递归</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 116. 填充每个节点的下一个右侧节点指针</title>
+    <url>/posts/33b5a27e.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/">116. 填充每个节点的下一个右侧节点指针</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>给定一个完美二叉树，其所有叶子节点都在同一层，每个父节点都有两个子节点。二叉树定义如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">struct Node &#123;</span><br><span class="line">  <span class="keyword">int</span> val;</span><br><span class="line">  Node *left;</span><br><span class="line">  Node *right;</span><br><span class="line">  Node *next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>填充它的每个 next 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 next 指针设置为 NULL。</p>
+<p>初始状态下，所有 next 指针都被设置为 NULL。</p>
+<p>示例：</p>
+<p><img src="https://i.loli.net/2020/09/22/giVD6jMItQrNSmq.png" /></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：&#123;&quot;$id&quot;:&quot;1&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;2&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;3&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:4&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$id&quot;:&quot;4&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:5&#125;,&quot;val&quot;:2&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$id&quot;:&quot;5&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;6&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:6&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$id&quot;:&quot;7&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:7&#125;,&quot;val&quot;:3&#125;,&quot;val&quot;:1&#125;</span><br><span class="line"></span><br><span class="line">输出：&#123;&quot;$id&quot;:&quot;1&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;2&quot;,&quot;left&quot;:&#123;&quot;$id&quot;:&quot;3&quot;,&quot;left&quot;:null,&quot;next&quot;:&#123;&quot;$id&quot;:&quot;4&quot;,&quot;left&quot;:null,&quot;next&quot;:&#123;&quot;$id&quot;:&quot;5&quot;,&quot;left&quot;:null,&quot;next&quot;:&#123;&quot;$id&quot;:&quot;6&quot;,&quot;left&quot;:null,&quot;next&quot;:null,&quot;right&quot;:null,&quot;val&quot;:7&#125;,&quot;right&quot;:null,&quot;val&quot;:6&#125;,&quot;right&quot;:null,&quot;val&quot;:5&#125;,&quot;right&quot;:null,&quot;val&quot;:4&#125;,&quot;next&quot;:&#123;&quot;$id&quot;:&quot;7&quot;,&quot;left&quot;:&#123;&quot;$ref&quot;:&quot;5&quot;&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$ref&quot;:&quot;6&quot;&#125;,&quot;val&quot;:3&#125;,&quot;right&quot;:&#123;&quot;$ref&quot;:&quot;4&quot;&#125;,&quot;val&quot;:2&#125;,&quot;next&quot;:null,&quot;right&quot;:&#123;&quot;$ref&quot;:&quot;7&quot;&#125;,&quot;val&quot;:1&#125;</span><br><span class="line"></span><br><span class="line">解释：给定二叉树如图 A 所示，你的函数应该填充它的每个 next 指针，以指向其下一个右侧节点，如图 B 所示。</span><br></pre></td></tr></table></figure>
+<p>提示：</p>
+<p>你只能使用常量级额外空间。 使用递归解题也符合要求，本题中递归程序占用的栈空间不算做额外的空间复杂度。</p>
+<h3 id="思路i">3. 思路I</h3>
+<p>我们可以通过递归实现，即对于传过来的节点node，我们只要将<code>node.left.next == node.right</code>，但是对于跨父节点的两个相邻节点，只传一个node节点不够，因为在传入一个node的兄弟节点，因此对于跨父节点的相邻节点就是<code>node1.left.next = node2.right</code></p>
+<h3 id="代码实现i">4. 代码实现I</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">connectRight</span><span class="params">(Node leftNode, Node rightNode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(leftNode == <span class="keyword">null</span> &amp;&amp; rightNode == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">//next指针指向右兄弟节点</span></span><br><span class="line">        leftNode.next = rightNode;</span><br><span class="line">        <span class="comment">//左子树的兄弟节点</span></span><br><span class="line">        connectRight(leftNode.left, leftNode.right);</span><br><span class="line">        <span class="comment">//右子树的兄弟节点</span></span><br><span class="line">        connectRight(rightNode.left, rightNode.right);</span><br><span class="line">        <span class="comment">//非同一个父节点的右节点和相邻左节点</span></span><br><span class="line">        connectRight(leftNode.right, rightNode.left);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">connect</span><span class="params">(Node root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) <span class="keyword">return</span> root;</span><br><span class="line">        connectRight(root.left, root.right);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="思路ii">5. 思路II</h3>
+<p>也可以通过非递归来实现</p>
+<p>对于有共同父节点的两个相邻节点，通过父节点就可以将这两个子节点串联起来</p>
+<p>对于跨父节点的两个相邻节点，可以通过父节点的next找到邻居，然后要传联的就是next的左节点，即<code>root.right.next = root.next.left</code>，此时需要保证root.next不为空</p>
+<p>核心就是这是一颗完美二叉树，且通过next指针将当前层连接起来，所以可以直接层序遍历</p>
+<h3 id="代码实现ii">6. 代码实现II</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">connect</span><span class="params">(Node root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">        Node pre = root;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//pre.left为空时，没有下一层了，此时的Pre为叶子节点</span></span><br><span class="line">        <span class="keyword">while</span> (pre.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            Node tmp = pre;</span><br><span class="line">            <span class="keyword">while</span> (tmp != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//将tmp的左右节点都串联起来</span></span><br><span class="line">                <span class="comment">//同一个父节点的串联</span></span><br><span class="line">                tmp.left.next = tmp.right;</span><br><span class="line">                <span class="comment">//下一个不为空说明上一层已经帮我们完成串联了</span></span><br><span class="line">                <span class="keyword">if</span> (tmp.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    tmp.right.next = tmp.next.left;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//继续往右边遍历</span></span><br><span class="line">                tmp = tmp.next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//从下一层的最左边开始遍历</span></span><br><span class="line">            pre = pre.left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>深度优先搜索</tag>
+        <tag>树</tag>
       </tags>
   </entry>
 </search>
