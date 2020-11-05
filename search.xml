@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hexo+Github搭建自己的博客(一)</title>
+    <url>/posts/3e596dd.html</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+如果一件事情你不能讲清楚，十有八九你还没有完全理解
+</blockquote>
+<a id="more"></a>
+<p>很早之前就想自己动手搭建一个博客，搭建一个属于自己的小天地，在这里可以写写心情，写写总结，也能写写自己在学习过程中碰见的坑与收获。在实验室折腾了两天，最终用Hexo+Github搭建完了博客，虽然过程十分简单，但是由于对于很多知识的不了解，还是碰见很多坑，折腾了好久。</p>
+<h3 id="背景介绍">0. 背景介绍</h3>
+<h4 id="什么是hexo">0.1 什么是Hexo</h4>
+<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+<h4 id="什么是github">0.2 什么是Github</h4>
+<p>Github是什么，是的，没错，世界最大的同性交友平台。2333......而我们写好的文章就可以部署在这个平台上。</p>
+<p><img src="https://pic2.zhimg.com/80/7c9d3403bf922b1663f56975869c829b_hd.jpg" /></p>
+<p>接下来便是安装、配置、美化、进阶的过程。</p>
+<h3 id="环境的安装">1. 环境的安装</h3>
+<h4 id="安装git">1.1 安装Git</h4>
+<p>可以直接去官网下载，也可以直接点击这 <a href="https://gitforwindows.org/">Git</a> 一路next就可安装完毕，安装完成后，可以通过<code>git --version</code>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/hBsy2GLgRuVNc9r.png"  /></p>
+<h4 id="安装node.js">1.2 安装Node.js</h4>
+<p>可以直接去官网下载，也可以直接点击这 <a href="https://nodejs.org/en/download/">Node.js</a> 一路next就可安装完毕，安装完成后，可以通过</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<p>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/W3miTkNjJv6GAIl.png"  /></p>
+<h4 id="安装hexo">1.3 安装Hexo</h4>
+<p>先在任意路径创建一个空文件夹，在文件夹内，右击，选择<code>git bash here</code>，然后输入</p>
+<p><code>npm install -g hexo-cil</code>安装完成后，可以通过<code>hexo -v</code>来查看是否安装成功。</p>
+<p><img src="https://i.loli.net/2019/10/19/phdUTLr86l5W94N.png"  /></p>
+<p>然后在bash里输入<code>hexo init myblog(任意名字)</code> 进入生成的这个文件夹，输入<code>npm install</code></p>
+<p>就完成了环境的配置。此时本地的文件夹应该像这样（可能没有public文件夹）</p>
+<p><img src="https://i.loli.net/2019/10/19/QfE6qb3d912PDCL.png" style="zoom:;" /></p>
+<h3 id="部署到github">2. 部署到Github</h3>
+<h5 id="创建github账号这个自己创一下就好">2.1 创建github账号，这个自己创一下就好。</h5>
+<h5 id="创建一个-repository-仓库名称必须为-你的github的用户名.github.io">2.2 创建一个 repository， 仓库名称必须为 <strong>你的GitHub的用户名.github.io</strong></h5>
+<h5 id="生成ssh">2.3 生成SSH</h5>
+<p>任意位置右键打开git bash，输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;GitHub用户名&quot;</span><br><span class="line">git config --global user.email &quot;GitHub的邮箱&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;GitHub用户名&quot;</span><br></pre></td></tr></table></figure>
+<p>然后一路回车，就创建好了SSH，此时终端上会显示存放SSH的路径，打开此路径，<strong>注意需要设置显示隐藏的文件才能看见.ssh文件夹</strong>。打开 id_rsa.pub ，复制其中的公共密钥。然后打开自己的github主页，点击自己头像下的setting，然后点击<code>new SSH key</code>，粘贴复制的密钥。</p>
+<p><img src="https://i.loli.net/2019/10/19/DLYgURZdonw4Fm6.png"  /></p>
+<p>完成后，在git bash中，输入<code>ssh -T git@github.com</code>，查看是否配置成功。成功后应该像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/5LWYutIsUGbme9T.png"  /></p>
+<p>但是我注意到终端反馈了一个问题，就是那个<code>The authenticity of ... can't be established</code>，随便百度了一波，发现没太大问题</p>
+<p><img src="https://i.loli.net/2019/10/19/T7iEIdp3b9rCqxk.png"  /></p>
+<h5 id="将hexo部署到github上">2.4 将Hexo部署到Github上</h5>
+<p>打开初始化hexo后生成的那个文件夹，打开<code>_config.yml</code>配置文件，在这个文件中，找到，并设置为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;GitHub的用户名&#x2F;GitHub的用户名.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>然后右键 git bash输入 <code>npm install hexo-deployer-git --save</code>来安装部署的指令，安装完毕后，在当前文件夹内依次输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
+<p>其中</p>
+<ul>
+<li><code>hexo clean</code>清除了你之前生成的东西。</li>
+<li><code>hexo generate</code> 生成静态文章。</li>
+<li><code>hexo deploy</code> 部署文章。</li>
+</ul>
+<p>在第一次执行<code>hexo deploy</code>时，会输入一次github的 username和password。</p>
+<p>稍等片刻（大概1-2分钟），就能通过网址 <code>http://GitHub的用户名.github.io</code>访问你的博客啦。不出问题就像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/TS8xLfcrqayJGp6.png"  /></p>
+<p><strong>此时Hexo博客的搭建就基本完成了</strong>，这时可以有两种选择，一种是一直用那个github默认的网址去访问自己的博客，还有一种就是绑定自己的域名。</p>
+<h4 id="绑定自己的域名">3. 绑定自己的域名</h4>
+<h5 id="购买域名">3.1 购买域名</h5>
+<p>我自己呢，就在阿里云上买了一个.top的域名（别问，问就是因为便宜...买了3年60多RMB）。在实名认证等一系列操作都弄完后，进入自己的域名控制台，然后点击操作下面的<strong>解析</strong>，然后点击<strong>添加记录</strong>，添加记录的配置如下</p>
+<p><img src="https://i.loli.net/2019/10/19/EukCUvpty2TM6GW.png"  /></p>
+<p><strong>注意：其中的记录值设置为自己github提供的访问博客的域名。</strong></p>
+<p>然后在添加一条同样的记录，其中主机记录不填。最后的结果应该像这样。</p>
+<p><img src="https://i.loli.net/2019/10/19/huHGNRX5439sKPO.png" /></p>
+<p>然后进入github之前创建的那个存放博客的仓库，点击settings，设置Custom domain，输入自己的域名，点击<code>save</code>. 然后在你的博客文件夹的source中创建一个名为CNAME文件，不要后缀。写上你的域名。 最后在git bash中输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
+<p>稍等片刻，就能通过自己的域名访问自己的博客了。奈斯！！！</p>
+<p><strong>参考教程</strong></p>
+<blockquote>
+<p><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexo史上最全搭建教程</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo+Github搭建自己的博客(二)</title>
     <url>/posts/acd40dbf.html</url>
     <content><![CDATA[<h3 id="hexo主题的配置">1.Hexo主题的配置</h3>
@@ -236,87 +317,6 @@
       </categories>
       <tags>
         <tag>二分搜索树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo+Github搭建自己的博客(一)</title>
-    <url>/posts/3e596dd.html</url>
-    <content><![CDATA[<blockquote class="blockquote-center">
-如果一件事情你不能讲清楚，十有八九你还没有完全理解
-</blockquote>
-<a id="more"></a>
-<p>很早之前就想自己动手搭建一个博客，搭建一个属于自己的小天地，在这里可以写写心情，写写总结，也能写写自己在学习过程中碰见的坑与收获。在实验室折腾了两天，最终用Hexo+Github搭建完了博客，虽然过程十分简单，但是由于对于很多知识的不了解，还是碰见很多坑，折腾了好久。</p>
-<h3 id="背景介绍">0. 背景介绍</h3>
-<h4 id="什么是hexo">0.1 什么是Hexo</h4>
-<p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
-<h4 id="什么是github">0.2 什么是Github</h4>
-<p>Github是什么，是的，没错，世界最大的同性交友平台。2333......而我们写好的文章就可以部署在这个平台上。</p>
-<p><img src="https://pic2.zhimg.com/80/7c9d3403bf922b1663f56975869c829b_hd.jpg" /></p>
-<p>接下来便是安装、配置、美化、进阶的过程。</p>
-<h3 id="环境的安装">1. 环境的安装</h3>
-<h4 id="安装git">1.1 安装Git</h4>
-<p>可以直接去官网下载，也可以直接点击这 <a href="https://gitforwindows.org/">Git</a> 一路next就可安装完毕，安装完成后，可以通过<code>git --version</code>来查看是否安装成功。</p>
-<p><img src="https://i.loli.net/2019/10/19/hBsy2GLgRuVNc9r.png"  /></p>
-<h4 id="安装node.js">1.2 安装Node.js</h4>
-<p>可以直接去官网下载，也可以直接点击这 <a href="https://nodejs.org/en/download/">Node.js</a> 一路next就可安装完毕，安装完成后，可以通过</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
-<p>来查看是否安装成功。</p>
-<p><img src="https://i.loli.net/2019/10/19/W3miTkNjJv6GAIl.png"  /></p>
-<h4 id="安装hexo">1.3 安装Hexo</h4>
-<p>先在任意路径创建一个空文件夹，在文件夹内，右击，选择<code>git bash here</code>，然后输入</p>
-<p><code>npm install -g hexo-cil</code>安装完成后，可以通过<code>hexo -v</code>来查看是否安装成功。</p>
-<p><img src="https://i.loli.net/2019/10/19/phdUTLr86l5W94N.png"  /></p>
-<p>然后在bash里输入<code>hexo init myblog(任意名字)</code> 进入生成的这个文件夹，输入<code>npm install</code></p>
-<p>就完成了环境的配置。此时本地的文件夹应该像这样（可能没有public文件夹）</p>
-<p><img src="https://i.loli.net/2019/10/19/QfE6qb3d912PDCL.png" style="zoom:;" /></p>
-<h3 id="部署到github">2. 部署到Github</h3>
-<h5 id="创建github账号这个自己创一下就好">2.1 创建github账号，这个自己创一下就好。</h5>
-<h5 id="创建一个-repository-仓库名称必须为-你的github的用户名.github.io">2.2 创建一个 repository， 仓库名称必须为 <strong>你的GitHub的用户名.github.io</strong></h5>
-<h5 id="生成ssh">2.3 生成SSH</h5>
-<p>任意位置右键打开git bash，输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;GitHub用户名&quot;</span><br><span class="line">git config --global user.email &quot;GitHub的邮箱&quot;</span><br><span class="line">ssh-keygen -t rsa -C &quot;GitHub用户名&quot;</span><br></pre></td></tr></table></figure>
-<p>然后一路回车，就创建好了SSH，此时终端上会显示存放SSH的路径，打开此路径，<strong>注意需要设置显示隐藏的文件才能看见.ssh文件夹</strong>。打开 id_rsa.pub ，复制其中的公共密钥。然后打开自己的github主页，点击自己头像下的setting，然后点击<code>new SSH key</code>，粘贴复制的密钥。</p>
-<p><img src="https://i.loli.net/2019/10/19/DLYgURZdonw4Fm6.png"  /></p>
-<p>完成后，在git bash中，输入<code>ssh -T git@github.com</code>，查看是否配置成功。成功后应该像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/5LWYutIsUGbme9T.png"  /></p>
-<p>但是我注意到终端反馈了一个问题，就是那个<code>The authenticity of ... can't be established</code>，随便百度了一波，发现没太大问题</p>
-<p><img src="https://i.loli.net/2019/10/19/T7iEIdp3b9rCqxk.png"  /></p>
-<h5 id="将hexo部署到github上">2.4 将Hexo部署到Github上</h5>
-<p>打开初始化hexo后生成的那个文件夹，打开<code>_config.yml</code>配置文件，在这个文件中，找到，并设置为</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;GitHub的用户名&#x2F;GitHub的用户名.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<p>然后右键 git bash输入 <code>npm install hexo-deployer-git --save</code>来安装部署的指令，安装完毕后，在当前文件夹内依次输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
-<p>其中</p>
-<ul>
-<li><code>hexo clean</code>清除了你之前生成的东西。</li>
-<li><code>hexo generate</code> 生成静态文章。</li>
-<li><code>hexo deploy</code> 部署文章。</li>
-</ul>
-<p>在第一次执行<code>hexo deploy</code>时，会输入一次github的 username和password。</p>
-<p>稍等片刻（大概1-2分钟），就能通过网址 <code>http://GitHub的用户名.github.io</code>访问你的博客啦。不出问题就像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/TS8xLfcrqayJGp6.png"  /></p>
-<p><strong>此时Hexo博客的搭建就基本完成了</strong>，这时可以有两种选择，一种是一直用那个github默认的网址去访问自己的博客，还有一种就是绑定自己的域名。</p>
-<h4 id="绑定自己的域名">3. 绑定自己的域名</h4>
-<h5 id="购买域名">3.1 购买域名</h5>
-<p>我自己呢，就在阿里云上买了一个.top的域名（别问，问就是因为便宜...买了3年60多RMB）。在实名认证等一系列操作都弄完后，进入自己的域名控制台，然后点击操作下面的<strong>解析</strong>，然后点击<strong>添加记录</strong>，添加记录的配置如下</p>
-<p><img src="https://i.loli.net/2019/10/19/EukCUvpty2TM6GW.png"  /></p>
-<p><strong>注意：其中的记录值设置为自己github提供的访问博客的域名。</strong></p>
-<p>然后在添加一条同样的记录，其中主机记录不填。最后的结果应该像这样。</p>
-<p><img src="https://i.loli.net/2019/10/19/huHGNRX5439sKPO.png" /></p>
-<p>然后进入github之前创建的那个存放博客的仓库，点击settings，设置Custom domain，输入自己的域名，点击<code>save</code>. 然后在你的博客文件夹的source中创建一个名为CNAME文件，不要后缀。写上你的域名。 最后在git bash中输入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate &#x2F;&#x2F;(或输入hexo g)</span><br><span class="line">hexo deploy	  &#x2F;&#x2F;(或输入hexo d)</span><br></pre></td></tr></table></figure>
-<p>稍等片刻，就能通过自己的域名访问自己的博客了。奈斯！！！</p>
-<p><strong>参考教程</strong></p>
-<blockquote>
-<p><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexo史上最全搭建教程</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Github</tag>
       </tags>
   </entry>
   <entry>
@@ -836,6 +836,145 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
+    <title>RESTful风格开发</title>
+    <url>/posts/9a230ff0.html</url>
+    <content><![CDATA[<h3 id="restful是什么">1. RESTful是什么</h3>
+<p>REST理念，表现层状态转换，资源在网络中以某种表现形式进行状态转移</p>
+<p>RESTful是基于REST理念的一套开发风格，是具体的开发规则，即前后端分离</p>
+<p>客户端向服务器发送一个URL请求，请求被服务器处理后，返回的不是html文本，而是json或xml之类的数据，不包含任何与渲染和展现相关的内容。而如何渲染和展现为客户端的任务，与服务器无关。</p>
+<a id="more"></a>
+<h3 id="restful开发规范">2. RESTful开发规范</h3>
+<ul>
+<li><p>使用URL作为用户交互入口</p></li>
+<li><p>明确的语义规范(GET|POST|PUT|DELETE)</p>
+<p>GET 查询操作</p>
+<p>POST 新增操作</p>
+<p>PUT 更新操作</p>
+<p>DELETE 删除操作</p></li>
+<li><p>只返回数据(JSON|XML)，不包含任何展现</p></li>
+</ul>
+<h3 id="restful命名要求">3. RESTful命名要求</h3>
+<table>
+<thead>
+<tr class="header">
+<th>URL</th>
+<th>说明</th>
+<th>修改建议</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GET /articles?au=Tom</td>
+<td>正确</td>
+<td>/</td>
+</tr>
+<tr class="even">
+<td>GET /a/1</td>
+<td>URL必须具有语义</td>
+<td>GET /student/1</td>
+</tr>
+<tr class="odd">
+<td>POST /createArticle/1</td>
+<td>URL必须使用名词</td>
+<td>POST /article/1</td>
+</tr>
+<tr class="even">
+<td>GET /articles/author/1</td>
+<td>URL扁平化，不超两级</td>
+<td>GET /articles/author?id=1</td>
+</tr>
+<tr class="odd">
+<td>DELETE /articles/1</td>
+<td>URL名词区分单复数</td>
+<td>DELETE /article/1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="restful应用demo">4. RESTful应用Demo</h3>
+<p>新建RestfulController类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="comment">// @RestController，使用这种注解时，则下面的方法前，都不需要加上@ResponseBody注解</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/restful&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RestfulController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/request&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">doGetRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;返回查询结果\&quot;&#125;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问<code>http://localhost:8080/restful/request</code>就能看到服务器返回的数据</p>
+<h3 id="实现restful实验室">5. 实现RESTful实验室</h3>
+<p>首先将<code>jquery-3.3.1.min.js</code>移动到<code>webapp</code>目录下，使用ajax在html中向controller发起请求</p>
+<p>新建<code>client.html</code>来模拟请求的发起者</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>RESTful实验室<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;jquery-3.3.1.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        $(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            $(<span class="string">&quot;#btnGet&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">                    url : <span class="string">&quot;/restful/request&quot;</span>,</span></span><br><span class="line"><span class="javascript">                    type : <span class="string">&quot;get&quot;</span>,</span></span><br><span class="line"><span class="javascript">                    dataType : <span class="string">&quot;json&quot;</span>,</span></span><br><span class="line"><span class="javascript">                    success : <span class="function"><span class="keyword">function</span> (<span class="params">json</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                        $(<span class="string">&quot;#message&quot;</span>).text(json.message);</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">id</span>=<span class="string">&quot;btnGet&quot;</span> <span class="attr">value</span>=<span class="string">&quot;发送get请求&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span> <span class="attr">id</span>=<span class="string">&quot;message&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在<code>applicationContext.xml</code>中添加以下，防止乱码</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>text/html;charset=utf-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>application/json;charset=utf-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此时访问<code>localhost:8080/restful/request</code>，点击按钮就能展现服务器返回后的数据渲染后的结果</p>
+<p><strong>注意:</strong></p>
+<p>若此时报找不到js文件<code>localhost:8080/jquery-3.3.1.min.js net::ERR_ABORTED 404</code>时，需要删除当前项目下的target目录，重新启动项目，即可正常访问</p>
+<p>其他几种请求</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPostRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;新建成功\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PutMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPutRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;修改成功\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@DeleteMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doDeleteRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;删除成功\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="路径变量">6. 路径变量</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 访问的url POST /restful/request/10</span></span><br><span class="line"><span class="meta">@PostMapping(&quot;/request/&#123;rid&#125;&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPostRequest</span><span class="params">(<span class="meta">@PathVariable(&quot;rid&quot;)</span> Integer requestId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;新建成功\&quot;, \&quot;id\&quot;:&quot;</span> + requestId + <span class="string">&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在html中添加路径变量的实际值</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">       $(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">           $(<span class="string">&quot;#btnGet&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">               $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">                   url : <span class="string">&quot;/restful/request/100&quot;</span>,</span></span><br><span class="line"><span class="javascript">                   type : <span class="string">&quot;post&quot;</span>,</span></span><br><span class="line"><span class="javascript">                   dataType : <span class="string">&quot;json&quot;</span>,</span></span><br><span class="line"><span class="javascript">                   success : <span class="function"><span class="keyword">function</span> (<span class="params">json</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                       $(<span class="string">&quot;#message&quot;</span>).text(json.message + <span class="string">&quot;:&quot;</span> + json.id);</span></span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;)</span><br><span class="line">           &#125;)</span><br><span class="line">       &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="简单请求与非简单请求">7. 简单请求与非简单请求</h3>
+<p>简单请求是指标准结构的HTTP请求，对应GET/POST请求</p>
+<p>非简单请求是复杂要求的HTTP请求，指PUT/DELETE、拓展标准请求(自定义额外的请求头)</p>
+<p>两者最大的区别是非简单请求发送前需要发送<strong>预检请求</strong></p>
+<p>新建实体类 Person</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改controller</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPostRequest</span><span class="params">(Person person)</span> </span>&#123;</span><br><span class="line">    System.out.println(person.getName() + <span class="string">&quot;:&quot;</span> + person.getAge());</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;返回查询结果\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PutMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPutRequest</span><span class="params">(Person person)</span> </span>&#123;</span><br><span class="line">    System.out.println(person.getName() + <span class="string">&quot;:&quot;</span> + person.getAge());</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;新建成功\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改client.html</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    $(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        $(<span class="string">&quot;#btnPost&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">                url : <span class="string">&quot;/restful/request&quot;</span>,</span></span><br><span class="line"><span class="javascript">                type : <span class="string">&quot;post&quot;</span>,</span></span><br><span class="line"><span class="javascript">                data : <span class="string">&quot;name=Tom&amp;age=23&quot;</span>,</span></span><br><span class="line"><span class="javascript">                dataType : <span class="string">&quot;json&quot;</span>,</span></span><br><span class="line"><span class="javascript">                success : <span class="function"><span class="keyword">function</span> (<span class="params">json</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                    $(<span class="string">&quot;#message&quot;</span>).text(json.message);</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    $(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        $(<span class="string">&quot;#btnPut&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">                url : <span class="string">&quot;/restful/request&quot;</span>,</span></span><br><span class="line"><span class="javascript">                type : <span class="string">&quot;put&quot;</span>,</span></span><br><span class="line"><span class="javascript">                data : <span class="string">&quot;name=Tom&amp;age=23&quot;</span>,</span></span><br><span class="line"><span class="javascript">                dataType : <span class="string">&quot;json&quot;</span>,</span></span><br><span class="line"><span class="javascript">                success : <span class="function"><span class="keyword">function</span> (<span class="params">json</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                    $(<span class="string">&quot;#message&quot;</span>).text(json.message);</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此时发送post请求，可以正常获取name和age信息，但是对于put请求，无法获取数据</p>
+<p>因此对于非简单请求，需要额外的配置</p>
+<p>在<code>web.xml</code>中添加如下配置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>formContentFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.FormContentFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>formContentFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        对所有请求地址进行过滤--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此时put请求也能获取对应的数据</p>
+<h3 id="json序列化">8. JSON序列化</h3>
+<ul>
+<li>Jackson - Spring MVC默认支持</li>
+<li>Gson - Google开源JSON组件</li>
+<li>FastJSON - 阿里巴巴开源JSON组件</li>
+</ul>
+<p>在<code>pom.xml</code>中引入jar包</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-annotations<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在Controller中添加方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/person&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Person <span class="title">findPerson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Person person = <span class="keyword">new</span> Person();</span><br><span class="line">    person.setName(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">    person.setAge(<span class="number">22</span>);</span><br><span class="line">    <span class="keyword">return</span> person;	<span class="comment">// 直接返回要序列化的对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时访问<code>localhost:8080/restful/person</code>则会显示json序列化之后的结果</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&quot;name&quot;:&quot;Tom&quot;,&quot;age&quot;:22&#125;</span><br></pre></td></tr></table></figure>
+<p>输出json序列化列表</p>
+<p>修改方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/person&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Person&gt; <span class="title">findPerson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    List&lt;Person&gt; list = <span class="keyword">new</span> ArrayList&lt;Person&gt;();</span><br><span class="line">    Person person1 = <span class="keyword">new</span> Person();</span><br><span class="line">    person1.setName(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">    person1.setAge(<span class="number">22</span>);</span><br><span class="line">    Person person2 = <span class="keyword">new</span> Person();</span><br><span class="line">    person2.setName(<span class="string">&quot;Mot&quot;</span>);</span><br><span class="line">    person2.setAge(<span class="number">23</span>);</span><br><span class="line">    list.add(person1);</span><br><span class="line">    list.add(person2);</span><br><span class="line">    <span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>client.html</code>添加渲染</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">    $(function () &#123;</span><br><span class="line">        $(&quot;#btnFind&quot;).click(function () &#123;</span><br><span class="line">            $.ajax(&#123;</span><br><span class="line">                url : &quot;/restful/person&quot;,</span><br><span class="line">                type : &quot;get&quot;,</span><br><span class="line">                dataType : &#x27;json&#x27;,</span><br><span class="line">                success : function (json) &#123;</span><br><span class="line">                    console.info(p);</span><br><span class="line">                    for(var i = 0; i <span class="tag">&lt; <span class="attr">json.length</span>; <span class="attr">i</span>++) &#123;</span></span><br><span class="line"><span class="tag">                        <span class="attr">var</span> <span class="attr">p</span> = <span class="string">json[i];</span></span></span><br><span class="line">                        $(&quot;#divPerson&quot;).append(&quot;&lt;h2&gt;&quot; + p.name + &quot;-&quot; + p.age + &quot;																					&lt;/h2&gt;&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">                                                   </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">id</span>=<span class="string">&quot;btnFind&quot;</span> <span class="attr">value</span>=<span class="string">&quot;查询所有人员&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;divPerson&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>                                          </span><br></pre></td></tr></table></figure>
+<p>此时访问<code>localhost:8080/restful/person</code>则会显示渲染json序列化列表之后的结果</p>
+<p>对日期类型数据的支持</p>
+<p>实体类中添加注解</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> String name;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;, timezone=&quot;GMT+8&quot;)</span></span><br><span class="line">   <span class="keyword">public</span> Date birthday;</span><br></pre></td></tr></table></figure>
+<h3 id="跨域访问">9. 跨域访问</h3>
+<p>浏览器的同源策略：</p>
+<p>同源策略阻止从一个域加载的脚本去获取另一个域上的资源</p>
+<p>只要协议(http, https)、域名、端口有任何一个不同，都被当作是不同的域</p>
+<p><code>http://localhost</code>和<code>http://127.0.0.1</code>也属于不同的域</p>
+<p>HTML中默认允许跨域的标签</p>
+<ul>
+<li><code>&lt;img&gt;</code>-显示远程图片</li>
+<li><code>&lt;script&gt;</code>-加载远程JS</li>
+<li><code>&lt;link&gt;</code>-加载远程CSS</li>
+</ul>
+<h4 id="cors跨域资源访问">9.1 CORS跨域资源访问</h4>
+<p>CORS是一种机制，使用额外的HTTP头通知浏览器可以访问其他域</p>
+<p>URL响应头包含Access-Control-*指明请求跨域</p>
+<h4 id="spring-mvc解决跨域访问">9.2 Spring MVC解决跨域访问</h4>
+<h5 id="crossorigin---controller跨域注解">9.2.1 <span class="citation" data-cites="CrossOrigin">@CrossOrigin</span> - Controller跨域注解</h5>
+<p>在Controller中添加</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/restful&quot;)</span></span><br><span class="line"><span class="comment">// 可以添加多个域名</span></span><br><span class="line"><span class="comment">// 可以添加添加参数 maxAge=3600 表示缓存预检请求，在3600s内，非简单请求可以不用发送预检请求，直接就可以请求到服务器，减少服务器压力</span></span><br><span class="line"><span class="meta">@CrossOrigin(origins=&#123;&quot;http://localhost:80&quot;, &quot;http://localhost:70&quot;&#125;, maxAge=3600)</span>	</span><br><span class="line"><span class="comment">// 允许该域名http://localhost:80, http://localhost:70跨域访问</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RestfulController</span> </span>&#123;</span><br><span class="line">		...</span><br><span class="line">		...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="mvccors-spring-mvc全局跨域配置">9.2.2 <code>&lt;mvc:cors&gt;</code>-Spring MVC全局跨域配置</h5>
+<p>在<code>applicationContext.xml</code>中添加如下配置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:cors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">&quot;/restful/**&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">allowed-origins</span>=<span class="string">&quot;http://localhost:80, http://localhost:70&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">max-age</span>=<span class="string">&quot;3600&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:cors</span>&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>RESTful</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spring Boot</title>
     <url>/posts/a541262a.html</url>
     <content><![CDATA[<h3 id="什么是spring-boot">1. 什么是Spring Boot</h3>
@@ -1092,6 +1231,35 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
+    <title>二叉树遍历的递归与非递归算法</title>
+    <url>/posts/76bb7508.html</url>
+    <content><![CDATA[<h3 id="递归遍历">1. 递归遍历</h3>
+<p>对于二叉树的遍历，我们可以很轻易的写出其递归算法</p>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode() &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int val) &#123; this.val = val; &#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int val, TreeNode left, TreeNode right) &#123;</span></span><br><span class="line"><span class="comment"> *         this.val = val;</span></span><br><span class="line"><span class="comment"> *         this.left = left;</span></span><br><span class="line"><span class="comment"> *         this.right = right;</span></span><br><span class="line"><span class="comment"> *     &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 前序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        visit(root);</span><br><span class="line">        preorder(root.left);</span><br><span class="line">        preorder(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 中序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        inOrder(root.left);</span><br><span class="line">        visit(root);</span><br><span class="line">        inOrder(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 后序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        postOrder(root.left);</span><br><span class="line">        postOrder(root.right);</span><br><span class="line">        visit(root);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="非递归遍历">2. 非递归遍历</h3>
+<p>但是对于二叉树的非递归遍历，我们则需要借助其他的数据结构，例如栈</p>
+<h4 id="前序遍历">2.1 前序遍历</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 前序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// java中使用双向队列来代替Stack</span></span><br><span class="line">        Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        stack.push(root);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty()) &#123;</span><br><span class="line">            TreeNode cur = stack.pop();</span><br><span class="line">            visit(cur);</span><br><span class="line">            <span class="comment">// 由于栈是先入后出，所以对于前序遍历，需要先将当前节点的右孩子压入栈</span></span><br><span class="line">            <span class="keyword">if</span>(cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stack.push(cur.right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stack.push(cur.left);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="中序遍历">2.2 中序遍历</h4>
+<p>先扫描（并非访问）根节点的所有左节点，并将其一一入栈。然后出栈一个节点，则访问它，然后扫描该节点的右孩子节点，将其进栈，在扫描该右孩子节点的所有左节点并一一入栈，如此继续</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 中序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(root != <span class="keyword">null</span> || !stack.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">if</span>(root != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stack.push(root);</span><br><span class="line">                root = root.left;		<span class="comment">// 非空就一直往左子树走</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                TreeNode cur = stack.pop();	<span class="comment">// 左子树走到头，访问根节点，遍历右子树</span></span><br><span class="line">                visit(cur);		<span class="comment">// 访问当前节点</span></span><br><span class="line">                root = cur.right;	<span class="comment">// 再往右子树走</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="后序遍历">2.3 后序遍历</h4>
+<p>先一直扫描所有左节点，直到左节点为空，然后出栈一个节点，即其左节点为空的根节点</p>
+<p>判断当前根节点的右孩子是否为空，或者是已访问过的节点，若是则访问当前根节点，否则将根节点放回栈中，接着从根节点的右孩子节点开始，重复以上操作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        TreeNode prev = <span class="keyword">null</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (root != <span class="keyword">null</span> || !stack.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">while</span> (root != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stack.push(root);</span><br><span class="line">                root = root.left;	<span class="comment">// 一直扫描左孩子</span></span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            TreeNode cur = stack.pop();</span><br><span class="line">            <span class="keyword">if</span> (cur.right == <span class="keyword">null</span> || cur.right == prev) &#123;</span><br><span class="line">                visit(cur); 		<span class="comment">// 访问当前节点</span></span><br><span class="line">                prev = cur;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                stack.push(cur);</span><br><span class="line">                root = cur.right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="层序遍历">3. 层序遍历</h3>
+<p>对于层序遍历，就是相当于广度优先搜索，因此需要借助队列来实现，把每一层遍历到的值存放在一个list中，最后将每层的list存放在最终的结果里</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span> ans;</span><br><span class="line">        </span><br><span class="line">	 	Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        queue.add(root);</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty()) &#123;</span><br><span class="line">            List&lt;Integer&gt; temp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">int</span> size = queue.size();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">                TreeNode cur = queue.poll();</span><br><span class="line">                temp.add(cur.val);</span><br><span class="line">                <span class="keyword">if</span>(cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(cur.left);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(cur.right);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            ans.add(temp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指offer 03. 数组中重复的数字</title>
     <url>/posts/4c81dda0.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -1149,31 +1317,6 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
-    <title>剑指offer 06. 从尾到头打印链表</title>
-    <url>/posts/75109394.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/">剑指 Offer 06. 从尾到头打印链表</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：head &#x3D; [1,3,2]</span><br><span class="line">输出：[2,3,1]</span><br></pre></td></tr></table></figure>
-<p>限制：</p>
-<p>0 &lt;= 链表长度 &lt;= 10000</p>
-<h3 id="思路">3. 思路</h3>
-<p>首先将链表逆序</p>
-<p>然后从新的头，即之前的链表尾遍历一遍并存入数组中</p>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">        </span><br><span class="line">        ListNode pre = <span class="keyword">null</span>;</span><br><span class="line">        ListNode cur = head;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//链表逆序</span></span><br><span class="line">        <span class="keyword">while</span>(cur != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ListNode next = cur.next;</span><br><span class="line">            cur.next = pre;</span><br><span class="line">            pre = cur;</span><br><span class="line">            cur = next;</span><br><span class="line">            cnt++;            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//遍历逆序后的链表存入数组中</span></span><br><span class="line">        <span class="keyword">int</span>[] ans = <span class="keyword">new</span> <span class="keyword">int</span>[cnt];</span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(pre != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ans[index++] = pre.val;</span><br><span class="line">            pre = pre.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指offer</category>
-      </categories>
-      <tags>
-        <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指offer 05. 替换空格</title>
     <url>/posts/7768bbe3.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -1197,6 +1340,31 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </categories>
       <tags>
         <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指offer 06. 从尾到头打印链表</title>
+    <url>/posts/75109394.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/">剑指 Offer 06. 从尾到头打印链表</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：head &#x3D; [1,3,2]</span><br><span class="line">输出：[2,3,1]</span><br></pre></td></tr></table></figure>
+<p>限制：</p>
+<p>0 &lt;= 链表长度 &lt;= 10000</p>
+<h3 id="思路">3. 思路</h3>
+<p>首先将链表逆序</p>
+<p>然后从新的头，即之前的链表尾遍历一遍并存入数组中</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] reversePrint(ListNode head) &#123;</span><br><span class="line">        </span><br><span class="line">        ListNode pre = <span class="keyword">null</span>;</span><br><span class="line">        ListNode cur = head;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//链表逆序</span></span><br><span class="line">        <span class="keyword">while</span>(cur != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ListNode next = cur.next;</span><br><span class="line">            cur.next = pre;</span><br><span class="line">            pre = cur;</span><br><span class="line">            cur = next;</span><br><span class="line">            cnt++;            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//遍历逆序后的链表存入数组中</span></span><br><span class="line">        <span class="keyword">int</span>[] ans = <span class="keyword">new</span> <span class="keyword">int</span>[cnt];</span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(pre != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ans[index++] = pre.val;</span><br><span class="line">            pre = pre.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -1738,174 +1906,6 @@ e^{-(\omega^Tx+b)}=1
       </categories>
       <tags>
         <tag>逻辑回归</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RESTful风格开发</title>
-    <url>/posts/9a230ff0.html</url>
-    <content><![CDATA[<h3 id="restful是什么">1. RESTful是什么</h3>
-<p>REST理念，表现层状态转换，资源在网络中以某种表现形式进行状态转移</p>
-<p>RESTful是基于REST理念的一套开发风格，是具体的开发规则，即前后端分离</p>
-<p>客户端向服务器发送一个URL请求，请求被服务器处理后，返回的不是html文本，而是json或xml之类的数据，不包含任何与渲染和展现相关的内容。而如何渲染和展现为客户端的任务，与服务器无关。</p>
-<a id="more"></a>
-<h3 id="restful开发规范">2. RESTful开发规范</h3>
-<ul>
-<li><p>使用URL作为用户交互入口</p></li>
-<li><p>明确的语义规范(GET|POST|PUT|DELETE)</p>
-<p>GET 查询操作</p>
-<p>POST 新增操作</p>
-<p>PUT 更新操作</p>
-<p>DELETE 删除操作</p></li>
-<li><p>只返回数据(JSON|XML)，不包含任何展现</p></li>
-</ul>
-<h3 id="restful命名要求">3. RESTful命名要求</h3>
-<table>
-<thead>
-<tr class="header">
-<th>URL</th>
-<th>说明</th>
-<th>修改建议</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>GET /articles?au=Tom</td>
-<td>正确</td>
-<td>/</td>
-</tr>
-<tr class="even">
-<td>GET /a/1</td>
-<td>URL必须具有语义</td>
-<td>GET /student/1</td>
-</tr>
-<tr class="odd">
-<td>POST /createArticle/1</td>
-<td>URL必须使用名词</td>
-<td>POST /article/1</td>
-</tr>
-<tr class="even">
-<td>GET /articles/author/1</td>
-<td>URL扁平化，不超两级</td>
-<td>GET /articles/author?id=1</td>
-</tr>
-<tr class="odd">
-<td>DELETE /articles/1</td>
-<td>URL名词区分单复数</td>
-<td>DELETE /article/1</td>
-</tr>
-</tbody>
-</table>
-<h3 id="restful应用demo">4. RESTful应用Demo</h3>
-<p>新建RestfulController类</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="comment">// @RestController，使用这种注解时，则下面的方法前，都不需要加上@ResponseBody注解</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/restful&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RestfulController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/request&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">doGetRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;返回查询结果\&quot;&#125;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>访问<code>http://localhost:8080/restful/request</code>就能看到服务器返回的数据</p>
-<h3 id="实现restful实验室">5. 实现RESTful实验室</h3>
-<p>首先将<code>jquery-3.3.1.min.js</code>移动到<code>webapp</code>目录下，使用ajax在html中向controller发起请求</p>
-<p>新建<code>client.html</code>来模拟请求的发起者</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>RESTful实验室<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;jquery-3.3.1.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        $(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            $(<span class="string">&quot;#btnGet&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">                    url : <span class="string">&quot;/restful/request&quot;</span>,</span></span><br><span class="line"><span class="javascript">                    type : <span class="string">&quot;get&quot;</span>,</span></span><br><span class="line"><span class="javascript">                    dataType : <span class="string">&quot;json&quot;</span>,</span></span><br><span class="line"><span class="javascript">                    success : <span class="function"><span class="keyword">function</span> (<span class="params">json</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                        $(<span class="string">&quot;#message&quot;</span>).text(json.message);</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">id</span>=<span class="string">&quot;btnGet&quot;</span> <span class="attr">value</span>=<span class="string">&quot;发送get请求&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span> <span class="attr">id</span>=<span class="string">&quot;message&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在<code>applicationContext.xml</code>中添加以下，防止乱码</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>text/html;charset=utf-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>application/json;charset=utf-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>此时访问<code>localhost:8080/restful/request</code>，点击按钮就能展现服务器返回后的数据渲染后的结果</p>
-<p><strong>注意:</strong></p>
-<p>若此时报找不到js文件<code>localhost:8080/jquery-3.3.1.min.js net::ERR_ABORTED 404</code>时，需要删除当前项目下的target目录，重新启动项目，即可正常访问</p>
-<p>其他几种请求</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPostRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;新建成功\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PutMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPutRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;修改成功\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@DeleteMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doDeleteRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;删除成功\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="路径变量">6. 路径变量</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 访问的url POST /restful/request/10</span></span><br><span class="line"><span class="meta">@PostMapping(&quot;/request/&#123;rid&#125;&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPostRequest</span><span class="params">(<span class="meta">@PathVariable(&quot;rid&quot;)</span> Integer requestId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;新建成功\&quot;, \&quot;id\&quot;:&quot;</span> + requestId + <span class="string">&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在html中添加路径变量的实际值</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">       $(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">           $(<span class="string">&quot;#btnGet&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">               $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">                   url : <span class="string">&quot;/restful/request/100&quot;</span>,</span></span><br><span class="line"><span class="javascript">                   type : <span class="string">&quot;post&quot;</span>,</span></span><br><span class="line"><span class="javascript">                   dataType : <span class="string">&quot;json&quot;</span>,</span></span><br><span class="line"><span class="javascript">                   success : <span class="function"><span class="keyword">function</span> (<span class="params">json</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                       $(<span class="string">&quot;#message&quot;</span>).text(json.message + <span class="string">&quot;:&quot;</span> + json.id);</span></span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;)</span><br><span class="line">           &#125;)</span><br><span class="line">       &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="简单请求与非简单请求">7. 简单请求与非简单请求</h3>
-<p>简单请求是指标准结构的HTTP请求，对应GET/POST请求</p>
-<p>非简单请求是复杂要求的HTTP请求，指PUT/DELETE、拓展标准请求(自定义额外的请求头)</p>
-<p>两者最大的区别是非简单请求发送前需要发送<strong>预检请求</strong></p>
-<p>新建实体类 Person</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>修改controller</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPostRequest</span><span class="params">(Person person)</span> </span>&#123;</span><br><span class="line">    System.out.println(person.getName() + <span class="string">&quot;:&quot;</span> + person.getAge());</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;返回查询结果\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PutMapping(&quot;/request&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">doPutRequest</span><span class="params">(Person person)</span> </span>&#123;</span><br><span class="line">    System.out.println(person.getName() + <span class="string">&quot;:&quot;</span> + person.getAge());</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;message\&quot;:\&quot;新建成功\&quot;&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>修改client.html</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    $(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        $(<span class="string">&quot;#btnPost&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">                url : <span class="string">&quot;/restful/request&quot;</span>,</span></span><br><span class="line"><span class="javascript">                type : <span class="string">&quot;post&quot;</span>,</span></span><br><span class="line"><span class="javascript">                data : <span class="string">&quot;name=Tom&amp;age=23&quot;</span>,</span></span><br><span class="line"><span class="javascript">                dataType : <span class="string">&quot;json&quot;</span>,</span></span><br><span class="line"><span class="javascript">                success : <span class="function"><span class="keyword">function</span> (<span class="params">json</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                    $(<span class="string">&quot;#message&quot;</span>).text(json.message);</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    $(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        $(<span class="string">&quot;#btnPut&quot;</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">            $.ajax(&#123;</span></span><br><span class="line"><span class="javascript">                url : <span class="string">&quot;/restful/request&quot;</span>,</span></span><br><span class="line"><span class="javascript">                type : <span class="string">&quot;put&quot;</span>,</span></span><br><span class="line"><span class="javascript">                data : <span class="string">&quot;name=Tom&amp;age=23&quot;</span>,</span></span><br><span class="line"><span class="javascript">                dataType : <span class="string">&quot;json&quot;</span>,</span></span><br><span class="line"><span class="javascript">                success : <span class="function"><span class="keyword">function</span> (<span class="params">json</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">                    $(<span class="string">&quot;#message&quot;</span>).text(json.message);</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>此时发送post请求，可以正常获取name和age信息，但是对于put请求，无法获取数据</p>
-<p>因此对于非简单请求，需要额外的配置</p>
-<p>在<code>web.xml</code>中添加如下配置</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">    <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>formContentFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.FormContentFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>formContentFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        对所有请求地址进行过滤--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>此时put请求也能获取对应的数据</p>
-<h3 id="json序列化">8. JSON序列化</h3>
-<ul>
-<li>Jackson - Spring MVC默认支持</li>
-<li>Gson - Google开源JSON组件</li>
-<li>FastJSON - 阿里巴巴开源JSON组件</li>
-</ul>
-<p>在<code>pom.xml</code>中引入jar包</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-annotations<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.11.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在Controller中添加方法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/person&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Person <span class="title">findPerson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Person person = <span class="keyword">new</span> Person();</span><br><span class="line">    person.setName(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">    person.setAge(<span class="number">22</span>);</span><br><span class="line">    <span class="keyword">return</span> person;	<span class="comment">// 直接返回要序列化的对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时访问<code>localhost:8080/restful/person</code>则会显示json序列化之后的结果</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&quot;name&quot;:&quot;Tom&quot;,&quot;age&quot;:22&#125;</span><br></pre></td></tr></table></figure>
-<p>输出json序列化列表</p>
-<p>修改方法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/person&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Person&gt; <span class="title">findPerson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    List&lt;Person&gt; list = <span class="keyword">new</span> ArrayList&lt;Person&gt;();</span><br><span class="line">    Person person1 = <span class="keyword">new</span> Person();</span><br><span class="line">    person1.setName(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">    person1.setAge(<span class="number">22</span>);</span><br><span class="line">    Person person2 = <span class="keyword">new</span> Person();</span><br><span class="line">    person2.setName(<span class="string">&quot;Mot&quot;</span>);</span><br><span class="line">    person2.setAge(<span class="number">23</span>);</span><br><span class="line">    list.add(person1);</span><br><span class="line">    list.add(person2);</span><br><span class="line">    <span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>client.html</code>添加渲染</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">    $(function () &#123;</span><br><span class="line">        $(&quot;#btnFind&quot;).click(function () &#123;</span><br><span class="line">            $.ajax(&#123;</span><br><span class="line">                url : &quot;/restful/person&quot;,</span><br><span class="line">                type : &quot;get&quot;,</span><br><span class="line">                dataType : &#x27;json&#x27;,</span><br><span class="line">                success : function (json) &#123;</span><br><span class="line">                    console.info(p);</span><br><span class="line">                    for(var i = 0; i <span class="tag">&lt; <span class="attr">json.length</span>; <span class="attr">i</span>++) &#123;</span></span><br><span class="line"><span class="tag">                        <span class="attr">var</span> <span class="attr">p</span> = <span class="string">json[i];</span></span></span><br><span class="line">                        $(&quot;#divPerson&quot;).append(&quot;&lt;h2&gt;&quot; + p.name + &quot;-&quot; + p.age + &quot;																					&lt;/h2&gt;&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">                                                   </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">id</span>=<span class="string">&quot;btnFind&quot;</span> <span class="attr">value</span>=<span class="string">&quot;查询所有人员&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;divPerson&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>                                          </span><br></pre></td></tr></table></figure>
-<p>此时访问<code>localhost:8080/restful/person</code>则会显示渲染json序列化列表之后的结果</p>
-<p>对日期类型数据的支持</p>
-<p>实体类中添加注解</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> String name;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;, timezone=&quot;GMT+8&quot;)</span></span><br><span class="line">   <span class="keyword">public</span> Date birthday;</span><br></pre></td></tr></table></figure>
-<h3 id="跨域访问">9. 跨域访问</h3>
-<p>浏览器的同源策略：</p>
-<p>同源策略阻止从一个域加载的脚本去获取另一个域上的资源</p>
-<p>只要协议(http, https)、域名、端口有任何一个不同，都被当作是不同的域</p>
-<p><code>http://localhost</code>和<code>http://127.0.0.1</code>也属于不同的域</p>
-<p>HTML中默认允许跨域的标签</p>
-<ul>
-<li><code>&lt;img&gt;</code>-显示远程图片</li>
-<li><code>&lt;script&gt;</code>-加载远程JS</li>
-<li><code>&lt;link&gt;</code>-加载远程CSS</li>
-</ul>
-<h4 id="cors跨域资源访问">9.1 CORS跨域资源访问</h4>
-<p>CORS是一种机制，使用额外的HTTP头通知浏览器可以访问其他域</p>
-<p>URL响应头包含Access-Control-*指明请求跨域</p>
-<h4 id="spring-mvc解决跨域访问">9.2 Spring MVC解决跨域访问</h4>
-<h5 id="crossorigin---controller跨域注解">9.2.1 <span class="citation" data-cites="CrossOrigin">@CrossOrigin</span> - Controller跨域注解</h5>
-<p>在Controller中添加</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/restful&quot;)</span></span><br><span class="line"><span class="comment">// 可以添加多个域名</span></span><br><span class="line"><span class="comment">// 可以添加添加参数 maxAge=3600 表示缓存预检请求，在3600s内，非简单请求可以不用发送预检请求，直接就可以请求到服务器，减少服务器压力</span></span><br><span class="line"><span class="meta">@CrossOrigin(origins=&#123;&quot;http://localhost:80&quot;, &quot;http://localhost:70&quot;&#125;, maxAge=3600)</span>	</span><br><span class="line"><span class="comment">// 允许该域名http://localhost:80, http://localhost:70跨域访问</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RestfulController</span> </span>&#123;</span><br><span class="line">		...</span><br><span class="line">		...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="mvccors-spring-mvc全局跨域配置">9.2.2 <code>&lt;mvc:cors&gt;</code>-Spring MVC全局跨域配置</h5>
-<p>在<code>applicationContext.xml</code>中添加如下配置</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:cors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">&quot;/restful/**&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">allowed-origins</span>=<span class="string">&quot;http://localhost:80, http://localhost:70&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">max-age</span>=<span class="string">&quot;3600&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:cors</span>&gt;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>RESTful</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二叉树遍历的递归与非递归算法</title>
-    <url>/posts/76bb7508.html</url>
-    <content><![CDATA[<h3 id="递归遍历">1. 递归遍历</h3>
-<p>对于二叉树的遍历，我们可以很轻易的写出其递归算法</p>
-<a id="more"></a>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode() &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int val) &#123; this.val = val; &#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int val, TreeNode left, TreeNode right) &#123;</span></span><br><span class="line"><span class="comment"> *         this.val = val;</span></span><br><span class="line"><span class="comment"> *         this.left = left;</span></span><br><span class="line"><span class="comment"> *         this.right = right;</span></span><br><span class="line"><span class="comment"> *     &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 前序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        visit(root);</span><br><span class="line">        preorder(root.left);</span><br><span class="line">        preorder(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 中序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        inOrder(root.left);</span><br><span class="line">        visit(root);</span><br><span class="line">        inOrder(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 后序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        postOrder(root.left);</span><br><span class="line">        postOrder(root.right);</span><br><span class="line">        visit(root);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="非递归遍历">2. 非递归遍历</h3>
-<p>但是对于二叉树的非递归遍历，我们则需要借助其他的数据结构，例如栈</p>
-<h4 id="前序遍历">2.1 前序遍历</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 前序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// java中使用双向队列来代替Stack</span></span><br><span class="line">        Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        stack.push(root);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty()) &#123;</span><br><span class="line">            TreeNode cur = stack.pop();</span><br><span class="line">            visit(cur);</span><br><span class="line">            <span class="comment">// 由于栈是先入后出，所以对于前序遍历，需要先将当前节点的右孩子压入栈</span></span><br><span class="line">            <span class="keyword">if</span>(cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stack.push(cur.right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stack.push(cur.left);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="中序遍历">2.2 中序遍历</h4>
-<p>先扫描（并非访问）根节点的所有左节点，并将其一一入栈。然后出栈一个节点，则访问它，然后扫描该节点的右孩子节点，将其进栈，在扫描该右孩子节点的所有左节点并一一入栈，如此继续</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 中序遍历</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(root != <span class="keyword">null</span> || !stack.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">if</span>(root != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stack.push(root);</span><br><span class="line">                root = root.left;		<span class="comment">// 非空就一直往左子树走</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                TreeNode cur = stack.pop();	<span class="comment">// 左子树走到头，访问根节点，遍历右子树</span></span><br><span class="line">                visit(cur);		<span class="comment">// 访问当前节点</span></span><br><span class="line">                root = cur.right;	<span class="comment">// 再往右子树走</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="后序遍历">2.3 后序遍历</h4>
-<p>先一直扫描所有左节点，直到左节点为空，然后出栈一个节点，即其左节点为空的根节点</p>
-<p>判断当前根节点的右孩子是否为空，或者是已访问过的节点，若是则访问当前根节点，否则将根节点放回栈中，接着从根节点的右孩子节点开始，重复以上操作</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postOrder</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        TreeNode prev = <span class="keyword">null</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (root != <span class="keyword">null</span> || !stack.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">while</span> (root != <span class="keyword">null</span>) &#123;</span><br><span class="line">                stack.push(root);</span><br><span class="line">                root = root.left;	<span class="comment">// 一直扫描左孩子</span></span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            TreeNode cur = stack.pop();</span><br><span class="line">            <span class="keyword">if</span> (cur.right == <span class="keyword">null</span> || cur.right == prev) &#123;</span><br><span class="line">                visit(cur); 		<span class="comment">// 访问当前节点</span></span><br><span class="line">                prev = cur;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                stack.push(cur);</span><br><span class="line">                root = cur.right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="层序遍历">3. 层序遍历</h3>
-<p>对于层序遍历，就是相当于广度优先搜索，因此需要借助队列来实现，把每一层遍历到的值存放在一个list中，最后将每层的list存放在最终的结果里</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span> ans;</span><br><span class="line">        </span><br><span class="line">	 	Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        queue.add(root);</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty()) &#123;</span><br><span class="line">            List&lt;Integer&gt; temp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">int</span> size = queue.size();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">                TreeNode cur = queue.poll();</span><br><span class="line">                temp.add(cur.val);</span><br><span class="line">                <span class="keyword">if</span>(cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(cur.left);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    queue.add(cur.right);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            ans.add(temp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>二叉树</tag>
       </tags>
   </entry>
 </search>
