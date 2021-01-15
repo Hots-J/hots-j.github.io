@@ -374,9 +374,37 @@
 <p>对于对剩下的字符串继续这种切分，可以通过递归实现。</p>
 <p>当切完最后一个字符时，表示当前字符串切分情况以已经遍历完毕，将当前满足回文的List加入到结果list中</p>
 <p>图示如下：</p>
-<p><img src="https://pic.leetcode-cn.com/298a80282ac3505fec3710abdc1e656c591cf7acaa3ba976151480729244b649-image.png" /></p>
+<p><img src="https://c-blog.oss-cn-beijing.aliyuncs.com/img/1.png" /></p>
 <h3 id="代码实现">4. 代码实现</h3>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;String&gt;&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断当前子串是否为回文串</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isPalindrome</span><span class="params">(String s, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(start &lt; end) &#123;</span><br><span class="line">            <span class="keyword">if</span>(s.charAt(start) != s.charAt(end)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            start++;</span><br><span class="line">            end--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(String s, <span class="keyword">int</span> start, <span class="keyword">int</span> end, List&lt;String&gt; temp)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//已经切分到结尾</span></span><br><span class="line">        <span class="keyword">if</span>(end &gt;= s.length()) &#123;</span><br><span class="line">            ans.add(<span class="keyword">new</span> ArrayList&lt;String&gt;(temp));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">		<span class="comment">//遍历一个字符串所有的切分情况</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = end; i &lt; s.length(); i++) &#123;</span><br><span class="line">            String str = s.substring(start,i + <span class="number">1</span>);</span><br><span class="line">            <span class="comment">//满足回文串，加入到list中</span></span><br><span class="line">            <span class="keyword">if</span>(isPalindrome(s, start, i)) &#123;</span><br><span class="line">                temp.add(str);</span><br><span class="line">                <span class="comment">//对剩下的子串继续切分</span></span><br><span class="line">                dfs(s, i + <span class="number">1</span>,i + <span class="number">1</span>, temp);</span><br><span class="line">                <span class="comment">//当前情况遍历完毕，回溯</span></span><br><span class="line">                temp.remove(temp.size() - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; partition(String s) &#123;</span><br><span class="line">        List&lt;String&gt; temp = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        dfs(s, <span class="number">0</span>, <span class="number">0</span>, temp);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>字符串</tag>
+        <tag>回溯法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 17. 电话号码的字母组合</title>
+    <url>/posts/39fb19.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">17. 电话号码的字母组合</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>给定一个仅包含数字 <code>2-9</code> 的字符串，返回所有它能表示的字母组合。</p>
+<p>给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p>
+<p><img src="https://c-blog.oss-cn-beijing.aliyuncs.com/img/17_telephone_keypad.png" /></p>
+<p>示例:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：&quot;23&quot;</span><br><span class="line">输出：[&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].</span><br></pre></td></tr></table></figure>
+<p>说明: 尽管上面的答案是按字典序排列的，但是你可以任意选择答案输出的顺序。</p>
+<h3 id="思路">3. 思路</h3>
+<p>这道题可以通过回溯法暴力遍历每个数字对应的所有字母的所有组合情况</p>
+<p>首先需要定义一个数字和字母对应的映射表，通过数字可以得到对应的字母串，然后遍历串里的每一个字符</p>
+<p>维护一个字符串str，用来拼接每次访问到的字符，当str的长度等于包含数字字符串的长度时，表示已经得到一个解，add到结果列表中。然后返回出来，相当于回溯，继续遍历下一种情况。</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">	<span class="comment">//结果列表</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="comment">//数字和字母映射表</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;Character, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;() &#123;&#123;</span><br><span class="line">            put(<span class="string">&#x27;2&#x27;</span>, <span class="string">&quot;abc&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;3&#x27;</span>, <span class="string">&quot;def&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;4&#x27;</span>, <span class="string">&quot;ghi&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;5&#x27;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;6&#x27;</span>, <span class="string">&quot;mno&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;7&#x27;</span>, <span class="string">&quot;pqrs&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;8&#x27;</span>, <span class="string">&quot;tuv&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;9&#x27;</span>, <span class="string">&quot;wxyz&quot;</span>);</span><br><span class="line">        &#125;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(String digits, <span class="keyword">int</span> index, String str)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//得到一种解</span></span><br><span class="line">        <span class="keyword">if</span>(str.length() == digits.length()) &#123;</span><br><span class="line">            ans.add(str);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//得到当前数字</span></span><br><span class="line">        <span class="keyword">char</span> c = digits.charAt(index);</span><br><span class="line">        <span class="comment">//获取数字对应的字母串</span></span><br><span class="line">        String s = map.get(c);</span><br><span class="line">        <span class="comment">//遍历字母串</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> ch : s.toCharArray()) &#123;</span><br><span class="line">            <span class="comment">//str加上当前字符，递归到下一个数字</span></span><br><span class="line">            dfs(digits, index + <span class="number">1</span>, str + ch);</span><br><span class="line">            <span class="comment">//递归结束返回，继续循环，遍历该串的下一个字符</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">letterCombinations</span><span class="params">(String digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(digits.length() == <span class="number">0</span>) <span class="keyword">return</span> ans;</span><br><span class="line">        dfs(digits, <span class="number">0</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>LeetCode</category>
@@ -429,30 +457,29 @@
       </tags>
   </entry>
   <entry>
-    <title>LeetCode 17. 电话号码的字母组合</title>
-    <url>/posts/39fb19.html</url>
+    <title>LeetCode 47. 全排列II</title>
+    <url>/posts/c66c6402.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">17. 电话号码的字母组合</a></p>
+<p><a href="https://leetcode-cn.com/problems/permutations-ii/">47. 全排列 II</a></p>
 <a id="more"></a>
 <h3 id="题目描述">2. 题目描述</h3>
-<p>给定一个仅包含数字 <code>2-9</code> 的字符串，返回所有它能表示的字母组合。</p>
-<p>给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/original_images/17_telephone_keypad.png" /></p>
+<p>给定一个可包含重复数字的序列，返回所有不重复的全排列。</p>
 <p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：&quot;23&quot;</span><br><span class="line">输出：[&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].</span><br></pre></td></tr></table></figure>
-<p>说明: 尽管上面的答案是按字典序排列的，但是你可以任意选择答案输出的顺序。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,1,2]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [1,1,2],</span><br><span class="line">  [1,2,1],</span><br><span class="line">  [2,1,1]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <h3 id="思路">3. 思路</h3>
-<p>这道题可以通过回溯法暴力遍历每个数字对应的所有字母的所有组合情况</p>
-<p>首先需要定义一个数字和字母对应的映射表，通过数字可以得到对应的字母串，然后遍历串里的每一个字符</p>
-<p>维护一个字符串str，用来拼接每次访问到的字符，当str的长度等于包含数字字符串的长度时，表示已经得到一个解，add到结果列表中。然后返回出来，相当于回溯，继续遍历下一种情况。</p>
+<p>这道题的难点在于序列中包含了重复序列。如果使用Set，在最后生成结果时去重，那么会很耗时</p>
+<p>所谓去重，就是指使用过的元素不能重复选取</p>
+<p>对于使用过的元素，在树形结构上有两个维度，一个维度是同一树枝上使用过，一个维度是同一树层使用过</p>
+<p>首先把示例中的[1,1,2]，抽象成一棵树，然后对在同一树层对使用过的元素去重</p>
+<p><img src="https://i.loli.net/2020/10/09/Ik6ZML48PAjspdc.png" /></p>
+<p>图中我们对同一树层，前一位（也就是nums[i-1]）如果使用过，那么就进行去重。</p>
 <h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">	<span class="comment">//结果列表</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="comment">//数字和字母映射表</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;Character, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;() &#123;&#123;</span><br><span class="line">            put(<span class="string">&#x27;2&#x27;</span>, <span class="string">&quot;abc&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;3&#x27;</span>, <span class="string">&quot;def&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;4&#x27;</span>, <span class="string">&quot;ghi&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;5&#x27;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;6&#x27;</span>, <span class="string">&quot;mno&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;7&#x27;</span>, <span class="string">&quot;pqrs&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;8&#x27;</span>, <span class="string">&quot;tuv&quot;</span>);</span><br><span class="line">            put(<span class="string">&#x27;9&#x27;</span>, <span class="string">&quot;wxyz&quot;</span>);</span><br><span class="line">        &#125;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(String digits, <span class="keyword">int</span> index, String str)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//得到一种解</span></span><br><span class="line">        <span class="keyword">if</span>(str.length() == digits.length()) &#123;</span><br><span class="line">            ans.add(str);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//得到当前数字</span></span><br><span class="line">        <span class="keyword">char</span> c = digits.charAt(index);</span><br><span class="line">        <span class="comment">//获取数字对应的字母串</span></span><br><span class="line">        String s = map.get(c);</span><br><span class="line">        <span class="comment">//遍历字母串</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> ch : s.toCharArray()) &#123;</span><br><span class="line">            <span class="comment">//str加上当前字符，递归到下一个数字</span></span><br><span class="line">            dfs(digits, index + <span class="number">1</span>, str + ch);</span><br><span class="line">            <span class="comment">//递归结束返回，继续循环，遍历该串的下一个字符</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">letterCombinations</span><span class="params">(String digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(digits.length() == <span class="number">0</span>) <span class="keyword">return</span> ans;</span><br><span class="line">        dfs(digits, <span class="number">0</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">boolean</span>[] visited, <span class="keyword">int</span> index, List&lt;Integer&gt; list)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//找到了一组解，记录下来</span></span><br><span class="line">        <span class="keyword">if</span>(index == nums.length) &#123;</span><br><span class="line">            ans.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="comment">//对同一树层进行去重，注意，此时不难发现，由于此时前一层所有情况已经全部遍历完毕。所以对于</span></span><br><span class="line">            <span class="comment">//前一层使用过的状态应该为false，即 nums[i - 1] == false 时表示前一层使用过</span></span><br><span class="line">            <span class="keyword">if</span>(i &gt;= <span class="number">1</span> &amp;&amp; nums[i] == nums[i-<span class="number">1</span>] &amp;&amp; nums[i - <span class="number">1</span>] == <span class="keyword">false</span>) <span class="keyword">continue</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(visited[i] != <span class="keyword">true</span>) &#123;</span><br><span class="line">                visited[i] = <span class="keyword">true</span>;</span><br><span class="line">                list.add(nums[i]);</span><br><span class="line">                dfs(nums, visited, index + <span class="number">1</span>, list);</span><br><span class="line">                <span class="comment">//回溯</span></span><br><span class="line">                list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">                visited[i] = <span class="keyword">false</span>; </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; permuteUnique(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">boolean</span>[] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[nums.length];</span><br><span class="line">        dfs(nums, visited, <span class="number">0</span>, list);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>LeetCode</category>
       </categories>
       <tags>
-        <tag>字符串</tag>
         <tag>回溯法</tag>
       </tags>
   </entry>
@@ -480,33 +507,6 @@
       </categories>
       <tags>
         <tag>深度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LeetCode 47. 全排列II</title>
-    <url>/posts/c66c6402.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/permutations-ii/">47. 全排列 II</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>给定一个可包含重复数字的序列，返回所有不重复的全排列。</p>
-<p>示例:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,1,2]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [1,1,2],</span><br><span class="line">  [1,2,1],</span><br><span class="line">  [2,1,1]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<h3 id="思路">3. 思路</h3>
-<p>这道题的难点在于序列中包含了重复序列。如果使用Set，在最后生成结果时去重，那么会很耗时</p>
-<p>所谓去重，就是指使用过的元素不能重复选取</p>
-<p>对于使用过的元素，在树形结构上有两个维度，一个维度是同一树枝上使用过，一个维度是同一树层使用过</p>
-<p>首先把示例中的[1,1,2]，抽象成一棵树，然后对在同一树层对使用过的元素去重</p>
-<p><img src="https://i.loli.net/2020/10/09/Ik6ZML48PAjspdc.png" /></p>
-<p>图中我们对同一树层，前一位（也就是nums[i-1]）如果使用过，那么就进行去重。</p>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">boolean</span>[] visited, <span class="keyword">int</span> index, List&lt;Integer&gt; list)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//找到了一组解，记录下来</span></span><br><span class="line">        <span class="keyword">if</span>(index == nums.length) &#123;</span><br><span class="line">            ans.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="comment">//对同一树层进行去重，注意，此时不难发现，由于此时前一层所有情况已经全部遍历完毕。所以对于</span></span><br><span class="line">            <span class="comment">//前一层使用过的状态应该为false，即 nums[i - 1] == false 时表示前一层使用过</span></span><br><span class="line">            <span class="keyword">if</span>(i &gt;= <span class="number">1</span> &amp;&amp; nums[i] == nums[i-<span class="number">1</span>] &amp;&amp; nums[i - <span class="number">1</span>] == <span class="keyword">false</span>) <span class="keyword">continue</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(visited[i] != <span class="keyword">true</span>) &#123;</span><br><span class="line">                visited[i] = <span class="keyword">true</span>;</span><br><span class="line">                list.add(nums[i]);</span><br><span class="line">                dfs(nums, visited, index + <span class="number">1</span>, list);</span><br><span class="line">                <span class="comment">//回溯</span></span><br><span class="line">                list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">                visited[i] = <span class="keyword">false</span>; </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; permuteUnique(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">boolean</span>[] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[nums.length];</span><br><span class="line">        dfs(nums, visited, <span class="number">0</span>, list);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>LeetCode</category>
-      </categories>
-      <tags>
-        <tag>回溯法</tag>
       </tags>
   </entry>
   <entry>
@@ -598,35 +598,6 @@
       </tags>
   </entry>
   <entry>
-    <title>LeetCode 617. 合并二叉树</title>
-    <url>/posts/113bbac.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/merge-two-binary-trees/">617. 合并二叉树</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。</p>
-<p>你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: </span><br><span class="line">	Tree 1                     Tree 2                  </span><br><span class="line">          1                         2                             </span><br><span class="line">         &#x2F; \                       &#x2F; \                            </span><br><span class="line">        3   2                     1   3                        </span><br><span class="line">       &#x2F;                           \   \                      </span><br><span class="line">      5                             4   7                  </span><br><span class="line">输出: </span><br><span class="line">合并后的树:</span><br><span class="line">	     3</span><br><span class="line">	    &#x2F; \</span><br><span class="line">	   4   5</span><br><span class="line">	  &#x2F; \   \ </span><br><span class="line">	 5   4   7</span><br></pre></td></tr></table></figure>
-<p>注意: 合并必须从两个树的根节点开始。</p>
-<h3 id="思路">3. 思路</h3>
-<p>两个二叉树的对应节点可能存在以下三种情况</p>
-<ul>
-<li><p>如果两个二叉树的对应节点都为空，则合并后的二叉树的对应节点也为空；</p></li>
-<li><p>如果两个二叉树的对应节点只有一个为空，则合并后的二叉树的对应节点为其中的非空节点；</p></li>
-<li><p>如果两个二叉树的对应节点都不为空，则合并后的二叉树的对应节点的值为两个二叉树的对应节点的值之和</p></li>
-</ul>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">mergeTrees</span><span class="params">(TreeNode t1, TreeNode t2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t1 == <span class="keyword">null</span>) <span class="keyword">return</span> t2;</span><br><span class="line">        <span class="keyword">if</span>(t2 == <span class="keyword">null</span>) <span class="keyword">return</span> t1;</span><br><span class="line">        <span class="comment">//两个节点都不为空</span></span><br><span class="line">        TreeNode newNode = <span class="keyword">new</span> TreeNode(t1.val + t2.val);</span><br><span class="line">        <span class="comment">//同时遍历两棵树的左孩子</span></span><br><span class="line">        newNode.left = mergeTrees(t1.left, t2.left);</span><br><span class="line">        <span class="comment">//同时遍历两棵树的右孩子</span></span><br><span class="line">        newNode.right = mergeTrees(t1.right, t2.right);</span><br><span class="line">        <span class="keyword">return</span> newNode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>LeetCode</category>
-      </categories>
-      <tags>
-        <tag>树</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>LeetCode 7. 整数翻转</title>
     <url>/posts/419b1c83.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -660,6 +631,35 @@
       </categories>
       <tags>
         <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LeetCode 617. 合并二叉树</title>
+    <url>/posts/113bbac.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/merge-two-binary-trees/">617. 合并二叉树</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。</p>
+<p>你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: </span><br><span class="line">	Tree 1                     Tree 2                  </span><br><span class="line">          1                         2                             </span><br><span class="line">         &#x2F; \                       &#x2F; \                            </span><br><span class="line">        3   2                     1   3                        </span><br><span class="line">       &#x2F;                           \   \                      </span><br><span class="line">      5                             4   7                  </span><br><span class="line">输出: </span><br><span class="line">合并后的树:</span><br><span class="line">	     3</span><br><span class="line">	    &#x2F; \</span><br><span class="line">	   4   5</span><br><span class="line">	  &#x2F; \   \ </span><br><span class="line">	 5   4   7</span><br></pre></td></tr></table></figure>
+<p>注意: 合并必须从两个树的根节点开始。</p>
+<h3 id="思路">3. 思路</h3>
+<p>两个二叉树的对应节点可能存在以下三种情况</p>
+<ul>
+<li><p>如果两个二叉树的对应节点都为空，则合并后的二叉树的对应节点也为空；</p></li>
+<li><p>如果两个二叉树的对应节点只有一个为空，则合并后的二叉树的对应节点为其中的非空节点；</p></li>
+<li><p>如果两个二叉树的对应节点都不为空，则合并后的二叉树的对应节点的值为两个二叉树的对应节点的值之和</p></li>
+</ul>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">mergeTrees</span><span class="params">(TreeNode t1, TreeNode t2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t1 == <span class="keyword">null</span>) <span class="keyword">return</span> t2;</span><br><span class="line">        <span class="keyword">if</span>(t2 == <span class="keyword">null</span>) <span class="keyword">return</span> t1;</span><br><span class="line">        <span class="comment">//两个节点都不为空</span></span><br><span class="line">        TreeNode newNode = <span class="keyword">new</span> TreeNode(t1.val + t2.val);</span><br><span class="line">        <span class="comment">//同时遍历两棵树的左孩子</span></span><br><span class="line">        newNode.left = mergeTrees(t1.left, t2.left);</span><br><span class="line">        <span class="comment">//同时遍历两棵树的右孩子</span></span><br><span class="line">        newNode.right = mergeTrees(t1.right, t2.right);</span><br><span class="line">        <span class="keyword">return</span> newNode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode</category>
+      </categories>
+      <tags>
+        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -833,6 +833,130 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </categories>
       <tags>
         <tag>PCA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring MVC基础相关</title>
+    <url>/posts/447c970d.html</url>
+    <content><![CDATA[<h3 id="什么是spring-mvc">1. 什么是Spring MVC</h3>
+<ul>
+<li>Spring MVC是Spring体系的轻量级Web MVC框架</li>
+<li>Spring MVC的核心是Controller控制器，用于处理请求，产生响应</li>
+<li>Spring MVC基于Spring IOC容器运行，所有对象被IOC管理</li>
+</ul>
+<a id="more"></a>
+<h3 id="springmvc环境配置">2. SpringMVC环境配置</h3>
+<h4 id="maven配置依赖spring-webmvc">2.1 Maven配置依赖spring-webmvc</h4>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="web.xml配置dispatcherservlet">2.2 web.xml配置DispatcherServlet</h4>
+<p>DispatcherServlet 是Spring MVC最核心的对象，用于拦截http请求，并根据请求的url调用与之对应的Controller方法，来完成http请求的处理</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">      </span><br><span class="line">      <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        在web应用启动时自动创建Spring IOC容器--&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        并初始化DispatcherServlet--&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        若不配置则会在第一次访问url时创建IOC容器--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>0<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        &#x27;/&#x27;代表拦截所有请求--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置applicationcontext的mvc标记">2.3 配置applicationContext的mvc标记</h4>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--    开启com.imooc.springmvc包下所有子包的注解扫描--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.imooc.springmvc&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    启用SpringMVC的注解开发模式--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    将图片/js/css等静态资源排除，提高执行效率--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="开发controller控制器">2.4 开发Controller控制器</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.imooc.springmvc.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">//直接向响应输出字符串数据，不跳转页面</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello mvc&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时运行tomcat，访问localhost:8080/test，就会显示<code>hello mvc</code></p>
+<h3 id="springmvc流程图">3. SpringMVC流程图</h3>
+<p><img src="https://i.loli.net/2020/09/22/gSpjYb9ytsendCK.png" /></p>
+<h3 id="springmvc数据绑定">4. SpringMVC数据绑定</h3>
+<h4 id="url-mapping">4.1 URL Mapping</h4>
+<p>URL Mapping是将URL与Controller方法绑定</p>
+<p>从而使得SpringMVC可通过Tomcat对外暴露服务</p>
+<h4 id="url-mapping注解">4.2 URL Mapping注解</h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/test&quot;)</span> <span class="comment">//对URL进行全局配置</span></span><br><span class="line">						 <span class="comment">//表示所有的url前缀前都有/test</span></span><br><span class="line">						 <span class="comment">//在类上使用表示全局配置，在方法上，表示不区分get/post请求</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/testget&quot;)</span>	<span class="comment">//绑定Get请求</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">//直接向响应输出字符串数据，不跳转页面</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testGet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello GetMapping&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@PostMapping(&quot;/testget&quot;)</span> <span class="comment">//绑定Post请求</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello PostMapping&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接收请求参数">5. 接收请求参数</h3>
+<ul>
+<li>使用Controller方法参数接收</li>
+<li>使用Java Bean接收数据</li>
+</ul>
+<h4 id="controller方法参数">5.1 Controller方法参数</h4>
+<p>如，在某个html中，存在表单</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/form1&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span> = <span class="string">&quot;username&quot;</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span> = <span class="string">&quot;passwd&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">&quot;submit&quot;</span> <span class="attr">value</span> = <span class="string">&quot;提交&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>则在对应的controller中，就可以接收参数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/form1&quot;)</span> <span class="comment">//绑定Post请求</span></span><br><span class="line"><span class="meta">@ResponseBody</span> </span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(String username, Long passwd)</span> </span>&#123;</span><br><span class="line">	System.out.println(username + <span class="string">&quot;:&quot;</span> + passwd);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有另一种形式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/testget&quot;)</span>	<span class="comment">//绑定Get请求</span></span><br><span class="line"><span class="meta">@ResponseBody</span> </span><br><span class="line"><span class="comment">//@RequestParam(&quot;manager_name&quot;)通过注解显示声明，则方法参数名可以任取</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testGet</span><span class="params">(<span class="meta">@RequestParam(&quot;manager_name&quot;)</span> String ManagerName)</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> ManagerName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用java-bean">5.2 使用Java Bean</h4>
+<p>新建一个实体类User，对应的属性即为请求过来的参数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//变量名要与前端表单一致</span></span><br><span class="line">    String username;</span><br><span class="line">    Long passwd;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getPasswd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> passwd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPasswd</span><span class="params">(Long passwd)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.passwd = passwd;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置对应的Controller，此时通过user就能接收对应的参数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/post&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">	System.out.println(user.getUsername() + <span class="string">&quot;:&quot;</span> + user.getPasswd());</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>若同时使用实体类和方法参数，则都会被注入对应的值</p>
+<h4 id="日期类型转换">5.3 日期类型转换</h4>
+<h5 id="方法参数中使用注解datetimeformat">5.3.1 方法参数中使用注解@DateTimeFormat</h5>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/post&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(<span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span> Date createTime)</span> </span>&#123;</span><br><span class="line">    System.out.println(createTime);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="实体类中使用注解">5.3.2 实体类中使用注解</h5>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    String username;</span><br><span class="line">    Long passwd;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span></span><br><span class="line">    Data createTime;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="新建转换类进行全局配置">5.3.3 新建转换类，进行全局配置</h5>
+<p>转换类需要实现Converter&lt;S,T&gt;接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.imooc.springmvc.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateConverter</span> <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">String</span>, <span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">convert</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> sdf.parse(s);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>applicationContext.xml</code>中进行配置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--    开启com.imooc.springmvc包下所有子包的注解扫描--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.imooc.springmvc&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    启用SpringMVC的注解开发模式--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span> <span class="attr">conversion-service</span>=<span class="string">&quot;conversionService&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    将图片/js/css等静态资源排除，提高执行效率--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;conversionService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.format.support.FormattingConversionServiceFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;converters&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.imooc.springmvc.converter.DateConverter&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当同时存在全局配置和方法参数注解时，以小范围的优先，所以注解可以用来做一些特例的格式转换</p>
+<h3 id="web应用中文乱码相关">6. Web应用中文乱码相关</h3>
+<p>原因：Tomcat默认使用ISO-8859-1字符集，不包含中文</p>
+<p>解决：将ISO-8859-1字符集转化为UTF-8</p>
+<p>具体方案：</p>
+<ul>
+<li>Get请求乱码：server.xml增加URIEncoding属性</li>
+<li>Post请求乱码：web.xml配置CharacterEncodingFilter</li>
+<li>Response响应乱码：Spring配置StringHttpMessageConverter</li>
+</ul>
+<h4 id="get请求乱码">6.1 Get请求乱码</h4>
+<p>在tomcat的安装路径<code>D:\Java\apache-tomcat-8.5.58\conf</code>中，找到server.xml文件</p>
+<p>打开，找到Connector port=&quot;8080&quot;这部分，在最后添加<code>URIEncoding=&quot;UTF-8&quot;</code></p>
+<p>Tomcat 8.0以后的版本可以不用配置，默认就是UTF-8</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">&quot;8080&quot;</span> <span class="attr">protocol</span>=<span class="string">&quot;HTTP/1.1&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">connectionTimeout</span>=<span class="string">&quot;20000&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">redirectPort</span>=<span class="string">&quot;8443&quot;</span> <span class="attr">URIEncoding</span>=<span class="string">&quot;UTF-8&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="post请求乱码">6.2 Post请求乱码</h4>
+<p>在web.xml中添加如下配置</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--要转换的字符集--&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--对所有url都进行拦截--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="response响应乱码">6.3 Response响应乱码</h4>
+<p>在<code>applicationContext.xml</code>，修改<code>mvc:annotation-driven</code>为如下格式</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span> <span class="attr">conversion-service</span>=<span class="string">&quot;conversionService&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.http.converter.StringHttpMessageConverter&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;supportedMediaTypes&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">value</span>&gt;</span>text/html;charset=utf-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="响应输出结果">7. 响应输出结果</h3>
+<ul>
+<li><span class="citation" data-cites="ResponseBody">@ResponseBody</span> 产生响应文本</li>
+<li>ModelAndView 利用模板引擎渲染输出</li>
+</ul>
+<h4 id="responsebody">7.1 <span class="citation" data-cites="ResponseBody">@ResponseBody</span></h4>
+<p>直接产生相应体的数据，过程不设计任何视图</p>
+<p>可产生标准字符串/JSON/XML等格式数据</p>
+<p>可被StringHttpMessageConverter所影响</p>
+<h4 id="modelandview对象输出">7.2 ModelAndView对象输出</h4>
+<ul>
+<li>ModelAndView对象是指”模型（数据）与视图（界面）“对象</li>
+<li>通过ModelAndView可将包含数据对象与模板引擎进行绑定</li>
+<li>SpringMVC中默认的View是JSP也可以配置其他模板引擎</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//跳转页面的方法</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/view&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">showView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/view.jsp&quot;</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setUsername(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        mav.addObject(<span class="string">&quot;name&quot;</span>, user);</span><br><span class="line">        <span class="keyword">return</span> mav;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>添加要跳转的view.jsp页面</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h3&gt;Username: $&#123;name.username&#125;&lt;/h3&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>访问<code>localhost:8080/view</code>就能看到显示效果</p>
+<h3 id="modelandview">8. ModelAndView</h3>
+<p><code>mav.addObject()</code>方法设置的属性默认存放在<strong>当前请求</strong>中</p>
+<p>默认ModelAndView使用请求转发(forward)至页面</p>
+<p>重定向使用<code>new ModelAndView(&quot;redirect:/index.jsp&quot;)</code>，当controller和view的联系不太紧密时，一般使用页面重定向</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/view.jsp&quot;</span>);</span><br><span class="line"><span class="comment">//也可以写成</span></span><br><span class="line">ModelAndView mav = <span class="keyword">new</span> ModelAndView();</span><br><span class="line">mav.setViewName(<span class="string">&quot;/view.jsp&quot;</span>); </span><br><span class="line"><span class="comment">//若不包含/则是相对路径</span></span><br></pre></td></tr></table></figure>
+<h3 id="整合freemarker">9. 整合Freemarker</h3>
+<h4 id="引入依赖">9.1 引入依赖</h4>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.freemarker<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>freemarker<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.19<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="启用freemarker模板引擎">9.2 启用Freemarker模板引擎</h4>
+<p>在<code>applicationContext.xml</code>中添加bean</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;ViewResolver&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        设置响应输出，并解决中文乱码--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;contentType&quot;</span> <span class="attr">value</span>=<span class="string">&quot;text/html;charset=utf-8&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        指定Freemarker模板文件拓展名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;suffix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;.ftl&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置freemarker参数">9.3 配置Freemarker参数</h4>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;freemarkerConfig&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        设置模板保存目录--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;templateLoaderPath&quot;</span> <span class="attr">value</span>=<span class="string">&quot;/WEB-INF/ftl&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        其他模板引擎设置--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;freemarkerSettings&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        设置脚本与数据渲染时的字符集--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;defaultEncoding&quot;</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="测试freemarker">9.4 测试Freemarker</h4>
+<p>新建FreemarkerController类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/fm&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FreemarkerController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">showTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/test&quot;</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setUsername(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        mav.addObject(<span class="string">&quot;u&quot;</span>, user); <span class="comment">//u是别名</span></span><br><span class="line">        <span class="keyword">return</span> mav;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面配置的路径<code>WEB-INF/ftl</code>下新建test.ftl，添加</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;h2&gt;$&#123;u.username&#125;&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
+<p>最后启动Tomcat，访问<code>localhost:8080/fm/test</code>就能看到运行效果</p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring MVC</tag>
       </tags>
   </entry>
   <entry>
@@ -1055,130 +1179,6 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
-    <title>Spring MVC基础相关</title>
-    <url>/posts/447c970d.html</url>
-    <content><![CDATA[<h3 id="什么是spring-mvc">1. 什么是Spring MVC</h3>
-<ul>
-<li>Spring MVC是Spring体系的轻量级Web MVC框架</li>
-<li>Spring MVC的核心是Controller控制器，用于处理请求，产生响应</li>
-<li>Spring MVC基于Spring IOC容器运行，所有对象被IOC管理</li>
-</ul>
-<a id="more"></a>
-<h3 id="springmvc环境配置">2. SpringMVC环境配置</h3>
-<h4 id="maven配置依赖spring-webmvc">2.1 Maven配置依赖spring-webmvc</h4>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="web.xml配置dispatcherservlet">2.2 web.xml配置DispatcherServlet</h4>
-<p>DispatcherServlet 是Spring MVC最核心的对象，用于拦截http请求，并根据请求的url调用与之对应的Controller方法，来完成http请求的处理</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">      </span><br><span class="line">      <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        在web应用启动时自动创建Spring IOC容器--&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        并初始化DispatcherServlet--&gt;</span></span><br><span class="line">      <span class="comment">&lt;!--        若不配置则会在第一次访问url时创建IOC容器--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>0<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        &#x27;/&#x27;代表拦截所有请求--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="配置applicationcontext的mvc标记">2.3 配置applicationContext的mvc标记</h4>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--    开启com.imooc.springmvc包下所有子包的注解扫描--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.imooc.springmvc&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    启用SpringMVC的注解开发模式--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    将图片/js/css等静态资源排除，提高执行效率--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="开发controller控制器">2.4 开发Controller控制器</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.imooc.springmvc.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">//直接向响应输出字符串数据，不跳转页面</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello mvc&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时运行tomcat，访问localhost:8080/test，就会显示<code>hello mvc</code></p>
-<h3 id="springmvc流程图">3. SpringMVC流程图</h3>
-<p><img src="https://i.loli.net/2020/09/22/gSpjYb9ytsendCK.png" /></p>
-<h3 id="springmvc数据绑定">4. SpringMVC数据绑定</h3>
-<h4 id="url-mapping">4.1 URL Mapping</h4>
-<p>URL Mapping是将URL与Controller方法绑定</p>
-<p>从而使得SpringMVC可通过Tomcat对外暴露服务</p>
-<h4 id="url-mapping注解">4.2 URL Mapping注解</h4>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/test&quot;)</span> <span class="comment">//对URL进行全局配置</span></span><br><span class="line">						 <span class="comment">//表示所有的url前缀前都有/test</span></span><br><span class="line">						 <span class="comment">//在类上使用表示全局配置，在方法上，表示不区分get/post请求</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/testget&quot;)</span>	<span class="comment">//绑定Get请求</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">//直接向响应输出字符串数据，不跳转页面</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testGet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello GetMapping&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@PostMapping(&quot;/testget&quot;)</span> <span class="comment">//绑定Post请求</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello PostMapping&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="接收请求参数">5. 接收请求参数</h3>
-<ul>
-<li>使用Controller方法参数接收</li>
-<li>使用Java Bean接收数据</li>
-</ul>
-<h4 id="controller方法参数">5.1 Controller方法参数</h4>
-<p>如，在某个html中，存在表单</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;/form1&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span> = <span class="string">&quot;username&quot;</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span> = <span class="string">&quot;passwd&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">&quot;submit&quot;</span> <span class="attr">value</span> = <span class="string">&quot;提交&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>则在对应的controller中，就可以接收参数</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/form1&quot;)</span> <span class="comment">//绑定Post请求</span></span><br><span class="line"><span class="meta">@ResponseBody</span> </span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(String username, Long passwd)</span> </span>&#123;</span><br><span class="line">	System.out.println(username + <span class="string">&quot;:&quot;</span> + passwd);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>还有另一种形式</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/testget&quot;)</span>	<span class="comment">//绑定Get请求</span></span><br><span class="line"><span class="meta">@ResponseBody</span> </span><br><span class="line"><span class="comment">//@RequestParam(&quot;manager_name&quot;)通过注解显示声明，则方法参数名可以任取</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testGet</span><span class="params">(<span class="meta">@RequestParam(&quot;manager_name&quot;)</span> String ManagerName)</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> ManagerName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="使用java-bean">5.2 使用Java Bean</h4>
-<p>新建一个实体类User，对应的属性即为请求过来的参数</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//变量名要与前端表单一致</span></span><br><span class="line">    String username;</span><br><span class="line">    Long passwd;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getPasswd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> passwd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPasswd</span><span class="params">(Long passwd)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.passwd = passwd;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>配置对应的Controller，此时通过user就能接收对应的参数</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/post&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">	System.out.println(user.getUsername() + <span class="string">&quot;:&quot;</span> + user.getPasswd());</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>若同时使用实体类和方法参数，则都会被注入对应的值</p>
-<h4 id="日期类型转换">5.3 日期类型转换</h4>
-<h5 id="方法参数中使用注解datetimeformat">5.3.1 方法参数中使用注解@DateTimeFormat</h5>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/post&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testPost</span><span class="params">(<span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span> Date createTime)</span> </span>&#123;</span><br><span class="line">    System.out.println(createTime);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;success!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="实体类中使用注解">5.3.2 实体类中使用注解</h5>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    String username;</span><br><span class="line">    Long passwd;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)</span></span><br><span class="line">    Data createTime;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="新建转换类进行全局配置">5.3.3 新建转换类，进行全局配置</h5>
-<p>转换类需要实现Converter&lt;S,T&gt;接口</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.imooc.springmvc.converter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateConverter</span> <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">String</span>, <span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">convert</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> sdf.parse(s);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在<code>applicationContext.xml</code>中进行配置</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--    开启com.imooc.springmvc包下所有子包的注解扫描--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.imooc.springmvc&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    启用SpringMVC的注解开发模式--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:annotation-driven</span> <span class="attr">conversion-service</span>=<span class="string">&quot;conversionService&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--    将图片/js/css等静态资源排除，提高执行效率--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;conversionService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.format.support.FormattingConversionServiceFactoryBean&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;converters&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;com.imooc.springmvc.converter.DateConverter&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>当同时存在全局配置和方法参数注解时，以小范围的优先，所以注解可以用来做一些特例的格式转换</p>
-<h3 id="web应用中文乱码相关">6. Web应用中文乱码相关</h3>
-<p>原因：Tomcat默认使用ISO-8859-1字符集，不包含中文</p>
-<p>解决：将ISO-8859-1字符集转化为UTF-8</p>
-<p>具体方案：</p>
-<ul>
-<li>Get请求乱码：server.xml增加URIEncoding属性</li>
-<li>Post请求乱码：web.xml配置CharacterEncodingFilter</li>
-<li>Response响应乱码：Spring配置StringHttpMessageConverter</li>
-</ul>
-<h4 id="get请求乱码">6.1 Get请求乱码</h4>
-<p>在tomcat的安装路径<code>D:\Java\apache-tomcat-8.5.58\conf</code>中，找到server.xml文件</p>
-<p>打开，找到Connector port=&quot;8080&quot;这部分，在最后添加<code>URIEncoding=&quot;UTF-8&quot;</code></p>
-<p>Tomcat 8.0以后的版本可以不用配置，默认就是UTF-8</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">&quot;8080&quot;</span> <span class="attr">protocol</span>=<span class="string">&quot;HTTP/1.1&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">connectionTimeout</span>=<span class="string">&quot;20000&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">redirectPort</span>=<span class="string">&quot;8443&quot;</span> <span class="attr">URIEncoding</span>=<span class="string">&quot;UTF-8&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="post请求乱码">6.2 Post请求乱码</h4>
-<p>在web.xml中添加如下配置</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--要转换的字符集--&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>characterFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--对所有url都进行拦截--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="response响应乱码">6.3 Response响应乱码</h4>
-<p>在<code>applicationContext.xml</code>，修改<code>mvc:annotation-driven</code>为如下格式</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span> <span class="attr">conversion-service</span>=<span class="string">&quot;conversionService&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.http.converter.StringHttpMessageConverter&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;supportedMediaTypes&quot;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">value</span>&gt;</span>text/html;charset=utf-8<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:message-converters</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:annotation-driven</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="响应输出结果">7. 响应输出结果</h3>
-<ul>
-<li><span class="citation" data-cites="ResponseBody">@ResponseBody</span> 产生响应文本</li>
-<li>ModelAndView 利用模板引擎渲染输出</li>
-</ul>
-<h4 id="responsebody">7.1 <span class="citation" data-cites="ResponseBody">@ResponseBody</span></h4>
-<p>直接产生相应体的数据，过程不设计任何视图</p>
-<p>可产生标准字符串/JSON/XML等格式数据</p>
-<p>可被StringHttpMessageConverter所影响</p>
-<h4 id="modelandview对象输出">7.2 ModelAndView对象输出</h4>
-<ul>
-<li>ModelAndView对象是指”模型（数据）与视图（界面）“对象</li>
-<li>通过ModelAndView可将包含数据对象与模板引擎进行绑定</li>
-<li>SpringMVC中默认的View是JSP也可以配置其他模板引擎</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//跳转页面的方法</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/view&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">showView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/view.jsp&quot;</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setUsername(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        mav.addObject(<span class="string">&quot;name&quot;</span>, user);</span><br><span class="line">        <span class="keyword">return</span> mav;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>添加要跳转的view.jsp页面</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h3&gt;Username: $&#123;name.username&#125;&lt;/h3&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<p>访问<code>localhost:8080/view</code>就能看到显示效果</p>
-<h3 id="modelandview">8. ModelAndView</h3>
-<p><code>mav.addObject()</code>方法设置的属性默认存放在<strong>当前请求</strong>中</p>
-<p>默认ModelAndView使用请求转发(forward)至页面</p>
-<p>重定向使用<code>new ModelAndView(&quot;redirect:/index.jsp&quot;)</code>，当controller和view的联系不太紧密时，一般使用页面重定向</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/view.jsp&quot;</span>);</span><br><span class="line"><span class="comment">//也可以写成</span></span><br><span class="line">ModelAndView mav = <span class="keyword">new</span> ModelAndView();</span><br><span class="line">mav.setViewName(<span class="string">&quot;/view.jsp&quot;</span>); </span><br><span class="line"><span class="comment">//若不包含/则是相对路径</span></span><br></pre></td></tr></table></figure>
-<h3 id="整合freemarker">9. 整合Freemarker</h3>
-<h4 id="引入依赖">9.1 引入依赖</h4>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.freemarker<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>freemarker<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.19<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-context-support<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="启用freemarker模板引擎">9.2 启用Freemarker模板引擎</h4>
-<p>在<code>applicationContext.xml</code>中添加bean</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;ViewResolver&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        设置响应输出，并解决中文乱码--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;contentType&quot;</span> <span class="attr">value</span>=<span class="string">&quot;text/html;charset=utf-8&quot;</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--        指定Freemarker模板文件拓展名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;suffix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;.ftl&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="配置freemarker参数">9.3 配置Freemarker参数</h4>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;freemarkerConfig&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        设置模板保存目录--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;templateLoaderPath&quot;</span> <span class="attr">value</span>=<span class="string">&quot;/WEB-INF/ftl&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        其他模板引擎设置--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;freemarkerSettings&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        设置脚本与数据渲染时的字符集--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">&quot;defaultEncoding&quot;</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="测试freemarker">9.4 测试Freemarker</h4>
-<p>新建FreemarkerController类</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/fm&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FreemarkerController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">showTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ModelAndView mav = <span class="keyword">new</span> ModelAndView(<span class="string">&quot;/test&quot;</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        user.setUsername(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        mav.addObject(<span class="string">&quot;u&quot;</span>, user); <span class="comment">//u是别名</span></span><br><span class="line">        <span class="keyword">return</span> mav;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面配置的路径<code>WEB-INF/ftl</code>下新建test.ftl，添加</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;h2&gt;$&#123;u.username&#125;&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
-<p>最后启动Tomcat，访问<code>localhost:8080/fm/test</code>就能看到运行效果</p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring MVC</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring MVC拦截器</title>
     <url>/posts/d35b8ac7.html</url>
     <content><![CDATA[<h3 id="spring-mvc拦截器">1. Spring MVC拦截器</h3>
@@ -1287,6 +1287,58 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
+    <title>剑指offer 05. 替换空格</title>
+    <url>/posts/7768bbe3.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">剑指 Offer 05. 替换空格</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>请实现一个函数，把字符串 s 中的每个空格替换成&quot;%20&quot;</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：s &#x3D; &quot;We are happy.&quot;</span><br><span class="line">输出：&quot;We%20are%20happy.&quot;</span><br></pre></td></tr></table></figure>
+<p>限制：</p>
+<p>0 &lt;= s 的长度 &lt;= 10000</p>
+<h3 id="思路">3. 思路</h3>
+<p>直接string的库函数，一行代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">return s.replace(&quot; &quot;, &quot;%20&quot;);</span><br></pre></td></tr></table></figure>
+<p>当然也可以遍历整个字符串，用StringBuilder进行拼接，遍历到空格的话，就append一个&quot;%20&quot;</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i++)&#123;</span><br><span class="line">            <span class="keyword">char</span> c = s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span>(c == <span class="string">&#x27; &#x27;</span>) sb.append(<span class="string">&quot;%20&quot;</span>);</span><br><span class="line">            <span class="keyword">else</span> sb.append(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指offer 09. 用两个栈实现队列</title>
+    <url>/posts/96badc6d.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/">剑指 Offer 09. 用两个栈实现队列</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line">[&quot;CQueue&quot;,&quot;appendTail&quot;,&quot;deleteHead&quot;,&quot;deleteHead&quot;]</span><br><span class="line">[[],[3],[],[]]</span><br><span class="line">输出：[null,null,3,-1]</span><br></pre></td></tr></table></figure>
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line">[&quot;CQueue&quot;,&quot;deleteHead&quot;,&quot;appendTail&quot;,&quot;appendTail&quot;,&quot;deleteHead&quot;,&quot;deleteHead&quot;]</span><br><span class="line">[[],[],[5],[2],[],[]]</span><br><span class="line">输出：[null,-1,null,null,5,2]</span><br></pre></td></tr></table></figure>
+<p>提示：</p>
+<p>1 &lt;= values &lt;= 10000 最多会对 appendTail、deleteHead 进行 10000 次调用</p>
+<h3 id="思路">3. 思路</h3>
+<p>维护两个堆栈stack1,stack2，添加元素时，首先add进stack1，此时判断stack2是否为空，如果为空，则将stack1中元素全部pop到stack2中，此时stack中pop出来的顺序即为队列的顺序，若不为空，则先暂存在stack1，每次离队后也要判断一下stack2是否为空，若为空且stack1不为空，就接着把stack1中元素全部pop到stack2中.</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CQueue</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Deque&lt;Integer&gt; stack1;</span><br><span class="line">    <span class="keyword">private</span> Deque&lt;Integer&gt; stack2;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CQueue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        stack1 = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        stack2 = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">appendTail</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        stack1.addFirst(value);</span><br><span class="line">        <span class="comment">//入队时判断</span></span><br><span class="line">        <span class="keyword">while</span>(stack2.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">while</span>(!stack1.isEmpty()) &#123;</span><br><span class="line">                stack2.addFirst(stack1.removeFirst());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">deleteHead</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ret = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(!stack2.isEmpty()) &#123;</span><br><span class="line">            ret =  stack2.removeFirst();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//离队后判断</span></span><br><span class="line">        <span class="keyword">if</span>(stack2.isEmpty() &amp;&amp; !stack1.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">while</span>(stack2.isEmpty()) &#123;</span><br><span class="line">                <span class="keyword">while</span>(!stack1.isEmpty()) &#123;</span><br><span class="line">                    stack2.addFirst(stack1.removeFirst());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指offer 04. 二维数组中的查找</title>
     <url>/posts/d2e54803.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -1317,32 +1369,6 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
-    <title>剑指offer 05. 替换空格</title>
-    <url>/posts/7768bbe3.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">剑指 Offer 05. 替换空格</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>请实现一个函数，把字符串 s 中的每个空格替换成&quot;%20&quot;</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：s &#x3D; &quot;We are happy.&quot;</span><br><span class="line">输出：&quot;We%20are%20happy.&quot;</span><br></pre></td></tr></table></figure>
-<p>限制：</p>
-<p>0 &lt;= s 的长度 &lt;= 10000</p>
-<h3 id="思路">3. 思路</h3>
-<p>直接string的库函数，一行代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">return s.replace(&quot; &quot;, &quot;%20&quot;);</span><br></pre></td></tr></table></figure>
-<p>当然也可以遍历整个字符串，用StringBuilder进行拼接，遍历到空格的话，就append一个&quot;%20&quot;</p>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">replaceSpace</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; s.length(); i++)&#123;</span><br><span class="line">            <span class="keyword">char</span> c = s.charAt(i);</span><br><span class="line">            <span class="keyword">if</span>(c == <span class="string">&#x27; &#x27;</span>) sb.append(<span class="string">&quot;%20&quot;</span>);</span><br><span class="line">            <span class="keyword">else</span> sb.append(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指offer</category>
-      </categories>
-      <tags>
-        <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指offer 06. 从尾到头打印链表</title>
     <url>/posts/75109394.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -1365,32 +1391,6 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </categories>
       <tags>
         <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指offer 09. 用两个栈实现队列</title>
-    <url>/posts/96badc6d.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/">剑指 Offer 09. 用两个栈实现队列</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line">[&quot;CQueue&quot;,&quot;appendTail&quot;,&quot;deleteHead&quot;,&quot;deleteHead&quot;]</span><br><span class="line">[[],[3],[],[]]</span><br><span class="line">输出：[null,null,3,-1]</span><br></pre></td></tr></table></figure>
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line">[&quot;CQueue&quot;,&quot;deleteHead&quot;,&quot;appendTail&quot;,&quot;appendTail&quot;,&quot;deleteHead&quot;,&quot;deleteHead&quot;]</span><br><span class="line">[[],[],[5],[2],[],[]]</span><br><span class="line">输出：[null,-1,null,null,5,2]</span><br></pre></td></tr></table></figure>
-<p>提示：</p>
-<p>1 &lt;= values &lt;= 10000 最多会对 appendTail、deleteHead 进行 10000 次调用</p>
-<h3 id="思路">3. 思路</h3>
-<p>维护两个堆栈stack1,stack2，添加元素时，首先add进stack1，此时判断stack2是否为空，如果为空，则将stack1中元素全部pop到stack2中，此时stack中pop出来的顺序即为队列的顺序，若不为空，则先暂存在stack1，每次离队后也要判断一下stack2是否为空，若为空且stack1不为空，就接着把stack1中元素全部pop到stack2中.</p>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CQueue</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Deque&lt;Integer&gt; stack1;</span><br><span class="line">    <span class="keyword">private</span> Deque&lt;Integer&gt; stack2;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CQueue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        stack1 = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        stack2 = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">appendTail</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        stack1.addFirst(value);</span><br><span class="line">        <span class="comment">//入队时判断</span></span><br><span class="line">        <span class="keyword">while</span>(stack2.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">while</span>(!stack1.isEmpty()) &#123;</span><br><span class="line">                stack2.addFirst(stack1.removeFirst());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">deleteHead</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ret = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(!stack2.isEmpty()) &#123;</span><br><span class="line">            ret =  stack2.removeFirst();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//离队后判断</span></span><br><span class="line">        <span class="keyword">if</span>(stack2.isEmpty() &amp;&amp; !stack1.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">while</span>(stack2.isEmpty()) &#123;</span><br><span class="line">                <span class="keyword">while</span>(!stack1.isEmpty()) &#123;</span><br><span class="line">                    stack2.addFirst(stack1.removeFirst());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指offer</category>
-      </categories>
-      <tags>
-        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -1485,38 +1485,6 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
-    <title>剑指offer 12. 矩阵中的路径</title>
-    <url>/posts/f6cb3434.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/">剑指 Offer 12. 矩阵中的路径</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一格开始，每一步可以在矩阵中向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。例如，在下面的3×4的矩阵中包含一条字符串“bfce”的路径（路径中的字母用加粗标出）。</p>
-<p>[[&quot;a&quot;,&quot;<strong>b</strong>&quot;,&quot;c&quot;,&quot;e&quot;], [&quot;s&quot;,&quot;<strong>f</strong>&quot;,&quot;<strong>c</strong>&quot;,&quot;s&quot;], [&quot;a&quot;,&quot;d&quot;,&quot;<strong>e</strong>&quot;,&quot;e&quot;]]</p>
-<p>但矩阵中不包含字符串“abfb”的路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入这个格子。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：board &#x3D; [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word &#x3D; &quot;ABCCED&quot;</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：board &#x3D; [[&quot;a&quot;,&quot;b&quot;],[&quot;c&quot;,&quot;d&quot;]], word &#x3D; &quot;abcd&quot;</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
-<p>提示：</p>
-<ul>
-<li>1 &lt;= board.length &lt;= 200</li>
-<li>1 &lt;= board[i].length &lt;= 200</li>
-</ul>
-<h3 id="思路">3. 思路</h3>
-<p>这道题是典型的矩阵搜索问题，可以通过dfs+剪枝来解决</p>
-<p>算法思路见注释</p>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[][] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">201</span>][<span class="number">201</span>];</span><br><span class="line">    <span class="comment">// 四个方向。上下左右</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[][] d = &#123;&#123;<span class="number">0</span>,<span class="number">1</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">0</span>,-<span class="number">1</span>&#125;,&#123;-<span class="number">1</span>,<span class="number">0</span>&#125;&#125;;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> m;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> n;</span><br><span class="line">    <span class="comment">// 检查边界</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x &gt;= <span class="number">0</span> &amp;&amp; y &gt;= <span class="number">0</span> &amp;&amp; x &lt; m &amp;&amp; y &lt; n;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">dfs</span><span class="params">(<span class="keyword">char</span>[][] board, String word, <span class="keyword">int</span> index, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 当前位置已访问到</span></span><br><span class="line">        visited[x][y] = <span class="keyword">true</span>;</span><br><span class="line">		</span><br><span class="line">        <span class="comment">// 全部字符都已找到</span></span><br><span class="line">        <span class="keyword">if</span>(index == word.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">		<span class="comment">// 对于每一个格子，遍历其上下左右四个格子</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> newx = x + d[i][<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> newy = y + d[i][<span class="number">1</span>];</span><br><span class="line">			</span><br><span class="line">            <span class="comment">// 判断其上下左右格边界是否合法，是否被访过，是否是下一个要找的目标字符</span></span><br><span class="line">            <span class="keyword">if</span>(check(newx, newy) &amp;&amp; !visited[newx][newy] &amp;&amp; board[newx][newy] == word.charAt(index)) &#123;</span><br><span class="line">                <span class="comment">// 找下一位目标字符</span></span><br><span class="line">                <span class="keyword">if</span>(dfs(board, word, index + <span class="number">1</span>, newx, newy)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 当前格子不符，回溯</span></span><br><span class="line">        visited[x][y] = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">exist</span><span class="params">(<span class="keyword">char</span>[][] board, String word)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        m = board.length;</span><br><span class="line">        n = board[<span class="number">0</span>].length;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">                <span class="comment">// 找目标字符串的第一个字符</span></span><br><span class="line">                <span class="keyword">if</span>(board[i][j] == word.charAt(<span class="number">0</span>)) &#123;</span><br><span class="line">                    <span class="keyword">if</span>(dfs(board, word, <span class="number">1</span>, i, j)) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指offer</category>
-      </categories>
-      <tags>
-        <tag>深度优先搜索</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指offer 13. 机器人的运动范围</title>
     <url>/posts/70752aca.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -1547,6 +1515,38 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
 <p>算法思路见注释</p>
 <h3 id="代码实现">4. 代码实现</h3>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span>[][] sum, <span class="keyword">boolean</span>[][] visited, <span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> m, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">        <span class="comment">// 剪枝，不符就返回</span></span><br><span class="line">        <span class="keyword">if</span>(x &lt; <span class="number">0</span> || y &lt; <span class="number">0</span> || x &gt;= m || y &gt;= n || sum[x][y] == <span class="number">1</span> || visited[x][y]) </span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        visited[x][y] = <span class="keyword">true</span>;</span><br><span class="line">		</span><br><span class="line">        <span class="comment">// 数上下左右四个位置的符合条件的格子数</span></span><br><span class="line">        <span class="keyword">return</span> dfs(sum, visited, x + <span class="number">1</span>, y, m, n) + dfs(sum, visited, x - <span class="number">1</span>, y, m, n) + </span><br><span class="line">               dfs(sum, visited, x, y + <span class="number">1</span>, m, n) + dfs(sum, visited,x, y - <span class="number">1</span>, m, n) + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">movingCount</span><span class="params">(<span class="keyword">int</span> m, <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] preSum = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">100</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            preSum[i] = i / <span class="number">10</span> + i % <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[][] sum = <span class="keyword">new</span> <span class="keyword">int</span>[m][n];</span><br><span class="line">        <span class="comment">// 计算矩阵每个格子的数位之和</span></span><br><span class="line">        <span class="comment">// 若和满足要求，则将该位置赋为0</span></span><br><span class="line">        <span class="comment">// 否则赋为1</span></span><br><span class="line">        <span class="comment">// 转成了01矩阵</span></span><br><span class="line">        <span class="comment">// 0 0 1 </span></span><br><span class="line">        <span class="comment">// 0 1 1</span></span><br><span class="line">        <span class="comment">// 1 1 1</span></span><br><span class="line">        <span class="comment">// 计算满足要求的连通块的数量</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(preSum[i] + preSum[j] &lt;= k)</span><br><span class="line">                    sum[i][j] = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    sum[i][j] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span>[][] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[m][n];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dfs(sum, visited, <span class="number">0</span>, <span class="number">0</span>, m, n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>深度优先搜索</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指offer 12. 矩阵中的路径</title>
+    <url>/posts/f6cb3434.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/">剑指 Offer 12. 矩阵中的路径</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一格开始，每一步可以在矩阵中向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。例如，在下面的3×4的矩阵中包含一条字符串“bfce”的路径（路径中的字母用加粗标出）。</p>
+<p>[[&quot;a&quot;,&quot;<strong>b</strong>&quot;,&quot;c&quot;,&quot;e&quot;], [&quot;s&quot;,&quot;<strong>f</strong>&quot;,&quot;<strong>c</strong>&quot;,&quot;s&quot;], [&quot;a&quot;,&quot;d&quot;,&quot;<strong>e</strong>&quot;,&quot;e&quot;]]</p>
+<p>但矩阵中不包含字符串“abfb”的路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入这个格子。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：board &#x3D; [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word &#x3D; &quot;ABCCED&quot;</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：board &#x3D; [[&quot;a&quot;,&quot;b&quot;],[&quot;c&quot;,&quot;d&quot;]], word &#x3D; &quot;abcd&quot;</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
+<p>提示：</p>
+<ul>
+<li>1 &lt;= board.length &lt;= 200</li>
+<li>1 &lt;= board[i].length &lt;= 200</li>
+</ul>
+<h3 id="思路">3. 思路</h3>
+<p>这道题是典型的矩阵搜索问题，可以通过dfs+剪枝来解决</p>
+<p>算法思路见注释</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[][] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">201</span>][<span class="number">201</span>];</span><br><span class="line">    <span class="comment">// 四个方向。上下左右</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[][] d = &#123;&#123;<span class="number">0</span>,<span class="number">1</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">0</span>,-<span class="number">1</span>&#125;,&#123;-<span class="number">1</span>,<span class="number">0</span>&#125;&#125;;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> m;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> n;</span><br><span class="line">    <span class="comment">// 检查边界</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x &gt;= <span class="number">0</span> &amp;&amp; y &gt;= <span class="number">0</span> &amp;&amp; x &lt; m &amp;&amp; y &lt; n;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">dfs</span><span class="params">(<span class="keyword">char</span>[][] board, String word, <span class="keyword">int</span> index, <span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 当前位置已访问到</span></span><br><span class="line">        visited[x][y] = <span class="keyword">true</span>;</span><br><span class="line">		</span><br><span class="line">        <span class="comment">// 全部字符都已找到</span></span><br><span class="line">        <span class="keyword">if</span>(index == word.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">		<span class="comment">// 对于每一个格子，遍历其上下左右四个格子</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> newx = x + d[i][<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> newy = y + d[i][<span class="number">1</span>];</span><br><span class="line">			</span><br><span class="line">            <span class="comment">// 判断其上下左右格边界是否合法，是否被访过，是否是下一个要找的目标字符</span></span><br><span class="line">            <span class="keyword">if</span>(check(newx, newy) &amp;&amp; !visited[newx][newy] &amp;&amp; board[newx][newy] == word.charAt(index)) &#123;</span><br><span class="line">                <span class="comment">// 找下一位目标字符</span></span><br><span class="line">                <span class="keyword">if</span>(dfs(board, word, index + <span class="number">1</span>, newx, newy)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 当前格子不符，回溯</span></span><br><span class="line">        visited[x][y] = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">exist</span><span class="params">(<span class="keyword">char</span>[][] board, String word)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        m = board.length;</span><br><span class="line">        n = board[<span class="number">0</span>].length;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">                <span class="comment">// 找目标字符串的第一个字符</span></span><br><span class="line">                <span class="keyword">if</span>(board[i][j] == word.charAt(<span class="number">0</span>)) &#123;</span><br><span class="line">                    <span class="keyword">if</span>(dfs(board, word, <span class="number">1</span>, i, j)) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>剑指offer</category>
@@ -1589,33 +1589,6 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
-    <title>剑指offer 15. 二进制中1的个数</title>
-    <url>/posts/96c3995a.html</url>
-    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
-<p><a href="https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/">剑指 Offer 15. 二进制中1的个数</a></p>
-<a id="more"></a>
-<h3 id="题目描述">2. 题目描述</h3>
-<p>请实现一个函数，输入一个整数，输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。</p>
-<p>示例 1：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：00000000000000000000000000001011</span><br><span class="line">输出：3</span><br><span class="line">解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 &#39;1&#39;。</span><br></pre></td></tr></table></figure>
-<p>示例 2：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：00000000000000000000000010000000</span><br><span class="line">输出：1</span><br><span class="line">解释：输入的二进制串 00000000000000000000000010000000 中，共有一位为 &#39;1&#39;。</span><br></pre></td></tr></table></figure>
-<p>示例 3：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：11111111111111111111111111111101</span><br><span class="line">输出：31</span><br><span class="line">解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 &#39;1&#39;。</span><br></pre></td></tr></table></figure>
-<h3 id="思路">3. 思路</h3>
-<p>对于正数，直接数位拆解计算总的1的个数</p>
-<p>对于负数，由于负数是补码的形式，先将负数转换成反码对应的正数，计算其1的个数，由于输入均为32位二进制，最后用32减去个数即为负数中1的个数</p>
-<h3 id="代码实现">4. 代码实现</h3>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// you need to treat n as an unsigned value</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">boolean</span> isNeg = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">// 是负数</span></span><br><span class="line">        <span class="keyword">if</span>(n &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            isNeg = <span class="keyword">true</span>;</span><br><span class="line">            n = -(n + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 数位拆解数1的个数</span></span><br><span class="line">        <span class="keyword">while</span>(n != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(n % <span class="number">2</span> == <span class="number">1</span>) cnt++;</span><br><span class="line">            n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> isNeg ? (<span class="number">32</span> - cnt) : cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>剑指offer</category>
-      </categories>
-      <tags>
-        <tag>位运算</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指offer 16. 数值的整数次方</title>
     <url>/posts/8f105a80.html</url>
     <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
@@ -1649,6 +1622,33 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </categories>
       <tags>
         <tag>递归</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指offer 15. 二进制中1的个数</title>
+    <url>/posts/96c3995a.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/">剑指 Offer 15. 二进制中1的个数</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>请实现一个函数，输入一个整数，输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：00000000000000000000000000001011</span><br><span class="line">输出：3</span><br><span class="line">解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 &#39;1&#39;。</span><br></pre></td></tr></table></figure>
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：00000000000000000000000010000000</span><br><span class="line">输出：1</span><br><span class="line">解释：输入的二进制串 00000000000000000000000010000000 中，共有一位为 &#39;1&#39;。</span><br></pre></td></tr></table></figure>
+<p>示例 3：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：11111111111111111111111111111101</span><br><span class="line">输出：31</span><br><span class="line">解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 &#39;1&#39;。</span><br></pre></td></tr></table></figure>
+<h3 id="思路">3. 思路</h3>
+<p>对于正数，直接数位拆解计算总的1的个数</p>
+<p>对于负数，由于负数是补码的形式，先将负数转换成反码对应的正数，计算其1的个数，由于输入均为32位二进制，最后用32减去个数即为负数中1的个数</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// you need to treat n as an unsigned value</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">boolean</span> isNeg = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">// 是负数</span></span><br><span class="line">        <span class="keyword">if</span>(n &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            isNeg = <span class="keyword">true</span>;</span><br><span class="line">            n = -(n + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 数位拆解数1的个数</span></span><br><span class="line">        <span class="keyword">while</span>(n != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(n % <span class="number">2</span> == <span class="number">1</span>) cnt++;</span><br><span class="line">            n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> isNeg ? (<span class="number">32</span> - cnt) : cnt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>位运算</tag>
       </tags>
   </entry>
   <entry>
@@ -1711,76 +1711,30 @@ Y=\begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}} \end{pmatrix}
       </tags>
   </entry>
   <entry>
-    <title>记一次小爬虫</title>
-    <url>/posts/75177dc0.html</url>
-    <content><![CDATA[<p>这天突然收到师兄发的消息，想让我帮他爬一次中国联通的历史股票数据</p>
-<p>数据的链接在这 <a href="http://www.aigaogao.com/tools/history.html?s=600050">中国联通</a></p>
+    <title>剑指Offer 54. 二叉搜索树的第k大节点</title>
+    <url>/posts/f9b14d9.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/">剑指 Offer 54. 二叉搜索树的第k大节点</a></p>
 <a id="more"></a>
-<p>打开F12可以看到网页内的数据是这样的</p>
-<p><img src="https://i.loli.net/2020/09/27/FQ5xJLNSAR9BOjk.png" /></p>
-<p>所以需要爬取的数据都在<code>&lt;tr&gt;</code>标签下的<code>&lt;td&gt;</code>标签内</p>
-<p>首先我们要爬取整个页面，此时<code>response.text</code>即为爬取整个网页文本</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&#x27;http://www.aigaogao.com/tools/history.html?s=600050&#x27;</span></span><br><span class="line">response = requests.get(url)</span><br><span class="line">response.raise_for_status()<span class="comment"># 如果HTTP请求返回了不成功的状态码,会抛出一个HTTPError异常</span></span><br><span class="line">response.encoding = response.apparent_encoding <span class="comment"># 从内容中分析出的响应内容编码方式</span></span><br><span class="line"></span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
-<p>接下来我们需要找到对应的标签，此时用一个贼好用的库 <code>xpath</code></p>
-<p>XPath，全称 XML Path Language，即 XML 路径语言，它是一门在 XML 文档中查找信息的语言。最初是用来搜寻 XML 文档的，但同样适用于 HTML 文档的搜索。所以在做爬虫时完全可以使用 XPath 做相应的信息抽取</p>
-<p>XPath 的选择功能十分强大，它提供了非常简洁明了的路径选择表达式。另外，它还提供了超过 100 个内建函数，用于字符串、数值、时间的匹配以及节点、序列的处理等，几乎所有想要定位的节点都可以用 XPath 来选择。</p>
-<p>这是官方文档 <a href="https://www.w3.org/TR/2017/REC-xpath-31-20170321/">xpath</a></p>
-<p>首先先定位到所有标签最近的父标签，如图中的<code>&lt;div&gt;</code>，右键选择<code>copy XPath</code></p>
-<p>得到此时的路径<code>//*[@id=&quot;ctl16_contentdiv&quot;]</code></p>
-<p><img src="https://i.loli.net/2020/09/27/4v3RbdZXQaAzho1.png" /></p>
-<h5 id="xpath-常用规则">XPath 常用规则</h5>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">表达式</th>
-<th style="text-align: left;">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">nodename</td>
-<td style="text-align: left;">选取此节点的所有子节点</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">/</td>
-<td style="text-align: left;">从当前节点选区直接子节点</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">//</td>
-<td style="text-align: left;">从当前节点选取子孙节点</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">.</td>
-<td style="text-align: left;">选取当前节点</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">..</td>
-<td style="text-align: left;">选取当前节点的父节点</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">@</td>
-<td style="text-align: left;">选取属性</td>
-</tr>
-</tbody>
-</table>
-<p>*代表匹配所有节点，返回的结果是一个列表，每个元素都是一个 Element 类型，后跟节点名称。</p>
-<p>/text() 文本获取，表示获取当前节点中的文本</p>
-<p>因此</p>
-<p>在当前路径下<code>//*[@id=&quot;ctl16_contentdiv&quot;]</code></p>
-<p><code>/table/tr</code>表示div下面的tr节点</p>
-<p><code>//*/text()</code>表示tr下面的所有节点的所有文本</p>
-<p>即可获取想要爬取的所有信息</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line">tree = etree.HTML(response.text)</span><br><span class="line">res = tree.xpath(<span class="string">&#x27; // *[ @ id = &quot;ctl16_contentdiv&quot;]/table/tr//*/text()&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>最后附上所有的代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line"></span><br><span class="line">    url = <span class="string">&#x27;http://www.aigaogao.com/tools/history.html?s=600050&#x27;</span></span><br><span class="line"></span><br><span class="line">    response = requests.get(url)</span><br><span class="line">    response.raise_for_status()</span><br><span class="line">    response.encoding = response.apparent_encoding</span><br><span class="line">    tree = etree.HTML(response.text)</span><br><span class="line">    res = tree.xpath(<span class="string">&#x27; // *[ @ id = &quot;ctl16_contentdiv&quot;]/table/tr//*/text()&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    f = open(<span class="string">&#x27;test.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, newline=<span class="string">&#x27;&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    csv_writer = csv.writer(f)</span><br><span class="line">    cnt = <span class="number">0</span></span><br><span class="line">    list = []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> res:</span><br><span class="line">        <span class="keyword">if</span> item <span class="keyword">in</span> [<span class="string">&#x27;缩&#x27;</span>, <span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;6&#x27;</span>]:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        list.append(item)</span><br><span class="line">        cnt = cnt + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> cnt == <span class="number">12</span>:</span><br><span class="line">            csv_writer.writerow(list)</span><br><span class="line">            cnt = <span class="number">0</span></span><br><span class="line">            list = []</span><br><span class="line"></span><br><span class="line">    f.close()</span><br><span class="line">    print(<span class="string">&quot;done&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>这是最后爬取的数据结果</p>
-<p><img src="https://i.loli.net/2020/09/27/43YQ1bCqNjDfSWa.png" /></p>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>给定一棵二叉搜索树，请找出其中第k大的节点。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: root &#x3D; [3,1,4,null,2], k &#x3D; 1</span><br><span class="line">   3</span><br><span class="line">  &#x2F; \</span><br><span class="line"> 1   4</span><br><span class="line">  \</span><br><span class="line">   2</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: root &#x3D; [5,3,6,2,4,null,null,1], k &#x3D; 3</span><br><span class="line">       5</span><br><span class="line">      &#x2F; \</span><br><span class="line">     3   6</span><br><span class="line">    &#x2F; \</span><br><span class="line">   2   4</span><br><span class="line">  &#x2F;</span><br><span class="line"> 1</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
+<p><strong>限制：</strong></p>
+<p>1 ≤ k ≤ 二叉搜索树元素个数</p>
+<h3 id="思路">3. 思路</h3>
+<p>由二叉搜索树的性质可知，二叉搜索树的中序遍历结果是一个递增数组，反向中序遍历就是递减数组</p>
+<p>维护一个全局的cnt，当cnt等于k时，就是递减数组中的第k大的数。</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">InOrder</span><span class="params">(TreeNode root, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 左-根-右是中序遍历</span></span><br><span class="line">        InOrder(root.right, k);</span><br><span class="line">        <span class="keyword">if</span>(++cnt == k) &#123;</span><br><span class="line">            ans = root.val;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        InOrder(root.left, k);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">kthLargest</span><span class="params">(TreeNode root, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        InOrder(root, k);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>杂记</category>
+        <category>剑指offer</category>
       </categories>
       <tags>
-        <tag>爬虫</tag>
+        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -1909,6 +1863,148 @@ e^{-(\omega^Tx+b)}=1
       </tags>
   </entry>
   <entry>
+    <title>剑指Offer 56-I. 数组中数字出现的次数</title>
+    <url>/posts/1a6eb274.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/">剑指 Offer 56 - I. 数组中数字出现的次数</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>一个整型数组 <code>nums</code> 里除两个数字之外，其他数字都出现了两次。请写程序找出这两个只出现一次的数字。</p>
+<p>要求时间复杂度是O(n)，空间复杂度是O(1)。</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [4,1,4,6]</span><br><span class="line">输出：[1,6] 或 [6,1]</span><br></pre></td></tr></table></figure>
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [1,2,10,4,1,4,3,3]</span><br><span class="line">输出：[2,10] 或 [10,2]</span><br></pre></td></tr></table></figure>
+<p><strong>限制：</strong></p>
+<ul>
+<li><code>2 &lt;= nums.length &lt;= 10000</code></li>
+</ul>
+<h3 id="思路">3. 思路</h3>
+<p>这道题考察的是位运算操作</p>
+<p>对于异或操作，有以下几个性质</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a ^ b &#x3D; b ^ a</span><br><span class="line">(a ^ b) ^ c &#x3D; a ^ (b ^ c)</span><br><span class="line">a ^ a &#x3D; 0</span><br><span class="line">a ^ 0 &#x3D; a</span><br></pre></td></tr></table></figure>
+<p>因此，如果一个数组中有一个数字只出现一次，其他数字都出现了偶数次，那么直接对数组中所有元素进行异或操作，由上述性质可得，最后的结果就是那个只出现一次的数字。</p>
+<p>如果数组中有两个数字只出现一次，那么结果就是这两个数字的异或。</p>
+<p>对于有两个数字，我们可以想到对原数组进行分组，分组的要求是保证这两个数字在不同的组，其他重复的数字要在同一组。</p>
+<p>由于我们上面得到这两个数字的异或的结果，假设</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a: 4，二进制为100</span><br><span class="line">b: 3，二进制为011</span><br><span class="line">那么 a^b&#x3D;7，二进制为111</span><br></pre></td></tr></table></figure>
+<p>所以我们可以看到，异或结果的二进制位中，只要为1，就表示a，b两个数的二进制在该位不同。因此我们只要 按位与 一个在该位为1，其他位为0的数，就能把a，b分开，比如&amp;1(001)，&amp;2(010)，&amp;4(100)，都能将其分开。而且对于其他相同的数字，与上同一个值，结果也会被分到同一组。</p>
+<p>最后我们在对分成的两组分别进行异或，最后的结果就是这两个只出现一次的数字了。</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] singleNumbers(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 得到两个只出现一次的数字的异或值</span></span><br><span class="line">        <span class="keyword">int</span> xor = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> n : nums) &#123;</span><br><span class="line">            xor ^= n;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//在上面得到的异或值中，找到一个为1二进制位，如(001,010,100)</span></span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>((index &amp; xor) == <span class="number">0</span>) &#123;</span><br><span class="line">            index &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过该位为1的二进制数进行分组，每组再分别计算异或</span></span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> n : nums) &#123;</span><br><span class="line">            <span class="keyword">if</span>((index &amp; n) == <span class="number">0</span>) &#123;</span><br><span class="line">                a ^= n;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                b ^= n;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;a, b&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次小爬虫</title>
+    <url>/posts/75177dc0.html</url>
+    <content><![CDATA[<p>这天突然收到师兄发的消息，想让我帮他爬一次中国联通的历史股票数据</p>
+<p>数据的链接在这 <a href="http://www.aigaogao.com/tools/history.html?s=600050">中国联通</a></p>
+<a id="more"></a>
+<p>打开F12可以看到网页内的数据是这样的</p>
+<p><img src="https://i.loli.net/2020/09/27/FQ5xJLNSAR9BOjk.png" /></p>
+<p>所以需要爬取的数据都在<code>&lt;tr&gt;</code>标签下的<code>&lt;td&gt;</code>标签内</p>
+<p>首先我们要爬取整个页面，此时<code>response.text</code>即为爬取整个网页文本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">url = <span class="string">&#x27;http://www.aigaogao.com/tools/history.html?s=600050&#x27;</span></span><br><span class="line">response = requests.get(url)</span><br><span class="line">response.raise_for_status()<span class="comment"># 如果HTTP请求返回了不成功的状态码,会抛出一个HTTPError异常</span></span><br><span class="line">response.encoding = response.apparent_encoding <span class="comment"># 从内容中分析出的响应内容编码方式</span></span><br><span class="line"></span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+<p>接下来我们需要找到对应的标签，此时用一个贼好用的库 <code>xpath</code></p>
+<p>XPath，全称 XML Path Language，即 XML 路径语言，它是一门在 XML 文档中查找信息的语言。最初是用来搜寻 XML 文档的，但同样适用于 HTML 文档的搜索。所以在做爬虫时完全可以使用 XPath 做相应的信息抽取</p>
+<p>XPath 的选择功能十分强大，它提供了非常简洁明了的路径选择表达式。另外，它还提供了超过 100 个内建函数，用于字符串、数值、时间的匹配以及节点、序列的处理等，几乎所有想要定位的节点都可以用 XPath 来选择。</p>
+<p>这是官方文档 <a href="https://www.w3.org/TR/2017/REC-xpath-31-20170321/">xpath</a></p>
+<p>首先先定位到所有标签最近的父标签，如图中的<code>&lt;div&gt;</code>，右键选择<code>copy XPath</code></p>
+<p>得到此时的路径<code>//*[@id=&quot;ctl16_contentdiv&quot;]</code></p>
+<p><img src="https://i.loli.net/2020/09/27/4v3RbdZXQaAzho1.png" /></p>
+<h5 id="xpath-常用规则">XPath 常用规则</h5>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">表达式</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nodename</td>
+<td style="text-align: left;">选取此节点的所有子节点</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/</td>
+<td style="text-align: left;">从当前节点选区直接子节点</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">//</td>
+<td style="text-align: left;">从当前节点选取子孙节点</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">选取当前节点</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">..</td>
+<td style="text-align: left;">选取当前节点的父节点</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">@</td>
+<td style="text-align: left;">选取属性</td>
+</tr>
+</tbody>
+</table>
+<p>*代表匹配所有节点，返回的结果是一个列表，每个元素都是一个 Element 类型，后跟节点名称。</p>
+<p>/text() 文本获取，表示获取当前节点中的文本</p>
+<p>因此</p>
+<p>在当前路径下<code>//*[@id=&quot;ctl16_contentdiv&quot;]</code></p>
+<p><code>/table/tr</code>表示div下面的tr节点</p>
+<p><code>//*/text()</code>表示tr下面的所有节点的所有文本</p>
+<p>即可获取想要爬取的所有信息</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line">tree = etree.HTML(response.text)</span><br><span class="line">res = tree.xpath(<span class="string">&#x27; // *[ @ id = &quot;ctl16_contentdiv&quot;]/table/tr//*/text()&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>最后附上所有的代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line"></span><br><span class="line">    url = <span class="string">&#x27;http://www.aigaogao.com/tools/history.html?s=600050&#x27;</span></span><br><span class="line"></span><br><span class="line">    response = requests.get(url)</span><br><span class="line">    response.raise_for_status()</span><br><span class="line">    response.encoding = response.apparent_encoding</span><br><span class="line">    tree = etree.HTML(response.text)</span><br><span class="line">    res = tree.xpath(<span class="string">&#x27; // *[ @ id = &quot;ctl16_contentdiv&quot;]/table/tr//*/text()&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    f = open(<span class="string">&#x27;test.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, newline=<span class="string">&#x27;&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    csv_writer = csv.writer(f)</span><br><span class="line">    cnt = <span class="number">0</span></span><br><span class="line">    list = []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> res:</span><br><span class="line">        <span class="keyword">if</span> item <span class="keyword">in</span> [<span class="string">&#x27;缩&#x27;</span>, <span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;6&#x27;</span>]:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        list.append(item)</span><br><span class="line">        cnt = cnt + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> cnt == <span class="number">12</span>:</span><br><span class="line">            csv_writer.writerow(list)</span><br><span class="line">            cnt = <span class="number">0</span></span><br><span class="line">            list = []</span><br><span class="line"></span><br><span class="line">    f.close()</span><br><span class="line">    print(<span class="string">&quot;done&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>这是最后爬取的数据结果</p>
+<p><img src="https://i.loli.net/2020/09/27/43YQ1bCqNjDfSWa.png" /></p>
+]]></content>
+      <categories>
+        <category>杂记</category>
+      </categories>
+      <tags>
+        <tag>爬虫</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer 56-II. 数组中数字出现的次数II</title>
+    <url>/posts/fb6c9ba.html</url>
+    <content><![CDATA[<h3 id="原题链接">1. 原题链接</h3>
+<p><a href="https://leetcode-cn.com/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/">剑指 Offer 56 - II. 数组中数字出现的次数 II</a></p>
+<a id="more"></a>
+<h3 id="题目描述">2. 题目描述</h3>
+<p>在一个数组 <code>nums</code> 中除一个数字只出现一次之外，其他数字都出现了三次。请找出那个只出现一次的数字。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [3,4,3,3]</span><br><span class="line">输出：4</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：nums &#x3D; [9,1,7,9,7,9,7]</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
+<p><strong>限制：</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 10000</code></li>
+<li><code>1 &lt;= nums[i] &lt; 2^31</code></li>
+</ul>
+<h3 id="思路">3. 思路</h3>
+<p>这道题考察的是位运算操作</p>
+<p>由于这道题中其他数字出现的次数是3，因此无法再用之前的异或操作进行计算。</p>
+<p>但是我们注意到题目中说到，除了一个数字外，其他数字出现的次数都为3次，我们以二进制的角度去看所有数字。因为其他数字每个数字都出现了三次，那么对于二进制的每一位，也都出现了3次，可以被3整除。我们可以统计32位的每一位1出现的次数，由于有一个数字只出现了一次，因此加上这个数字的二进制位1的次数后，导致该位无法被3整除。因此我们只要对每一位的统计结果对3取余，结果为1的位一定是只出现一次的那个数字贡献的。最后将取余结果进行移位操作就能得到结果。</p>
+<h3 id="代码实现">4. 代码实现</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 统计32位中每一位1出现的次数</span></span><br><span class="line">        <span class="keyword">int</span>[] bit = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">32</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> n : nums) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">                bit[i] += (n &amp; <span class="number">1</span>);</span><br><span class="line">                <span class="comment">// 逻辑右移，无论正负，都是高位补0</span></span><br><span class="line">                n &gt;&gt;&gt;= <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 每一位对3取余</span></span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>, m = <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">            ans &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">            ans |= bit[<span class="number">31</span> - i] % m;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>剑指offer</category>
+      </categories>
+      <tags>
+        <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MyBatis基础相关</title>
     <url>/posts/5bc94371.html</url>
     <content><![CDATA[<h3 id="mybatis框架">1. MyBatis框架</h3>
@@ -1930,7 +2026,7 @@ e^{-(\omega^Tx+b)}=1
 <h3 id="mybatis环境配置">3. MyBatis环境配置</h3>
 <ul>
 <li>MyBatis采用XML格式配置数据库环境信息</li>
-<li>MyBaits环境配置标签<environment></li>
+<li>MyBaits环境配置标签<code>&lt;environment&gt;</code></li>
 <li>environment包含数据库驱动、URL、用户名与密码</li>
 </ul>
 <p>在resources目录下新建<code>mybatis-config.xml</code></p>
@@ -1954,8 +2050,8 @@ e^{-(\omega^Tx+b)}=1
 <ul>
 <li><p>创建实体类（Entity）</p></li>
 <li><p>创建Mapper XML</p></li>
-<li><p>编写<select>SQL标签</p></li>
-<li>开启驼峰命名映射，新增<mapper></li>
+<li><p>编写<code>&lt;select&gt;</code>SQL标签</p></li>
+<li>开启驼峰命名映射，新增<code>&lt;mapper&gt;</code></li>
 <li><p>SqlSession执行select语句</p></li>
 </ul>
 <h5 id="简单数据查询">5.1.1 简单数据查询</h5>
